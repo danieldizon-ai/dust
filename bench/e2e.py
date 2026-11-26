@@ -31,8 +31,9 @@ def main() -> None:
     ap.add_argument("--backend", required=True)
     ap.add_argument("--model", required=True)
     ap.add_argument("--tag", default="", help="suffix for the output files, e.g. run2")
+    ap.add_argument("--questions", default="data/eval/questions-v0.jsonl", help="question file (JSONL with id, question)")
     args = ap.parse_args()
-    qs = [json.loads(line) for line in (ROOT / "data/eval/questions-v0.jsonl").read_text(encoding="utf-8").splitlines()]
+    qs = [json.loads(line) for line in (ROOT / args.questions).read_text(encoding="utf-8").splitlines()]
     backend = OpenAICompatible(args.backend, args.model)
     layer = Layer()
     aligned = layer.wrap(backend)
