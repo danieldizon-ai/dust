@@ -8,7 +8,7 @@ from dataclasses import asdict, dataclass, field
 from importlib import resources
 from typing import Callable, Protocol
 
-from . import scripture, symbolic
+from . import harden, scripture, symbolic
 from .kb import KnowledgeBase, load
 from .neural import Guard
 from .langid import detect
@@ -36,6 +36,7 @@ class Verdict:
     sentences: list[dict]
     latency_ms: float
     references: list[dict] = field(default_factory=list)
+    obfuscated: bool = False     # input carried invisible or look-alike characters (removed before checking)
 
     @property
     def invalid_references(self) -> list[dict]:
@@ -75,7 +76,8 @@ class Layer:
                  block_threshold: float | None = None, flag_threshold: float | None = None,
                  translate: Callable[[str], str] | None = None, extensions: tuple[str, ...] | list[str] = (),
                  bible=None, min_quote_similarity: float = 0.85,
-                 stance_gate: bool = True, restrict_languages: bool = True):
+                 stance_gate: bool = True, restrict_languages: bool = True, sanitize: bool = True):
+        self.sanitize = sanitize
         self.kb = kb or load(tuple(extensions))
         self.bible = bible
         self.stance_gate = stance_gate
@@ -91,6 +93,11 @@ class Layer:
     # ------------------------------------------------------------------ checking
     def check(self, text: str) -> Verdict:
         t0 = time.perf_counter()
+        obfuscated = False
+        if self.sanitize:
+            cleaned = harden.sanitize(text)
+            obfuscated = harden.was_obfuscated(text, cleaned)
+            text = cleaned
         lang = detect(text)
         if self.translate is not None and lang not in ("en", "unknown"):
             text = self.translate(text)
@@ -138,7 +145,7 @@ class Layer:
         ref_problems = [r for r in refs if not r.exists or (r.quote_similarity is not None and r.quote_similarity < self.min_quote_similarity)]
         decision = "block" if violations else ("flag" if flags or ref_problems else "pass")
         return Verdict(decision, violations, flags, sorted(affirmed), report, (time.perf_counter() - t0) * 1000,
-                       [asdict(r) | {"canonical": r.canonical} for r in refs])
+                       [asdict(r) | {"canonical": r.canonical} for r in refs], obfuscated)
 
     def _group_to_prop(self, group: str) -> str:
         for p in self.kb.propositions:

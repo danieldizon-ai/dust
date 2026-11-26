@@ -16,7 +16,7 @@ OUT = ROOT / "src/dust/data/scripture.json"
 
 
 def main(path: str) -> None:
-    creed = json.loads(CREED.read_text())
+    creed = json.loads(CREED.read_text(encoding="utf-8"))
     wanted = {ref for p in creed["propositions"] for ref in p["scripture"]}
     found = {}
     with open(path, encoding="utf-8") as fh:
@@ -31,7 +31,7 @@ def main(path: str) -> None:
         "translation": "World English Bible (WEB)",
         "licence": "Public domain",
         "verses": dict(sorted(found.items())),
-    }, ensure_ascii=False, indent=1) + "\n")
+    }, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"wrote {len(found)} verses to {OUT.relative_to(ROOT)}")
 
 

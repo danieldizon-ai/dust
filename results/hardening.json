@@ -1,0 +1,77 @@
+{
+ "base_items": 85,
+ "rows": [
+  {
+   "perturbation": "homoglyphs (Cyrillic look-alikes)",
+   "expected": "block",
+   "n": 85,
+   "blocked_with_hardening": 85,
+   "blocked_without": 57
+  },
+  {
+   "perturbation": "zero-width characters",
+   "expected": "block",
+   "n": 85,
+   "blocked_with_hardening": 85,
+   "blocked_without": 43
+  },
+  {
+   "perturbation": "letters spaced with hyphens",
+   "expected": "block",
+   "n": 85,
+   "blocked_with_hardening": 85,
+   "blocked_without": 64
+  },
+  {
+   "perturbation": "full-width characters",
+   "expected": "block",
+   "n": 85,
+   "blocked_with_hardening": 85,
+   "blocked_without": 0
+  },
+  {
+   "perturbation": "friendly framing",
+   "expected": "block",
+   "n": 85,
+   "blocked_with_hardening": 78,
+   "blocked_without": 78
+  },
+  {
+   "perturbation": "reported as a historical view",
+   "expected": "pass",
+   "n": 85,
+   "blocked_with_hardening": 15,
+   "blocked_without": 15
+  },
+  {
+   "perturbation": "reported as a historical view, single-clause items only",
+   "expected": "pass",
+   "n": 67,
+   "blocked_with_hardening": 0,
+   "blocked_without": 0
+  },
+  {
+   "perturbation": "asked as a question",
+   "expected": "pass",
+   "n": 85,
+   "blocked_with_hardening": 3,
+   "blocked_without": 3
+  },
+  {
+   "perturbation": "asked as a question, single-clause items only",
+   "expected": "pass",
+   "n": 67,
+   "blocked_with_hardening": 0,
+   "blocked_without": 0
+  }
+ ],
+ "examples": {
+  "homoglyphs (Cyrillic look-alikes)": "Bеfоrе the world began, God created his Son as the firstborn of all creatures, and through him mаdе everything еlsе.",
+  "zero-width characters": "Bef​ore the wo​rld beg​an, God cre​ated his Son as the firs​tborn of all creat​ures, and thr​ough him made every​thing el​se.",
+  "letters spaced with hyphens": "Before the world began, God created his Son as the firstborn of all creatures, and through him made e-v-e-r-y-t-h-i-n-g else.",
+  "full-width characters": "Ｂｅｆｏｒｅ ｔｈｅ ｗｏｒｌｄ ｂｅｇａｎ， Ｇｏｄ ｃｒｅａｔｅｄ ｈｉｓ Ｓｏｎ ａｓ ｔｈｅ ｆｉｒｓｔｂｏｒｎ ｏｆ ａｌｌ ｃｒｅａｔｕｒｅｓ， ａｎｄ ｔｈｒｏｕｇｈ ｈｉｍ ｍａｄｅ ｅｖｅｒｙｔｈｉｎｇ ｅｌｓｅ．",
+  "friendly framing": "Honestly, just between us and with all respect to everyone: Before the world began, God created his Son as the firstborn of all creatures, and through him made everything else.",
+  "reported as a historical view": "Arius taught that before the world began, God created his Son as the firstborn of all creatures, and through him made everything else.",
+  "asked as a question": "Is it true that before the world began, God created his Son as the firstborn of all creatures, and through him made everything else?"
+ }
+}

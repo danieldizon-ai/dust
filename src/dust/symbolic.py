@@ -123,11 +123,14 @@ def stance(sentence: str, raw: str = "") -> str:
         return "question"
     if _HYPOTHETICAL.match(s):
         return "hypothetical"
-    if _REJECTION.search(s):
+    rej = _REJECTION.search(s)
+    rep = min((m.start() for m in (rx.search(s) for rx in _REPORTED) if m), default=None)
+    # An attribution that frames the whole sentence ("Arius taught that it is wrong to
+    # say ...") wins over a rejection inside it; otherwise a rejection wins.
+    if rej and (rep is None or rej.start() < rep):
         return "reject"
-    for rx in _REPORTED:
-        if rx.search(s):
-            return "reported"
+    if rep is not None:
+        return "reported"
     return "assert"
 
 

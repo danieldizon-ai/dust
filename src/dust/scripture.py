@@ -63,7 +63,7 @@ class Reference:
 
 @lru_cache(maxsize=1)
 def _versification() -> dict[str, list[int]]:
-    data = json.loads(resources.files("dust.data").joinpath("versification.json").read_text())
+    data = json.loads(resources.files("dust.data").joinpath("versification.json").read_text(encoding="utf-8"))
     return {b["name"]: b["verses"] for b in data["books"]}
 
 

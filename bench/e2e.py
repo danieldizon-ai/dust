@@ -30,13 +30,13 @@ def main() -> None:
     ap.add_argument("--backend", required=True)
     ap.add_argument("--model", required=True)
     args = ap.parse_args()
-    qs = [json.loads(line) for line in (ROOT / "data/eval/questions-v0.jsonl").read_text().splitlines()]
+    qs = [json.loads(line) for line in (ROOT / "data/eval/questions-v0.jsonl").read_text(encoding="utf-8").splitlines()]
     backend = OpenAICompatible(args.backend, args.model)
     layer = Layer()
     aligned = layer.wrap(backend)
     out = ROOT / "results" / f"e2e-{args.model.replace('/', '_').replace(':', '_')}.jsonl"
     stats = {"n": 0, "raw_blocked": 0, "dust_repaired": 0, "dust_refused": 0, "dust_blocked_final": 0}
-    with out.open("w") as fh:
+    with out.open("w", encoding="utf-8") as fh:
         for q in qs:
             msgs = [{"role": "user", "content": q["question"]}]
             t0 = time.time()

@@ -69,7 +69,7 @@ def ngrams(s: str, n: int = 4) -> set:
 
 
 def overlap_report(items: list[dict]) -> dict:
-    train = [json.loads(line)["text"] for line in TRAIN.read_text().splitlines()]
+    train = [json.loads(line)["text"] for line in TRAIN.read_text(encoding="utf-8").splitlines()]
     train_set = {t.lower().strip() for t in train}
     train_grams = [ngrams(t) for t in train]
     exact = sum(1 for it in items if it["text"].lower().strip() in train_set)
@@ -179,7 +179,7 @@ def main() -> None:
     args = ap.parse_args()
     r = run()
     if args.check:
-        old = json.loads(OUT_JSON.read_text())
+        old = json.loads(OUT_JSON.read_text(encoding="utf-8"))
         for split_name in ("test", "dev", "all"):
             for name in ("keyword", "symbolic", "neural", "dual"):
                 a = old["splits"][split_name]["systems"][name]["overall"]
@@ -189,8 +189,8 @@ def main() -> None:
         print("benchmark reproduces committed results")
         return
     stable = {k: v for k, v in r.items() if k != "latency_ms_per_item"}
-    Path(args.out).write_text(json.dumps({**stable, "latency_ms_per_item": r["latency_ms_per_item"]}, indent=1, ensure_ascii=False) + "\n")
-    OUT_MD.write_text(to_markdown(r))
+    Path(args.out).write_text(json.dumps({**stable, "latency_ms_per_item": r["latency_ms_per_item"]}, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    OUT_MD.write_text(to_markdown(r), encoding="utf-8")
     t = r["splits"]["test"]["systems"]
     for name, s in t.items():
         print(f"test {name:8s} P={s['overall']['precision']:.3f} R={s['overall']['recall']:.3f} F1={s['overall']['f1']:.3f} FPR={s['overall']['false_positive_rate']:.3f}")
