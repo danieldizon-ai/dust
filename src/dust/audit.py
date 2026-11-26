@@ -11,6 +11,8 @@ properties the encoding must have, independent of any model or benchmark:
   reference, and every reference exists in the versification table;
 * **reach**: core propositions that no recorded error touches are listed, so reviewers
   can see which articles are only protected by patterns;
+* **self-check**: the live checker never blocks the Creed's own propositions or text, and
+  catches each excluded error stated in its own words (misses are listed);
 * **fingerprint**: a SHA-256 over the canonical knowledge base, so a deployment can state
   exactly which boundary it enforces and a fork that changes it is visible.
 """
@@ -117,8 +119,23 @@ def audit(kb: KnowledgeBase | None = None) -> AuditReport:
     for pid in untouched:
         rep.warnings.append(f"{pid} is not contradicted by any recorded error (protected only by patterns)")
 
+    # 5. self-check: the live checker must never block the Creed's own words, and should
+    #    catch each excluded error stated in its own summary
+    from .layer import Layer
+    layer = Layer(kb=kb)
+    self_blocked = [p.id for p in kb.propositions if layer.check(p.text).decision == "block"]
+    for lang in kb.texts:
+        if layer.check(kb.creed_text(lang)).decision == "block":
+            self_blocked.append(f"creed text ({lang})")
+    for item in self_blocked:
+        rep.problems.append(f"the checker blocks the Creed's own words: {item}")
+    missed = [e.id for e in kb.errors if layer.check(e.summary).decision != "block"]
+    for eid in missed:
+        rep.warnings.append(f"the checker does not block {eid}'s own summary ({kb.error(eid).name})")
+
     rep.stats = {"propositions": len(kb.propositions), "core": len(core), "errors": len(kb.errors),
                  "rules": len(kb.rules), "latitude": len(kb.latitude), "closure_size": len(closed),
                  "core_reached_by_errors": len(core) - len(untouched), "bad_references": bad_refs,
-                 "extensions": list(kb.extensions)}
+                 "extensions": list(kb.extensions), "creed_sentences_blocked": len(self_blocked),
+                 "error_summaries_caught": f"{len(kb.errors) - len(missed)}/{len(kb.errors)}"}
     return rep

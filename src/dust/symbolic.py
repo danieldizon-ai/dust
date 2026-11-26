@@ -74,8 +74,11 @@ def normalise(text: str) -> list[str]:
     sentences = [s.strip() for s in _SENT_SPLIT.split(t) if s and s.strip()]
     out: list[str] = []
     last_entity: str | None = None
+    prev_persons = 0
     for s in sentences:
         s = _entity_pass(s)
+        if prev_persons >= 2:
+            s = re.sub(r"^(?:and |but |yet |so )?they\b", "FATHER, SON and SPIRIT", s)
         m = _PRONOUN.match(s)
         if m:
             # An unresolved sentence-initial "he" in a doctrinal text is taken to be the
@@ -83,6 +86,7 @@ def normalise(text: str) -> list[str]:
             rep = (last_entity or "SON") + ("'s" if m.group(1) == "his" else "")
             s = s[: m.start(1)] + rep + s[m.end(1):]
         ents = re.findall(r"\b(SON|SPIRIT|FATHER)\b", s)
+        prev_persons = len(set(ents))
         if ents:
             last_entity = ents[0]  # the subject of the previous sentence, usually
         out.append(s)
@@ -94,7 +98,7 @@ def normalise(text: str) -> list[str]:
 _THIRD_PARTY_VERB = r"(?:taught|teach|teaches|believed|believe|believes|claimed|claim|claims|argued|argue|argues|held|hold|holds|maintained|maintain|maintains|said|say|says|thought|think|thinks|insisted|insist|insists|asserted|assert|asserts|suggested|suggest|suggests|proposed|denied|deny|denies|contended|contend|contends|alleged|allege|alleges|concluded|conclude|concludes|wrote|write|writes|proposed|propose|proposes|hypothesi[sz]ed|speculated|reported|reports|regarded|regard|regards|considered|consider|considers|viewed|view|views)"
 _REPORTED = [
     re.compile(r"\b(?:seminar|council|synod|school|sect|movement|party|scholar|critic|historian|theologian)s?\b[^.;]*\b" + _THIRD_PARTY_VERB + r"\b"),
-    re.compile(r"\b(?!i\b|we\b)(\w+)\s+(?:\w+\s+)?" + _THIRD_PARTY_VERB + r"\s+that\b"),
+    re.compile(r"\b(?!i\b|we\b|christians\b|church\b|christianity\b|theology\b|creed\b|scripture\b|bible\b)(\w+)\s+(?:\w+\s+)?" + _THIRD_PARTY_VERB + r"\s+that\b"),
     re.compile(r"\baccording to (?!scripture|the scriptures|the creed|the bible|the gospels?|the apostles?|the council|the fathers|SON)"),
     re.compile(r"\b(?:in (?:the|their|his|her) view|on (?:this|that|their|his) view|from (?:their|his|her) perspective)\b"),
     re.compile(r"\b(?:arius|arians?|sabellius|sabellians?|modalists?|docetists?|docetic|gnostics?|gnosticism|marcion(?:ites)?|apollinari(?:us|ans?)|ebionites?|macedonians?|pneumatomachians?|adoptionists?|nestori(?:us|ans?)|heretics?|heresy|heresies|heretical|unitarians?)\b"),
@@ -116,11 +120,19 @@ _REJECTION = re.compile(
 )
 
 
+# "the Son is a creature, as the Arians believe": a trailing aside endorses, it does not report
+_ENDORSE = re.compile(r"^(?!\W*(?:as |according to ))[^,;]{8,},? (?:just )?as (?:the |some |many )?\w+ (?:also )?(?:believe|believed|teach|taught|held|hold|say|said|claim|claimed|argue|argued)\b")
+# "the question of whether X is a matter of interpretation": X is not asserted
+_EMBEDDED_Q = re.compile(r"\b(?:the question|questions?|asking|ask|debate|debates|debated|unclear|uncertain) (?:of |about |over |as to )?whether\b|\bwhether or not\b")
+
+
 def stance(sentence: str, raw: str = "") -> str:
     """One of: assert, reject, reported, question, hypothetical."""
     s = sentence
-    if raw.strip().endswith("?") or s.endswith("?") or _QUESTION_START.match(s):
+    if raw.strip().endswith("?") or s.endswith("?") or _QUESTION_START.match(s) or _EMBEDDED_Q.search(s):
         return "question"
+    if _ENDORSE.search(s):
+        return "assert"
     if _HYPOTHETICAL.match(s):
         return "hypothetical"
     rej = _REJECTION.search(s)
@@ -194,7 +206,7 @@ PATTERNS: list[Pattern] = [
     _cop(S, r"(?:fully |truly |very |true |really |himself )?(?:GOD|divine|deity|GOD incarnate|GOD in the flesh|the second person of the TRINITY|lord and GOD)(?!\W+(?:'s|of the old))", "divine(SON)"),
     _cop(S, r"(?:just |only |merely |simply |nothing (?:more|other) than |no more than |not more than )(?:a |an )?(?:\w+ )?(?:man|human|human being|prophet|teacher|rabbi|moral teacher|philosopher|guru|sage|mortal|messenger|example|revolutionary|healer)", "mere_human(SON)"),
     _cop(S, r"(?:a |an )?(?:mere|ordinary|normal|regular) (?:man|human|human being|mortal|prophet|teacher)", "mere_human(SON)"),
-    _cop(S, r"(?:a GOD|a lesser (?:GOD|divinity|deity)|a (?:secondary|subordinate|second|lesser|minor|demi-?) ?(?:GOD|deity|divinity)|a demigod|less (?:divine|GOD) than FATHER|inferior to FATHER in (?:being|essence|nature|divinity)|of (?:a )?(?:similar|like|different) (?:substance|essence|being|nature)(?: to| as| from)? FATHER)", "lesser_god(SON)"),
+    _cop(S, r"(?:a GOD|a lesser (?:GOD|divinity|deity)|a (?:secondary|subordinate|second|lesser|minor|demi-?) ?(?:GOD|deity|divinity)|a demigod|less (?:divine|GOD) than FATHER|inferior to FATHER in (?:being|essence|nature|divinity)|of (?:a )?(?:similar|like|different) (?:substance|essence|being|nature)(?: to| as| from)? FATHER|(?:only )?like FATHER in (?:being|essence|substance|nature)|divine (?:only )?in a (?:lesser|lower|derived|secondary|subordinate)(?:,? (?:lesser|lower|derived|secondary|subordinate))? (?:degree|sense|way|measure))", "lesser_god(SON)"),
     _cop(S, r"(?:of (?:one|the same) (?:substance|essence|being|nature) (?:with|as) FATHER|consubstantial(?: with FATHER)?|homoousios|equal (?:to|with) FATHER(?: in (?:being|essence|nature|divinity|glory))?|co-?equal(?: with FATHER)?)", "consubstantial(SON)"),
     _verb(S, r"(?:shares|shared) (?:the same|one) (?:substance|essence|being|nature|divinity) (?:with|as) FATHER", "consubstantial(SON)"),
     # ---- Son and creation (E16)
@@ -210,7 +222,7 @@ PATTERNS: list[Pattern] = [
     _verb(S, r"had no human (?:mind|soul|will|intellect|spirit)|lacked a human (?:mind|soul|will|intellect)", "no_human_mind(SON)"),
     _fixed(r"\bthe (?:divine )?(?:word|logos|divinity) (?:replaced|took the place of) (?:SON's |his |the )?human (?:mind|soul)", "no_human_mind(SON)"),
     _verb(S, r"born of (?:a |the )?virgin(?: mary)?|conceived by (?:the power of )?SPIRIT|virginally conceived|incarnate (?:by|of) SPIRIT", "virgin_birth(SON)"),
-    _fixed(r"\b(?:joseph was (?:SON's|the|his) (?:biological|real|natural|actual) father|SON (?:had|has) a (?:human|biological) father|(?:biological|natural) son of joseph|mary was not a virgin|mary conceived (?:SON )?(?:in the (?:normal|ordinary|natural|usual) way|naturally|with joseph))\b", "-virgin_birth(SON)"),
+    _fixed(r"\b(?:joseph was (?:SON's|the|his) (?:biological|real|natural|actual) father|SON (?:had|has) a (?:human|biological) father|(?:biological|natural) son of joseph|mary was not a virgin|mary conceived (?:SON )?(?:in the (?:normal|ordinary|natural|usual) way|naturally|with joseph)|SON was conceived (?:in the (?:normal|ordinary|natural|usual) way|naturally|normally)|(?:conceived|born) (?:\w+ ){0,4}with a (?:human|biological|natural|earthly) father)\b", "-virgin_birth(SON)"),
     _fixed(r"\bthe virgin birth (?:is|was) (?P<neg>not |never )?(?:just |only |merely |simply )?(?:a |an )?(?:myth|legend|fable|fiction|invention|later invention|metaphor|symbol|pious story|story)\b", "-virgin_birth(SON)"),
     _fixed(r"\bthe virgin birth (?:never happened|did not happen|is not historical|is unhistorical)\b", "-virgin_birth(SON)"),
     # ---- History, cross, death (E07, E13)
@@ -259,7 +271,9 @@ PATTERNS: list[Pattern] = [
     _verb(G, r"(?:made|created|is the maker of|is the creator of) (?:heaven and earth|the world|all things|everything|the universe|the heavens and the earth)", "creator(GOD)"),
     _fixed(r"\bthe (?:material |physical )?(?:world|universe|cosmos|creation) was (?:made|created|formed) by (?:an? )?(?:evil|lesser|lower|fallen|ignorant|inferior|different|second|rival) (?:GOD|deity|being|power|demiurge|spirit|creator)\b", "demiurge(GOD)"),
     _fixed(r"\b(?:a |the )demiurge (?:made|created|formed|fashioned)\b|\bmatter is (?:inherently |essentially )?evil\b|\bthe GOD of the old testament (?:is|was) (?:not FATHER|not the same|a different|an evil|a lesser|a cruel|an inferior)", "demiurge(GOD)"),
-    _fixed(r"\b(?:FATHER,? SON,? and SPIRIT|FATHER and SON|the three) are (?:just |only |merely |simply |really )?(?:three |different )?(?:modes|masks|roles|manifestations|names|titles|forms|faces|offices|aspects|hats|costumes) (?:of|for) (?:one|the same|a single)(?: \w+)?\b", "same_person(TRINITY)"),
+    _fixed(r"\b(?:FATHER,? SON,? and SPIRIT|FATHER and SON|the three) are (?:just |only |merely |simply |really )?(?:three |different )?(?:modes|masks|roles|manifestations|names|titles|forms|faces|offices|aspects|hats|costumes)(?:,? (?:or |and )?(?:modes|masks|roles|manifestations|names|titles|forms|faces|offices|aspects|hats|costumes))* (?:of|for) (?:one|the same|a single)(?: \w+)?\b", "same_person(TRINITY)"),
+    # the creedal denial of modalism: "Father, Son and Spirit are not (three) modes of one person"
+    _fixed(r"\b(?:(?:the )?FATHER,? (?:the )?SON,? and (?:the )?SPIRIT|the three(?: persons)?|they) are (?:not|never|in no way) (?:just |only |merely |simply )?(?:three )?(?:names|modes|masks|roles|manifestations|titles|forms|faces|aspects)(?: or (?:modes|names|masks|roles|manifestations|forms|aspects))? (?:of|for) (?:one|the same|a single)(?: \w+)?\b", "distinct(TRINITY)"),
     _fixed(r"\bGOD (?:is|was) (?:one person|a single person|one individual|unipersonal)(?: who| that)? (?:appears|manifests|reveals|acts|plays|shows|works)\b|\b(?:one person|the same person) (?:in|with|appearing in|wearing) three (?:modes|roles|masks|forms|manifestations|ways)\b", "same_person(TRINITY)"),
     _fixed(r"\bone (?:actor|person|man|individual) (?:playing|with|wearing) three (?:parts|roles|masks|hats)\b", "same_person(TRINITY)"),
     _cop(S, r"(?:just |simply |merely |really |actually )?(?:FATHER|the same person as FATHER|identical (?:to|with) FATHER)(?! of)", "same_person(TRINITY)"),

@@ -1,66 +1,66 @@
 {
- "base_items": 85,
+ "base_items": 78,
  "rows": [
   {
    "perturbation": "homoglyphs (Cyrillic look-alikes)",
    "expected": "block",
-   "n": 85,
-   "blocked_with_hardening": 85,
-   "blocked_without": 57
+   "n": 78,
+   "blocked_with_hardening": 78,
+   "blocked_without": 36
   },
   {
    "perturbation": "zero-width characters",
    "expected": "block",
-   "n": 85,
-   "blocked_with_hardening": 85,
-   "blocked_without": 43
+   "n": 78,
+   "blocked_with_hardening": 78,
+   "blocked_without": 22
   },
   {
    "perturbation": "letters spaced with hyphens",
    "expected": "block",
-   "n": 85,
-   "blocked_with_hardening": 85,
-   "blocked_without": 64
+   "n": 78,
+   "blocked_with_hardening": 78,
+   "blocked_without": 51
   },
   {
    "perturbation": "full-width characters",
    "expected": "block",
-   "n": 85,
-   "blocked_with_hardening": 85,
+   "n": 78,
+   "blocked_with_hardening": 78,
    "blocked_without": 0
   },
   {
    "perturbation": "friendly framing",
    "expected": "block",
-   "n": 85,
-   "blocked_with_hardening": 78,
-   "blocked_without": 78
+   "n": 78,
+   "blocked_with_hardening": 72,
+   "blocked_without": 72
   },
   {
    "perturbation": "reported as a historical view",
    "expected": "pass",
-   "n": 85,
+   "n": 78,
    "blocked_with_hardening": 15,
    "blocked_without": 15
   },
   {
    "perturbation": "reported as a historical view, single-clause items only",
    "expected": "pass",
-   "n": 67,
+   "n": 60,
    "blocked_with_hardening": 0,
    "blocked_without": 0
   },
   {
    "perturbation": "asked as a question",
    "expected": "pass",
-   "n": 85,
+   "n": 78,
    "blocked_with_hardening": 3,
    "blocked_without": 3
   },
   {
    "perturbation": "asked as a question, single-clause items only",
    "expected": "pass",
-   "n": 67,
+   "n": 60,
    "blocked_with_hardening": 0,
    "blocked_without": 0
   }

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from importlib import resources
 from typing import Callable, Protocol
 
@@ -139,6 +139,13 @@ class Layer:
                     can_block = s["contradicts"] >= self.block_threshold and (lang in self.BLOCKING_LANGS or not self.restrict_languages)
                     (violations if can_block else flags).append(v)
             report.append(row)
+        for raw in raw_sents:
+            lid = self._creed_claim(raw)
+            if lid:
+                topic = next(t["topic"] for t in self.kb.latitude if t["id"] == lid)
+                flags.append(Violation(lid, "creed-claim", 1.0, raw, [], [
+                    f"says the Creed settles a question it leaves open ({lid}: {topic}); "
+                    "the Creed of 381 does not decide this"]))
         refs = scripture.find(text)
         if self.bible is not None:
             scripture.check_quotes(text, self.bible, refs)
@@ -146,6 +153,37 @@ class Layer:
         decision = "block" if violations else ("flag" if flags or ref_problems else "pass")
         return Verdict(decision, violations, flags, sorted(affirmed), report, (time.perf_counter() - t0) * 1000,
                        [asdict(r) | {"canonical": r.canonical} for r in refs], obfuscated)
+
+    # Words that identify a latitude topic when a sentence claims the Creed decides it.
+    _LATITUDE_CUES = {
+        "L01": r"filioque|and the son|from the father and the son",
+        "L02": r"chalcedon|two natures|miaphysit\w*",
+        "L03": r"baptis\w*|infants?|babies|immersion|sprinkl\w*",
+        "L04": r"eucharist|communion|lord's supper|mass|transubstantiation|real presence",
+        "L05": r"pope|papacy|papal|bishops?|church government|apostolic succession|ordination|ordain\w*",
+        "L06": r"immaculate|assumption|perpetual virginity|intercession of mary|marian",
+        "L07": r"justification|faith alone|sola fide|predestination|free will|purgatory",
+        "L08": r"sola scriptura|scripture alone|canon|apocrypha|deuterocanon\w*|tradition",
+        "L09": r"evolution|evolutionary|young earth|old earth|big bang|six days",
+        "L10": r"rapture|millenni\w*|tribulation|purgatory|hell is|annihilation\w*",
+        "L11": r"tongues|speaking in tongues|cessation\w*|charismatic|healing",
+    }
+    _CREED_SAYS = re.compile(r"\b(?:nicene )?creed\b[^.;]{0,40}\b(?:affirms|affirm|states|says|teaches|requires|supports|endorses|mandates|confirms|holds|declares|establishes)\b", re.I)
+    _NEGATED = re.compile(r"\b(?:not|n't|no|neither|nor|never|silent|leaves? open|does not address)\b", re.I)
+
+    def _creed_claim(self, sentence: str) -> str | None:
+        """A sentence that says the Creed decides a latitude question (for example "the Nicene
+        Creed affirms infant baptism"). Models invent this; it is a flag, never a block."""
+        m = self._CREED_SAYS.search(sentence)
+        if not m or self._NEGATED.search(sentence):
+            return None
+        # the Creed's own words about baptism and the church are not a latitude claim
+        tail = re.sub(r"one baptism(?: for the (?:forgiveness|remission) of sins)?|one,? holy,? catholic,? and apostolic church",
+                      "", sentence[m.start():].lower())
+        for lid, cue in self._LATITUDE_CUES.items():
+            if re.search(r"\b(?:" + cue + r")\b", tail):
+                return lid
+        return None
 
     def _group_to_prop(self, group: str) -> str:
         for p in self.kb.propositions:
@@ -176,8 +214,9 @@ class Layer:
         return rank(self.kb, query, k)
 
     # ------------------------------------------------------------------ generation
-    def wrap(self, backend: Backend | Callable[[list[Message]], str], max_repairs: int = 2) -> "AlignedModel":
-        return AlignedModel(self, backend, max_repairs)
+    def wrap(self, backend: Backend | Callable[[list[Message]], str], max_repairs: int = 2,
+             refuse_requires_proof: bool = True) -> "AlignedModel":
+        return AlignedModel(self, backend, max_repairs, refuse_requires_proof)
 
 
 @dataclass
@@ -188,12 +227,14 @@ class AlignedResponse:
     repaired: bool
     refused: bool
     drafts: list[str]
+    draft_verdicts: list[Verdict] = field(default_factory=list)
 
 
 class AlignedModel:
     """generate -> check -> (repair with a citation of the article) -> fallback."""
 
-    def __init__(self, layer: Layer, backend, max_repairs: int = 2):
+    def __init__(self, layer: Layer, backend, max_repairs: int = 2, refuse_requires_proof: bool = True):
+        self.refuse_requires_proof = refuse_requires_proof
         self.layer = layer
         self.backend = backend
         self.max_repairs = max_repairs
@@ -208,16 +249,26 @@ class AlignedModel:
         sys_msg = {"role": "system", "content": self.layer.system_prompt(user if ground else None)}
         convo = [sys_msg] + [m for m in messages if m["role"] != "system"]
         drafts: list[str] = []
+        verdicts: list[Verdict] = []
         verdict = None
         for attempt in range(self.max_repairs + 1):
             draft = self._gen(convo)
             drafts.append(draft)
             verdict = self.layer.check(draft)
+            verdicts.append(verdict)
             if verdict.ok:
-                return AlignedResponse(draft, verdict, attempt + 1, attempt > 0, False, drafts)
+                return AlignedResponse(draft, verdict, attempt + 1, attempt > 0, False, drafts, verdicts)
+            if self.refuse_requires_proof and all(v.source != "symbolic" for v in verdict.violations):
+                # Only the learned guard objects. On real model prose it is often wrong (see
+                # docs/findings.md, end-to-end results), so answer with a flag rather than
+                # rewriting or refusing on its word alone.
+                flagged = replace(verdict, decision="flag", violations=[], flags=verdict.violations + verdict.flags)
+                return AlignedResponse(draft, flagged, attempt + 1, attempt > 0, False, drafts, verdicts)
             convo = convo + [{"role": "assistant", "content": draft},
                              {"role": "system", "content": self._repair_note(verdict)}]
-        return AlignedResponse(self._fallback(verdict), verdict, len(drafts), False, True, drafts)
+        fallback = self._fallback(verdict)
+        # the verdict reported is the one for the text actually returned
+        return AlignedResponse(fallback, self.layer.check(fallback), len(drafts), False, True, drafts, verdicts)
 
     def _repair_note(self, verdict: Verdict) -> str:
         lines = ["Your previous draft states, as your own view, something the Creed of 381 excludes. Rewrite it."]

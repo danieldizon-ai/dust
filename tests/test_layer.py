@@ -9,7 +9,7 @@ def test_dual_blocks_with_symbolic_proof():
 
 
 def test_neural_catches_paraphrase_the_parser_misses():
-    v = Layer().check("The Son is only a symbol of goodness and never truly God in any real sense.")
+    v = Layer().check("The Spirit is more like electricity than a someone.")
     assert v.decision == "block"
     assert any(x.source == "neural" for x in v.violations)
 

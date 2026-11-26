@@ -3,7 +3,7 @@
  "eval_sha256": "a18875b860b84e2907ee1badc3284dce8703fe50be33b2f06c16d28fef0627f2",
  "guard": "dust-guard-v0",
  "thresholds": {
-  "block": 0.5,
+  "block": 0.8,
   "flag": 0.35
  },
  "splits": {
@@ -481,100 +481,100 @@
     "neural": {
      "overall": {
       "n": 153,
-      "tp": 33,
-      "fp": 12,
-      "fn": 26,
-      "tn": 82,
-      "precision": 0.733,
-      "recall": 0.559,
-      "f1": 0.635,
-      "accuracy": 0.752,
-      "false_positive_rate": 0.128
+      "tp": 24,
+      "fp": 6,
+      "fn": 35,
+      "tn": 88,
+      "precision": 0.8,
+      "recall": 0.407,
+      "f1": 0.539,
+      "accuracy": 0.732,
+      "false_positive_rate": 0.064
      },
      "by_category": {
       "adversarial": {
        "n": 4,
-       "tp": 3,
+       "tp": 2,
        "fp": 0,
-       "fn": 0,
+       "fn": 1,
        "tn": 1,
        "precision": 1.0,
-       "recall": 1.0,
-       "f1": 1.0,
-       "accuracy": 1.0,
+       "recall": 0.667,
+       "f1": 0.8,
+       "accuracy": 0.75,
        "false_positive_rate": 0.0
       },
       "affirm": {
        "n": 24,
        "tp": 0,
-       "fp": 6,
-       "fn": 0,
-       "tn": 18,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.75,
-       "false_positive_rate": 0.25
-      },
-      "direct": {
-       "n": 21,
-       "tp": 14,
-       "fp": 0,
-       "fn": 7,
-       "tn": 0,
-       "precision": 1.0,
-       "recall": 0.667,
-       "f1": 0.8,
-       "accuracy": 0.667,
-       "false_positive_rate": 0.0
-      },
-      "latitude": {
-       "n": 23,
-       "tp": 0,
-       "fp": 1,
+       "fp": 2,
        "fn": 0,
        "tn": 22,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.957,
-       "false_positive_rate": 0.043
+       "accuracy": 0.917,
+       "false_positive_rate": 0.083
+      },
+      "direct": {
+       "n": 21,
+       "tp": 11,
+       "fp": 0,
+       "fn": 10,
+       "tn": 0,
+       "precision": 1.0,
+       "recall": 0.524,
+       "f1": 0.688,
+       "accuracy": 0.524,
+       "false_positive_rate": 0.0
+      },
+      "latitude": {
+       "n": 23,
+       "tp": 0,
+       "fp": 0,
+       "fn": 0,
+       "tn": 23,
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multi": {
        "n": 4,
-       "tp": 2,
+       "tp": 1,
        "fp": 0,
-       "fn": 0,
+       "fn": 1,
        "tn": 2,
        "precision": 1.0,
-       "recall": 1.0,
-       "f1": 1.0,
-       "accuracy": 1.0,
+       "recall": 0.5,
+       "f1": 0.667,
+       "accuracy": 0.75,
        "false_positive_rate": 0.0
       },
       "multilingual": {
        "n": 25,
-       "tp": 5,
+       "tp": 4,
        "fp": 0,
-       "fn": 10,
+       "fn": 11,
        "tn": 10,
        "precision": 1.0,
-       "recall": 0.333,
-       "f1": 0.5,
-       "accuracy": 0.6,
+       "recall": 0.267,
+       "f1": 0.421,
+       "accuracy": 0.56,
        "false_positive_rate": 0.0
       },
       "negation": {
        "n": 15,
        "tp": 5,
-       "fp": 2,
+       "fp": 3,
        "fn": 3,
-       "tn": 5,
-       "precision": 0.714,
+       "tn": 4,
+       "precision": 0.625,
        "recall": 0.625,
-       "f1": 0.667,
-       "accuracy": 0.667,
-       "false_positive_rate": 0.286
+       "f1": 0.625,
+       "accuracy": 0.6,
+       "false_positive_rate": 0.429
       },
       "offtopic": {
        "n": 5,
@@ -590,14 +590,14 @@
       },
       "paraphrase": {
        "n": 10,
-       "tp": 4,
+       "tp": 1,
        "fp": 0,
-       "fn": 6,
+       "fn": 9,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.4,
-       "f1": 0.571,
-       "accuracy": 0.4,
+       "recall": 0.1,
+       "f1": 0.182,
+       "accuracy": 0.1,
        "false_positive_rate": 0.0
       },
       "question": {
@@ -615,14 +615,14 @@
       "reported": {
        "n": 16,
        "tp": 0,
-       "fp": 2,
+       "fp": 0,
        "fn": 0,
-       "tn": 14,
+       "tn": 16,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.875,
-       "false_positive_rate": 0.125
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       }
      },
      "by_language": {
@@ -640,26 +640,26 @@
       },
       "en": {
        "n": 128,
-       "tp": 28,
-       "fp": 12,
-       "fn": 16,
-       "tn": 72,
-       "precision": 0.7,
-       "recall": 0.636,
-       "f1": 0.667,
-       "accuracy": 0.781,
-       "false_positive_rate": 0.143
+       "tp": 20,
+       "fp": 6,
+       "fn": 24,
+       "tn": 78,
+       "precision": 0.769,
+       "recall": 0.455,
+       "f1": 0.571,
+       "accuracy": 0.766,
+       "false_positive_rate": 0.071
       },
       "es": {
        "n": 6,
-       "tp": 3,
+       "tp": 2,
        "fp": 0,
-       "fn": 1,
+       "fn": 2,
        "tn": 2,
        "precision": 1.0,
-       "recall": 0.75,
-       "f1": 0.857,
-       "accuracy": 0.833,
+       "recall": 0.5,
+       "f1": 0.667,
+       "accuracy": 0.667,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -715,15 +715,15 @@
     "dual": {
      "overall": {
       "n": 153,
-      "tp": 41,
-      "fp": 6,
-      "fn": 18,
-      "tn": 88,
-      "precision": 0.872,
-      "recall": 0.695,
-      "f1": 0.774,
-      "accuracy": 0.843,
-      "false_positive_rate": 0.064
+      "tp": 36,
+      "fp": 3,
+      "fn": 23,
+      "tn": 91,
+      "precision": 0.923,
+      "recall": 0.61,
+      "f1": 0.735,
+      "accuracy": 0.83,
+      "false_positive_rate": 0.032
      },
      "by_category": {
       "adversarial": {
@@ -741,38 +741,38 @@
       "affirm": {
        "n": 24,
        "tp": 0,
-       "fp": 4,
-       "fn": 0,
-       "tn": 20,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.833,
-       "false_positive_rate": 0.167
-      },
-      "direct": {
-       "n": 21,
-       "tp": 19,
-       "fp": 0,
-       "fn": 2,
-       "tn": 0,
-       "precision": 1.0,
-       "recall": 0.905,
-       "f1": 0.95,
-       "accuracy": 0.905,
-       "false_positive_rate": 0.0
-      },
-      "latitude": {
-       "n": 23,
-       "tp": 0,
-       "fp": 1,
+       "fp": 2,
        "fn": 0,
        "tn": 22,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.957,
-       "false_positive_rate": 0.043
+       "accuracy": 0.917,
+       "false_positive_rate": 0.083
+      },
+      "direct": {
+       "n": 21,
+       "tp": 17,
+       "fp": 0,
+       "fn": 4,
+       "tn": 0,
+       "precision": 1.0,
+       "recall": 0.81,
+       "f1": 0.895,
+       "accuracy": 0.81,
+       "false_positive_rate": 0.0
+      },
+      "latitude": {
+       "n": 23,
+       "tp": 0,
+       "fp": 0,
+       "fn": 0,
+       "tn": 23,
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multi": {
        "n": 4,
@@ -788,14 +788,14 @@
       },
       "multilingual": {
        "n": 25,
-       "tp": 5,
+       "tp": 4,
        "fp": 0,
-       "fn": 10,
+       "fn": 11,
        "tn": 10,
        "precision": 1.0,
-       "recall": 0.333,
-       "f1": 0.5,
-       "accuracy": 0.6,
+       "recall": 0.267,
+       "f1": 0.421,
+       "accuracy": 0.56,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -824,14 +824,14 @@
       },
       "paraphrase": {
        "n": 10,
-       "tp": 4,
+       "tp": 2,
        "fp": 0,
-       "fn": 6,
+       "fn": 8,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.4,
-       "f1": 0.571,
-       "accuracy": 0.4,
+       "recall": 0.2,
+       "f1": 0.333,
+       "accuracy": 0.2,
        "false_positive_rate": 0.0
       },
       "question": {
@@ -874,26 +874,26 @@
       },
       "en": {
        "n": 128,
-       "tp": 36,
-       "fp": 6,
-       "fn": 8,
-       "tn": 78,
-       "precision": 0.857,
-       "recall": 0.818,
-       "f1": 0.837,
-       "accuracy": 0.891,
-       "false_positive_rate": 0.071
+       "tp": 32,
+       "fp": 3,
+       "fn": 12,
+       "tn": 81,
+       "precision": 0.914,
+       "recall": 0.727,
+       "f1": 0.81,
+       "accuracy": 0.883,
+       "false_positive_rate": 0.036
       },
       "es": {
        "n": 6,
-       "tp": 3,
+       "tp": 2,
        "fp": 0,
-       "fn": 1,
+       "fn": 2,
        "tn": 2,
        "precision": 1.0,
-       "recall": 0.75,
-       "f1": 0.857,
-       "accuracy": 0.833,
+       "recall": 0.5,
+       "f1": 0.667,
+       "accuracy": 0.667,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -1422,15 +1422,15 @@
     "neural": {
      "overall": {
       "n": 154,
-      "tp": 32,
-      "fp": 20,
-      "fn": 28,
-      "tn": 74,
-      "precision": 0.615,
-      "recall": 0.533,
-      "f1": 0.571,
-      "accuracy": 0.688,
-      "false_positive_rate": 0.213
+      "tp": 27,
+      "fp": 12,
+      "fn": 33,
+      "tn": 82,
+      "precision": 0.692,
+      "recall": 0.45,
+      "f1": 0.545,
+      "accuracy": 0.708,
+      "false_positive_rate": 0.128
      },
      "by_category": {
       "adversarial": {
@@ -1448,74 +1448,74 @@
       "affirm": {
        "n": 16,
        "tp": 0,
-       "fp": 2,
+       "fp": 1,
        "fn": 0,
-       "tn": 14,
+       "tn": 15,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.875,
-       "false_positive_rate": 0.125
+       "accuracy": 0.938,
+       "false_positive_rate": 0.062
       },
       "direct": {
        "n": 24,
-       "tp": 13,
+       "tp": 9,
        "fp": 0,
-       "fn": 11,
+       "fn": 15,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.542,
-       "f1": 0.703,
-       "accuracy": 0.542,
+       "recall": 0.375,
+       "f1": 0.545,
+       "accuracy": 0.375,
        "false_positive_rate": 0.0
       },
       "latitude": {
        "n": 19,
        "tp": 0,
-       "fp": 1,
+       "fp": 0,
        "fn": 0,
-       "tn": 18,
+       "tn": 19,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.947,
-       "false_positive_rate": 0.053
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multi": {
        "n": 11,
        "tp": 5,
-       "fp": 1,
+       "fp": 0,
        "fn": 0,
-       "tn": 5,
-       "precision": 0.833,
+       "tn": 6,
+       "precision": 1.0,
        "recall": 1.0,
-       "f1": 0.909,
-       "accuracy": 0.909,
-       "false_positive_rate": 0.167
+       "f1": 1.0,
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multilingual": {
        "n": 15,
        "tp": 1,
-       "fp": 1,
+       "fp": 0,
        "fn": 4,
-       "tn": 9,
-       "precision": 0.5,
+       "tn": 10,
+       "precision": 1.0,
        "recall": 0.2,
-       "f1": 0.286,
-       "accuracy": 0.667,
-       "false_positive_rate": 0.1
+       "f1": 0.333,
+       "accuracy": 0.733,
+       "false_positive_rate": 0.0
       },
       "negation": {
        "n": 10,
        "tp": 2,
-       "fp": 3,
+       "fp": 1,
        "fn": 2,
-       "tn": 3,
-       "precision": 0.4,
+       "tn": 5,
+       "precision": 0.667,
        "recall": 0.5,
-       "f1": 0.444,
-       "accuracy": 0.5,
-       "false_positive_rate": 0.5
+       "f1": 0.571,
+       "accuracy": 0.7,
+       "false_positive_rate": 0.167
       },
       "offtopic": {
        "n": 5,
@@ -1531,39 +1531,39 @@
       },
       "paraphrase": {
        "n": 15,
-       "tp": 7,
+       "tp": 6,
        "fp": 0,
-       "fn": 8,
+       "fn": 9,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.467,
-       "f1": 0.636,
-       "accuracy": 0.467,
+       "recall": 0.4,
+       "f1": 0.571,
+       "accuracy": 0.4,
        "false_positive_rate": 0.0
       },
       "question": {
        "n": 9,
        "tp": 0,
-       "fp": 4,
+       "fp": 3,
        "fn": 0,
-       "tn": 5,
+       "tn": 6,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.556,
-       "false_positive_rate": 0.444
+       "accuracy": 0.667,
+       "false_positive_rate": 0.333
       },
       "reported": {
        "n": 19,
        "tp": 0,
-       "fp": 8,
+       "fp": 7,
        "fn": 0,
-       "tn": 11,
+       "tn": 12,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.579,
-       "false_positive_rate": 0.421
+       "accuracy": 0.632,
+       "false_positive_rate": 0.368
       }
      },
      "by_language": {
@@ -1581,27 +1581,27 @@
       },
       "en": {
        "n": 139,
-       "tp": 31,
-       "fp": 19,
-       "fn": 24,
-       "tn": 65,
-       "precision": 0.62,
-       "recall": 0.564,
-       "f1": 0.59,
-       "accuracy": 0.691,
-       "false_positive_rate": 0.226
+       "tp": 26,
+       "fp": 12,
+       "fn": 29,
+       "tn": 72,
+       "precision": 0.684,
+       "recall": 0.473,
+       "f1": 0.559,
+       "accuracy": 0.705,
+       "false_positive_rate": 0.143
       },
       "es": {
        "n": 2,
        "tp": 0,
-       "fp": 1,
+       "fp": 0,
        "fn": 0,
-       "tn": 1,
+       "tn": 2,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.5,
-       "false_positive_rate": 0.5
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "fr": {
        "n": 4,
@@ -1656,15 +1656,15 @@
     "dual": {
      "overall": {
       "n": 154,
-      "tp": 50,
-      "fp": 2,
-      "fn": 10,
-      "tn": 92,
-      "precision": 0.962,
-      "recall": 0.833,
-      "f1": 0.893,
-      "accuracy": 0.922,
-      "false_positive_rate": 0.021
+      "tp": 47,
+      "fp": 0,
+      "fn": 13,
+      "tn": 94,
+      "precision": 1.0,
+      "recall": 0.783,
+      "f1": 0.879,
+      "accuracy": 0.916,
+      "false_positive_rate": 0.0
      },
      "by_category": {
       "adversarial": {
@@ -1693,27 +1693,27 @@
       },
       "direct": {
        "n": 24,
-       "tp": 22,
+       "tp": 20,
        "fp": 0,
-       "fn": 2,
+       "fn": 4,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.917,
-       "f1": 0.957,
-       "accuracy": 0.917,
+       "recall": 0.833,
+       "f1": 0.909,
+       "accuracy": 0.833,
        "false_positive_rate": 0.0
       },
       "latitude": {
        "n": 19,
        "tp": 0,
-       "fp": 1,
+       "fp": 0,
        "fn": 0,
-       "tn": 18,
+       "tn": 19,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.947,
-       "false_positive_rate": 0.053
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multi": {
        "n": 11,
@@ -1730,14 +1730,14 @@
       "multilingual": {
        "n": 15,
        "tp": 1,
-       "fp": 1,
+       "fp": 0,
        "fn": 4,
-       "tn": 9,
-       "precision": 0.5,
+       "tn": 10,
+       "precision": 1.0,
        "recall": 0.2,
-       "f1": 0.286,
-       "accuracy": 0.667,
-       "false_positive_rate": 0.1
+       "f1": 0.333,
+       "accuracy": 0.733,
+       "false_positive_rate": 0.0
       },
       "negation": {
        "n": 10,
@@ -1765,14 +1765,14 @@
       },
       "paraphrase": {
        "n": 15,
-       "tp": 12,
+       "tp": 11,
        "fp": 0,
-       "fn": 3,
+       "fn": 4,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.8,
-       "f1": 0.889,
-       "accuracy": 0.8,
+       "recall": 0.733,
+       "f1": 0.846,
+       "accuracy": 0.733,
        "false_positive_rate": 0.0
       },
       "question": {
@@ -1815,27 +1815,27 @@
       },
       "en": {
        "n": 139,
-       "tp": 49,
-       "fp": 1,
-       "fn": 6,
-       "tn": 83,
-       "precision": 0.98,
-       "recall": 0.891,
-       "f1": 0.933,
-       "accuracy": 0.95,
-       "false_positive_rate": 0.012
+       "tp": 46,
+       "fp": 0,
+       "fn": 9,
+       "tn": 84,
+       "precision": 1.0,
+       "recall": 0.836,
+       "f1": 0.911,
+       "accuracy": 0.935,
+       "false_positive_rate": 0.0
       },
       "es": {
        "n": 2,
        "tp": 0,
-       "fp": 1,
+       "fp": 0,
        "fn": 0,
-       "tn": 1,
+       "tn": 2,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.5,
-       "false_positive_rate": 0.5
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "fr": {
        "n": 4,
@@ -2363,100 +2363,100 @@
     "neural": {
      "overall": {
       "n": 307,
-      "tp": 65,
-      "fp": 32,
-      "fn": 54,
-      "tn": 156,
-      "precision": 0.67,
-      "recall": 0.546,
-      "f1": 0.602,
+      "tp": 51,
+      "fp": 18,
+      "fn": 68,
+      "tn": 170,
+      "precision": 0.739,
+      "recall": 0.429,
+      "f1": 0.543,
       "accuracy": 0.72,
-      "false_positive_rate": 0.17
+      "false_positive_rate": 0.096
      },
      "by_category": {
       "adversarial": {
        "n": 15,
-       "tp": 7,
+       "tp": 6,
        "fp": 0,
-       "fn": 3,
+       "fn": 4,
        "tn": 5,
        "precision": 1.0,
-       "recall": 0.7,
-       "f1": 0.824,
-       "accuracy": 0.8,
+       "recall": 0.6,
+       "f1": 0.75,
+       "accuracy": 0.733,
        "false_positive_rate": 0.0
       },
       "affirm": {
        "n": 40,
        "tp": 0,
-       "fp": 8,
+       "fp": 3,
        "fn": 0,
-       "tn": 32,
+       "tn": 37,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.8,
-       "false_positive_rate": 0.2
+       "accuracy": 0.925,
+       "false_positive_rate": 0.075
       },
       "direct": {
        "n": 45,
-       "tp": 27,
+       "tp": 20,
        "fp": 0,
-       "fn": 18,
+       "fn": 25,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.6,
-       "f1": 0.75,
-       "accuracy": 0.6,
+       "recall": 0.444,
+       "f1": 0.615,
+       "accuracy": 0.444,
        "false_positive_rate": 0.0
       },
       "latitude": {
        "n": 42,
        "tp": 0,
-       "fp": 2,
+       "fp": 0,
        "fn": 0,
-       "tn": 40,
+       "tn": 42,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.952,
-       "false_positive_rate": 0.048
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multi": {
        "n": 15,
-       "tp": 7,
-       "fp": 1,
-       "fn": 0,
-       "tn": 7,
-       "precision": 0.875,
-       "recall": 1.0,
-       "f1": 0.933,
+       "tp": 6,
+       "fp": 0,
+       "fn": 1,
+       "tn": 8,
+       "precision": 1.0,
+       "recall": 0.857,
+       "f1": 0.923,
        "accuracy": 0.933,
-       "false_positive_rate": 0.125
+       "false_positive_rate": 0.0
       },
       "multilingual": {
        "n": 40,
-       "tp": 6,
-       "fp": 1,
-       "fn": 14,
-       "tn": 19,
-       "precision": 0.857,
-       "recall": 0.3,
-       "f1": 0.444,
+       "tp": 5,
+       "fp": 0,
+       "fn": 15,
+       "tn": 20,
+       "precision": 1.0,
+       "recall": 0.25,
+       "f1": 0.4,
        "accuracy": 0.625,
-       "false_positive_rate": 0.05
+       "false_positive_rate": 0.0
       },
       "negation": {
        "n": 25,
        "tp": 7,
-       "fp": 5,
+       "fp": 4,
        "fn": 5,
-       "tn": 8,
-       "precision": 0.583,
+       "tn": 9,
+       "precision": 0.636,
        "recall": 0.583,
-       "f1": 0.583,
-       "accuracy": 0.6,
-       "false_positive_rate": 0.385
+       "f1": 0.609,
+       "accuracy": 0.64,
+       "false_positive_rate": 0.308
       },
       "offtopic": {
        "n": 10,
@@ -2472,39 +2472,39 @@
       },
       "paraphrase": {
        "n": 25,
-       "tp": 11,
+       "tp": 7,
        "fp": 0,
-       "fn": 14,
+       "fn": 18,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.44,
-       "f1": 0.611,
-       "accuracy": 0.44,
+       "recall": 0.28,
+       "f1": 0.438,
+       "accuracy": 0.28,
        "false_positive_rate": 0.0
       },
       "question": {
        "n": 15,
        "tp": 0,
-       "fp": 5,
+       "fp": 4,
        "fn": 0,
-       "tn": 10,
+       "tn": 11,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.667,
-       "false_positive_rate": 0.333
+       "accuracy": 0.733,
+       "false_positive_rate": 0.267
       },
       "reported": {
        "n": 35,
        "tp": 0,
-       "fp": 10,
+       "fp": 7,
        "fn": 0,
-       "tn": 25,
+       "tn": 28,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.714,
-       "false_positive_rate": 0.286
+       "accuracy": 0.8,
+       "false_positive_rate": 0.2
       }
      },
      "by_language": {
@@ -2522,27 +2522,27 @@
       },
       "en": {
        "n": 267,
-       "tp": 59,
-       "fp": 31,
-       "fn": 40,
-       "tn": 137,
-       "precision": 0.656,
-       "recall": 0.596,
-       "f1": 0.624,
+       "tp": 46,
+       "fp": 18,
+       "fn": 53,
+       "tn": 150,
+       "precision": 0.719,
+       "recall": 0.465,
+       "f1": 0.564,
        "accuracy": 0.734,
-       "false_positive_rate": 0.185
+       "false_positive_rate": 0.107
       },
       "es": {
        "n": 8,
-       "tp": 3,
-       "fp": 1,
-       "fn": 1,
-       "tn": 3,
-       "precision": 0.75,
-       "recall": 0.75,
-       "f1": 0.75,
+       "tp": 2,
+       "fp": 0,
+       "fn": 2,
+       "tn": 4,
+       "precision": 1.0,
+       "recall": 0.5,
+       "f1": 0.667,
        "accuracy": 0.75,
-       "false_positive_rate": 0.25
+       "false_positive_rate": 0.0
       },
       "fr": {
        "n": 8,
@@ -2597,15 +2597,15 @@
     "dual": {
      "overall": {
       "n": 307,
-      "tp": 91,
-      "fp": 8,
-      "fn": 28,
-      "tn": 180,
-      "precision": 0.919,
-      "recall": 0.765,
-      "f1": 0.835,
-      "accuracy": 0.883,
-      "false_positive_rate": 0.043
+      "tp": 83,
+      "fp": 3,
+      "fn": 36,
+      "tn": 185,
+      "precision": 0.965,
+      "recall": 0.697,
+      "f1": 0.81,
+      "accuracy": 0.873,
+      "false_positive_rate": 0.016
      },
      "by_category": {
       "adversarial": {
@@ -2623,38 +2623,38 @@
       "affirm": {
        "n": 40,
        "tp": 0,
-       "fp": 4,
+       "fp": 2,
        "fn": 0,
-       "tn": 36,
+       "tn": 38,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.9,
-       "false_positive_rate": 0.1
+       "accuracy": 0.95,
+       "false_positive_rate": 0.05
       },
       "direct": {
        "n": 45,
-       "tp": 41,
+       "tp": 37,
        "fp": 0,
-       "fn": 4,
+       "fn": 8,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.911,
-       "f1": 0.953,
-       "accuracy": 0.911,
+       "recall": 0.822,
+       "f1": 0.902,
+       "accuracy": 0.822,
        "false_positive_rate": 0.0
       },
       "latitude": {
        "n": 42,
        "tp": 0,
-       "fp": 2,
+       "fp": 0,
        "fn": 0,
-       "tn": 40,
+       "tn": 42,
        "precision": 0.0,
        "recall": 0.0,
        "f1": 0.0,
-       "accuracy": 0.952,
-       "false_positive_rate": 0.048
+       "accuracy": 1.0,
+       "false_positive_rate": 0.0
       },
       "multi": {
        "n": 15,
@@ -2670,15 +2670,15 @@
       },
       "multilingual": {
        "n": 40,
-       "tp": 6,
-       "fp": 1,
-       "fn": 14,
-       "tn": 19,
-       "precision": 0.857,
-       "recall": 0.3,
-       "f1": 0.444,
+       "tp": 5,
+       "fp": 0,
+       "fn": 15,
+       "tn": 20,
+       "precision": 1.0,
+       "recall": 0.25,
+       "f1": 0.4,
        "accuracy": 0.625,
-       "false_positive_rate": 0.05
+       "false_positive_rate": 0.0
       },
       "negation": {
        "n": 25,
@@ -2706,14 +2706,14 @@
       },
       "paraphrase": {
        "n": 25,
-       "tp": 16,
+       "tp": 13,
        "fp": 0,
-       "fn": 9,
+       "fn": 12,
        "tn": 0,
        "precision": 1.0,
-       "recall": 0.64,
-       "f1": 0.78,
-       "accuracy": 0.64,
+       "recall": 0.52,
+       "f1": 0.684,
+       "accuracy": 0.52,
        "false_positive_rate": 0.0
       },
       "question": {
@@ -2756,27 +2756,27 @@
       },
       "en": {
        "n": 267,
-       "tp": 85,
-       "fp": 7,
-       "fn": 14,
-       "tn": 161,
-       "precision": 0.924,
-       "recall": 0.859,
-       "f1": 0.89,
-       "accuracy": 0.921,
-       "false_positive_rate": 0.042
+       "tp": 78,
+       "fp": 3,
+       "fn": 21,
+       "tn": 165,
+       "precision": 0.963,
+       "recall": 0.788,
+       "f1": 0.867,
+       "accuracy": 0.91,
+       "false_positive_rate": 0.018
       },
       "es": {
        "n": 8,
-       "tp": 3,
-       "fp": 1,
-       "fn": 1,
-       "tn": 3,
-       "precision": 0.75,
-       "recall": 0.75,
-       "f1": 0.75,
+       "tp": 2,
+       "fp": 0,
+       "fn": 2,
+       "tn": 4,
+       "precision": 1.0,
+       "recall": 0.5,
+       "f1": 0.667,
        "accuracy": 0.75,
-       "false_positive_rate": 0.25
+       "false_positive_rate": 0.0
       },
       "fr": {
        "n": 8,
@@ -2832,7 +2832,7 @@
   }
  },
  "overlap_with_training": {
-  "exact_duplicates": 3,
+  "exact_duplicates": 2,
   "near_duplicates_jaccard4_ge_0.5": 11,
   "n_eval": 307
  },
@@ -2840,14 +2840,14 @@
   "de": {
    "n": 6,
    "tp": 1,
-   "fp": 1,
+   "fp": 0,
    "fn": 2,
-   "tn": 2,
-   "precision": 0.5,
+   "tn": 3,
+   "precision": 1.0,
    "recall": 0.333,
-   "f1": 0.4,
-   "accuracy": 0.5,
-   "false_positive_rate": 0.333
+   "f1": 0.5,
+   "accuracy": 0.667,
+   "false_positive_rate": 0.0
   },
   "en": {
    "n": 267,
@@ -2864,14 +2864,14 @@
   "es": {
    "n": 8,
    "tp": 3,
-   "fp": 1,
+   "fp": 0,
    "fn": 1,
-   "tn": 3,
-   "precision": 0.75,
+   "tn": 4,
+   "precision": 1.0,
    "recall": 0.75,
-   "f1": 0.75,
-   "accuracy": 0.75,
-   "false_positive_rate": 0.25
+   "f1": 0.857,
+   "accuracy": 0.875,
+   "false_positive_rate": 0.0
   },
   "fr": {
    "n": 8,
@@ -2933,6 +2933,15 @@
    "text": "The Son is the first and finest thing that God ever brought into being."
   },
   {
+   "id": "0008",
+   "split": "dev",
+   "category": "direct",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "Jesus was a remarkable rabbi, but he was not divine."
+  },
+  {
    "id": "0009",
    "split": "dev",
    "category": "direct",
@@ -2951,6 +2960,33 @@
    "text": "Jesus is a mighty god, but he is not equal to the Almighty."
   },
   {
+   "id": "0012",
+   "split": "test",
+   "category": "direct",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "The Son is similar to the Father in essence, yet not the same essence."
+  },
+  {
+   "id": "0013",
+   "split": "dev",
+   "category": "direct",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "The Son ranks below the Father in his very nature and divinity."
+  },
+  {
+   "id": "0018",
+   "split": "test",
+   "category": "direct",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "The Father himself suffered and died on the cross."
+  },
+  {
    "id": "0025",
    "split": "test",
    "category": "direct",
@@ -2958,6 +2994,15 @@
    "label": "contradicts",
    "predicted_block": false,
    "text": "In Christ the eternal Word took the place of a human mind, so he had no human soul."
+  },
+  {
+   "id": "0046",
+   "split": "dev",
+   "category": "paraphrase",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "Long before Bethlehem the Son existed, yet even he had a starting point when the Father brought him forth from nothing."
   },
   {
    "id": "0050",
@@ -2976,6 +3021,15 @@
    "label": "contradicts",
    "predicted_block": false,
    "text": "The one God wears three masks depending on what he is doing."
+  },
+  {
+   "id": "0053",
+   "split": "test",
+   "category": "paraphrase",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "There is only one divine person, Jesus, who is himself the Father and the Spirit."
   },
   {
    "id": "0054",
@@ -3032,6 +3086,15 @@
    "text": "Jesus was never more than a Jewish prophet."
   },
   {
+   "id": "0069",
+   "split": "test",
+   "category": "paraphrase",
+   "lang": "en",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "He was the greatest of the prophets, but just a man like Moses."
+  },
+  {
    "id": "0070",
    "split": "dev",
    "category": "paraphrase",
@@ -3039,15 +3102,6 @@
    "label": "contradicts",
    "predicted_block": false,
    "text": "He died and stayed dead; the empty tomb is a legend."
-  },
-  {
-   "id": "0079",
-   "split": "test",
-   "category": "affirm",
-   "lang": "en",
-   "label": "consistent",
-   "predicted_block": true,
-   "text": "The whole material creation was made by the one true God, and it is good."
   },
   {
    "id": "0095",
@@ -3059,15 +3113,6 @@
    "text": "Through the Son all things were made."
   },
   {
-   "id": "0103",
-   "split": "test",
-   "category": "affirm",
-   "lang": "en",
-   "label": "consistent",
-   "predicted_block": true,
-   "text": "Jesus is God the Son, the second person of the Trinity."
-  },
-  {
    "id": "0107",
    "split": "test",
    "category": "affirm",
@@ -3075,24 +3120,6 @@
    "label": "consistent",
    "predicted_block": true,
    "text": "Mary was a virgin when she conceived Jesus by the power of the Holy Spirit."
-  },
-  {
-   "id": "0113",
-   "split": "dev",
-   "category": "latitude",
-   "lang": "en",
-   "label": "consistent",
-   "predicted_block": true,
-   "text": "Baptism is an outward sign and does not by itself save anyone."
-  },
-  {
-   "id": "0135",
-   "split": "test",
-   "category": "latitude",
-   "lang": "en",
-   "label": "consistent",
-   "predicted_block": true,
-   "text": "Speaking in tongues is still a gift of the Spirit today."
   },
   {
    "id": "0210",
@@ -3113,6 +3140,15 @@
    "text": "Many Christians may disagree, but the evidence shows that Jesus' body was never raised."
   },
   {
+   "id": "0268",
+   "split": "test",
+   "category": "multilingual",
+   "lang": "es",
+   "label": "contradicts",
+   "predicted_block": false,
+   "text": "Jesús no era Dios, solo un gran maestro."
+  },
+  {
    "id": "0269",
    "split": "test",
    "category": "multilingual",
@@ -3120,15 +3156,6 @@
    "label": "contradicts",
    "predicted_block": false,
    "text": "El Hijo es una criatura de Dios."
-  },
-  {
-   "id": "0273",
-   "split": "dev",
-   "category": "multilingual",
-   "lang": "es",
-   "label": "consistent",
-   "predicted_block": true,
-   "text": "Cristo resucitó de entre los muertos al tercer día."
   },
   {
    "id": "0282",
@@ -3254,16 +3281,16 @@
    "p95": 0.008
   },
   "symbolic": {
-   "median": 0.238,
-   "p95": 0.449
+   "median": 0.299,
+   "p95": 0.581
   },
   "neural": {
-   "median": 0.309,
-   "p95": 0.708
+   "median": 0.358,
+   "p95": 0.866
   },
   "dual": {
-   "median": 0.423,
-   "p95": 0.946
+   "median": 0.479,
+   "p95": 1.047
   }
  }
 }

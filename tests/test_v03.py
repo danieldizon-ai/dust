@@ -112,3 +112,41 @@ def test_cli_modelfile(capsys):
     assert main(["modelfile", "--base", "qwen2.5:1.5b-instruct"]) == 0
     out = capsys.readouterr().out
     assert "FROM qwen2.5:1.5b-instruct" in out and 'SYSTEM """' in out and "begotten" in out.lower()
+
+
+# ---------------------------------------------------------------- lessons from the first end-to-end run
+def test_creed_claims_about_latitude_are_flagged():
+    v = L.check("The Nicene Creed affirms the baptism of infants as a sign of God's grace.")
+    assert v.decision == "flag" and v.flags[0].source == "creed-claim" and v.flags[0].proposition == "L03"
+    assert L.check("The Creed affirms one baptism for the forgiveness of sins.").decision == "pass"
+    assert L.check("Infant baptism is not addressed directly in the Nicene Creed.").decision == "pass"
+
+
+def test_trailing_aside_endorses_and_embedded_whether_does_not_assert():
+    assert L.check("The Son is a creature, as the Arians believe.").decision == "block"
+    assert L.check("The question of whether Jesus only seemed to be human is a matter of debate.").decision != "block"
+    assert L.check("Christians believe that Jesus was created by God the Father.").decision == "block"
+
+
+def test_creed_own_words_pass():
+    assert L.check("Father, Son and Holy Spirit are truly distinct. They are not three names or modes "
+                   "of a single person.").decision == "pass"
+
+
+def test_refusal_needs_a_proof_and_reports_the_returned_text():
+    from dust.backends import Scripted
+    from dust.layer import Violation, Verdict
+    # guard-only objection: answer is returned with a flag, not rewritten or refused
+    class GuardSaysNo:
+        meta = {}
+        def scores(self, text):
+            return {"contradicts": 0.99, "consistent": 0.005, "neutral": 0.005}
+        def group(self, text):
+            return "holy-spirit", 0.9
+    lay = Layer(guard=GuardSaysNo())
+    r = lay.wrap(Scripted(["The Spirit is with the church in every age."])).chat([{"role": "user", "content": "?"}])
+    assert not r.refused and r.attempts == 1 and r.verdict.decision == "flag"
+    # symbolic proof on every draft: refuse, and the reported verdict is for the fallback text
+    r = L.wrap(Scripted(["Jesus was created."] * 3)).chat([{"role": "user", "content": "?"}])
+    assert r.refused and r.verdict.decision != "block" and len(r.draft_verdicts) == 3
+    assert all(v.decision == "block" for v in r.draft_verdicts)

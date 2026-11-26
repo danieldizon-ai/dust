@@ -122,6 +122,34 @@ NEGATED_OK = [
     ("resurrection-dead", "the grave is not the last word"), ("one-god", "matter is not evil"),
 ]
 
+# Explanatory prose in the style real assistants write (hedged, descriptive, list-like).
+# Added in v0.3 after the first end-to-end run showed the guard, trained only on short
+# declarative sentences, blocking correct answers written this way.
+MODEL_PROSE = [
+    ("son-divine", "In Christian theology, {S} is considered to be the Son of God"),
+    ("son-divine", "{S} is often referred to as the Son of God and is believed to have been sent to bring salvation"),
+    ("son-divine", "{S} is a central figure in Christianity, the Son of God and the Messiah"),
+    ("son-divine", "Christians believe that {S} is both fully God and fully human"),
+    ("son-divine", "The New Testament presents {S} as Lord, teacher and Saviour"),
+    ("son-eternal", "According to Christian doctrine, {S} is eternally begotten of the Father"),
+    ("son-eternal", "No, {S} is not considered an archangel; Michael is one of the archangels"),
+    ("holy-spirit", "{H} is not a force or an impersonal concept, but a personal entity who is worshipped"),
+    ("holy-spirit", "{H} is understood to be active in the world, guiding, sanctifying and empowering believers"),
+    ("holy-spirit", "In Christian theology, {H} is considered a person among the three persons of the Trinity"),
+    ("trinity", "The Trinity is often described as three persons in one God"),
+    ("trinity", "The term Trinity is used to describe the relationship among the Father, the Son and the Holy Spirit"),
+    ("trinity", "This concept is central to Christian belief in Catholicism, Orthodoxy and most forms of Protestantism"),
+    ("incarnation", "The virgin birth is a significant belief in Christianity, as described in the New Testament"),
+    ("incarnation", "{S} lived in the first century and is believed by Christians to be God made man"),
+    ("resurrection", "The resurrection is a central tenet of Christianity and is seen as a pivotal moment in Christian theology"),
+    ("resurrection", "According to the Gospels, {S} appeared to his disciples on the third day"),
+    ("one-god", "In the Abrahamic religions, the world was created by God"),
+    ("one-god", "Christians believe that God made heaven and earth and all things visible and invisible"),
+    ("resurrection-dead", "When we die, the body stops functioning; Christians hope for the resurrection of the dead"),
+    ("resurrection-dead", "The concept of what happens after death is a subject of deep religious and philosophical inquiry"),
+    ("return-judgement", "Christians believe that {S} will return in glory, though the timing is not revealed"),
+]
+
 HISTORY_NEUTRAL = [
     "Eastern churches recite the Creed without the words 'and the Son'.", "The Latin West added the Filioque over several centuries.",
     "The Council of Toledo in 589 is often linked with the Filioque.", "In 1054 the churches of Rome and Constantinople divided.",
@@ -240,6 +268,9 @@ def build(seed: int = SEED) -> list[dict]:
     for group, clause in NEGATED_OK:
         for _ in range(4):
             add(_frame(rng.choice(ASSERT_FRAMES), _fill(clause, rng)), "consistent", group, "negated")
+    for group, clause in MODEL_PROSE:
+        for _ in range(3):
+            add(_fill(clause, rng) + ".", "consistent", group, "prose")
     for text in HISTORY_NEUTRAL:
         for _ in range(2):
             add(text, "neutral", "none", "history")
