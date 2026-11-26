@@ -1,0 +1,27 @@
+Dust
+Copyright 2026 Daniel Dizon. Incubated by Rejoice.
+
+Code is licensed under the Apache License, Version 2.0 (LICENSE).
+
+This project builds on research by Always Foundation (https://github.com/alwaysfoundation):
+- The Creed propositions and excluded errors in src/dust/data/creed.json are adapted and
+  extended from ai/creed/nicene-381.json in alwaysfoundation/always-platform,
+  "Always Foundation, CC BY 4.0" (https://creativecommons.org/licenses/by/4.0/).
+  Changes: split into 24 atomic propositions with logical literals, Greek anchors and
+  Scripture references; excluded errors extended from 5 to 16; latitude topics added.
+- src/dust/data/constitution.md is adapted in part from the Always AI assistant
+  instructions (Always Foundation, CC BY 4.0).
+- docs/theology.md, docs/methods.md, docs/privacy.md and docs/model-family.md draw on
+  Always Foundation's position paper "Christian AI Alignment and the Nicene Creed of 381",
+  its Always AI research paper and ADRs 0015-0018 (CC BY 4.0), with changes.
+The Always name and logo are trademarks of Always Foundation and are not used to brand Dust.
+
+Texts:
+- The Nicene Creed, English: traditional translation in the public domain (onthewing.org via
+  NonlinearFruit/Creeds.json), as used by Always Foundation.
+- The Creed in Greek (381, as read at Chalcedon 451) and Latin (Roman Rite): public domain.
+- Scripture in src/dust/data/scripture.json: World English Bible, public domain.
+
+Model weights: src/dust/data/guard-v0.npz is a small classifier trained only on the
+synthetic data in data/train.jsonl, released under Apache-2.0. No third-party model
+weights are included.

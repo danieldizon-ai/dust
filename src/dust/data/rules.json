@@ -1,0 +1,39 @@
+{
+  "comment": "Inference rules for the symbolic track. A literal is predicate(ENTITY); a leading '-' means negation. Rules fire forward from extracted claims until nothing new is derived. Contradiction = a derived literal whose negation is an axiom from creed.json.",
+  "rules": [
+    {"id": "R01", "if": "angel(SON)", "then": ["created(SON)"], "why": "An angel is a creature."},
+    {"id": "R02", "if": "created(SON)", "then": ["-eternal(SON)", "-divine(SON)"], "why": "A creature has a beginning and is not true God."},
+    {"id": "R03", "if": "adopted(SON)", "then": ["-begotten(SON)", "-eternal(SON)"], "why": "A Son adopted in time is not begotten of the Father before all ages."},
+    {"id": "R04", "if": "mere_human(SON)", "then": ["-divine(SON)"], "why": "Only human means not true God."},
+    {"id": "R05", "if": "lesser_god(SON)", "then": ["-consubstantial(SON)"], "why": "A lesser or secondary god is not of one substance with the Father."},
+    {"id": "R06", "if": "seemed_human(SON)", "then": ["-human(SON)", "-died(SON)"], "why": "A merely apparent humanity cannot truly suffer and die."},
+    {"id": "R07", "if": "no_human_mind(SON)", "then": ["-human(SON)"], "why": "Without a human mind or soul he is not fully human."},
+    {"id": "R08", "if": "-historical(SON)", "then": ["-incarnate(SON)", "-crucified(SON)", "-died(SON)"], "why": "One who never existed was not incarnate or crucified."},
+    {"id": "R09", "if": "impersonal(SPIRIT)", "then": ["-lord(SPIRIT)", "-divine(SPIRIT)"], "why": "An impersonal force is not the Lord, worshipped with the Father and the Son."},
+    {"id": "R10", "if": "created(SPIRIT)", "then": ["-divine(SPIRIT)"], "why": "A created power is not worshipped and glorified with the Father and the Son."},
+    {"id": "R11", "if": "same_person(TRINITY)", "then": ["-distinct(TRINITY)"], "why": "Modes or masks of one person are not distinct."},
+    {"id": "R12", "if": "many_gods(GOD)", "then": ["-one_god(GOD)"], "why": "Three gods or many gods is not one God."},
+    {"id": "R13", "if": "demiurge(GOD)", "then": ["-creator(GOD)"], "why": "If a lesser or evil being made the world, the one God is not Maker of all things visible."},
+    {"id": "R14", "if": "-rose(SON)", "then": [], "why": "Direct contradiction of P13."},
+    {"id": "R15", "if": "swoon(SON)", "then": ["-died(SON)", "-rose(SON)"], "why": "If he did not die, he did not rise from the dead."},
+    {"id": "R16", "if": "substitute(SON)", "then": ["-crucified(SON)", "-died(SON)"], "why": "If someone else was crucified in his place, he was not crucified."}
+  ],
+  "error_signatures": {
+    "E01": ["created(SON)", "angel(SON)", "-eternal(SON)"],
+    "E02": ["lesser_god(SON)", "-consubstantial(SON)"],
+    "E03": ["same_person(TRINITY)", "-distinct(TRINITY)"],
+    "E04": ["adopted(SON)", "-begotten(SON)"],
+    "E05": ["mere_human(SON)", "-divine(SON)"],
+    "E06": ["impersonal(SPIRIT)", "created(SPIRIT)", "-lord(SPIRIT)", "-divine(SPIRIT)"],
+    "E07": ["seemed_human(SON)", "substitute(SON)", "-human(SON)", "-died(SON)", "-crucified(SON)"],
+    "E08": ["no_human_mind(SON)"],
+    "E09": ["demiurge(GOD)", "-creator(GOD)"],
+    "E10": ["many_gods(GOD)", "-one_god(GOD)"],
+    "E11": ["-kingdom_endless(SON)"],
+    "E12": ["-virgin_birth(SON)"],
+    "E13": ["-rose(SON)", "swoon(SON)"],
+    "E14": ["-will_return(SON)", "-judge(SON)"],
+    "E15": ["-resurrection_of_dead(ALL)", "-world_to_come(ALL)"],
+    "E16": ["-agent_of_creation(SON)"]
+  }
+}
