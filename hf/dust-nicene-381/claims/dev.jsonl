@@ -1,0 +1,154 @@
+{"id": "0001", "category": "direct", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "The Son is the first and finest thing that God ever brought into being.", "split": "dev"}
+{"id": "0002", "category": "direct", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "Before the world began, God created his Son as the firstborn of all creatures, and through him made everything else.", "split": "dev"}
+{"id": "0004", "category": "direct", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "Jesus is a creation of the Father, though a very exalted one.", "split": "dev"}
+{"id": "0008", "category": "direct", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Jesus was a remarkable rabbi, but he was not divine.", "split": "dev"}
+{"id": "0009", "category": "direct", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Christ was a human being and nothing beyond that.", "split": "dev"}
+{"id": "0013", "category": "direct", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "The Son ranks below the Father in his very nature and divinity.", "split": "dev"}
+{"id": "0016", "category": "direct", "label": "contradicts", "group": "trinity", "lang": "en", "text": "Father, Son and Holy Spirit are three titles for the same individual.", "split": "dev"}
+{"id": "0017", "category": "direct", "label": "contradicts", "group": "trinity", "lang": "en", "text": "When Jesus prayed, he was the Father praying in human form.", "split": "dev"}
+{"id": "0022", "category": "direct", "label": "contradicts", "group": "one-god", "lang": "en", "text": "The angry God of the Old Testament is a different being from the loving Father Jesus spoke of.", "split": "dev"}
+{"id": "0024", "category": "direct", "label": "contradicts", "group": "incarnation", "lang": "en", "text": "Jesus only looked like a man; underneath he was pure spirit.", "split": "dev"}
+{"id": "0026", "category": "direct", "label": "contradicts", "group": "incarnation", "lang": "en", "text": "Mary conceived Jesus with Joseph in the normal way.", "split": "dev"}
+{"id": "0027", "category": "direct", "label": "contradicts", "group": "incarnation", "lang": "en", "text": "The story of the virgin birth is a later legend invented to honour Jesus.", "split": "dev"}
+{"id": "0029", "category": "direct", "label": "contradicts", "group": "crucifixion", "lang": "en", "text": "It was Judas, not Jesus, who was crucified that day.", "split": "dev"}
+{"id": "0031", "category": "direct", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "The body of Jesus decayed in the grave like any other.", "split": "dev"}
+{"id": "0032", "category": "direct", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "Easter means that Jesus lives on in our memories, not that his body came back to life.", "split": "dev"}
+{"id": "0033", "category": "direct", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "The disciples had visions, but Jesus did not physically rise.", "split": "dev"}
+{"id": "0034", "category": "direct", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "The resurrection is best understood as a poetic way of speaking about hope.", "split": "dev"}
+{"id": "0037", "category": "direct", "label": "contradicts", "group": "return-judgement", "lang": "en", "text": "In the end the Son's reign will finish and he will dissolve back into the Father.", "split": "dev"}
+{"id": "0039", "category": "direct", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "The Spirit is a power that God made, and so it should not be worshipped.", "split": "dev"}
+{"id": "0040", "category": "direct", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "We should not worship the Holy Spirit.", "split": "dev"}
+{"id": "0041", "category": "direct", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "The Holy Spirit is a created angelic being.", "split": "dev"}
+{"id": "0042", "category": "direct", "label": "contradicts", "group": "resurrection-dead", "lang": "en", "text": "After death there is nothing; the dead will not rise.", "split": "dev"}
+{"id": "0043", "category": "direct", "label": "contradicts", "group": "resurrection-dead", "lang": "en", "text": "When we die we simply cease to exist forever, and there is no world to come.", "split": "dev"}
+{"id": "0045", "category": "direct", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Jesus was a good man. But he was not God.", "split": "dev"}
+{"id": "0046", "category": "paraphrase", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "Long before Bethlehem the Son existed, yet even he had a starting point when the Father brought him forth from nothing.", "split": "dev"}
+{"id": "0047", "category": "paraphrase", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "Of all God's works, the Son was the very first one he made.", "split": "dev"}
+{"id": "0049", "category": "paraphrase", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "In my view the honest reading is that Jesus was a moral genius rather than a divine being.", "split": "dev"}
+{"id": "0051", "category": "paraphrase", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Only the Father is the true God; the Son is his highest servant.", "split": "dev"}
+{"id": "0055", "category": "paraphrase", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "The Spirit is an it, an influence from God, rather than a he.", "split": "dev"}
+{"id": "0056", "category": "paraphrase", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "The resurrection stories are lovely myths that express the disciples' renewed courage.", "split": "dev"}
+{"id": "0060", "category": "paraphrase", "label": "contradicts", "group": "crucifixion", "lang": "en", "text": "God would never let his prophet be killed, so someone who looked like him was crucified instead.", "split": "dev"}
+{"id": "0061", "category": "paraphrase", "label": "contradicts", "group": "return-judgement", "lang": "en", "text": "Talk of Jesus returning to judge is outdated mythology that modern believers can drop.", "split": "dev"}
+{"id": "0062", "category": "paraphrase", "label": "contradicts", "group": "resurrection-dead", "lang": "en", "text": "Heaven and resurrection are comforting fictions; this life is all there is.", "split": "dev"}
+{"id": "0063", "category": "paraphrase", "label": "contradicts", "group": "one-god", "lang": "en", "text": "The creator of this flawed world is a foolish lesser power, and salvation means escaping matter.", "split": "dev"}
+{"id": "0064", "category": "paraphrase", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "Christ was God's first creation and then served as his agent in making everything else.", "split": "dev"}
+{"id": "0065", "category": "paraphrase", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Jesus was divine only in the sense that we are all divine.", "split": "dev"}
+{"id": "0067", "category": "paraphrase", "label": "contradicts", "group": "trinity", "lang": "en", "text": "Father, Son and Spirit are simply three roles one person plays at different times.", "split": "dev"}
+{"id": "0068", "category": "paraphrase", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "The Holy Ghost is merely a way of talking about God's influence, not a divine person.", "split": "dev"}
+{"id": "0070", "category": "paraphrase", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "He died and stayed dead; the empty tomb is a legend.", "split": "dev"}
+{"id": "0071", "category": "affirm", "label": "consistent", "group": "son-eternal", "lang": "en", "text": "The Son is eternally begotten of the Father; he was never created.", "split": "dev"}
+{"id": "0072", "category": "affirm", "label": "consistent", "group": "son-eternal", "lang": "en", "text": "There was never a moment when the Son did not exist.", "split": "dev"}
+{"id": "0076", "category": "affirm", "label": "consistent", "group": "trinity", "lang": "en", "text": "There is one God in three persons: Father, Son and Holy Spirit.", "split": "dev"}
+{"id": "0077", "category": "affirm", "label": "consistent", "group": "trinity", "lang": "en", "text": "The Son is not the Father, and the Spirit is neither, yet they are one God.", "split": "dev"}
+{"id": "0078", "category": "affirm", "label": "consistent", "group": "one-god", "lang": "en", "text": "God the Father Almighty made heaven and earth and everything in them.", "split": "dev"}
+{"id": "0082", "category": "affirm", "label": "consistent", "group": "incarnation", "lang": "en", "text": "For us and for our salvation he came down from heaven.", "split": "dev"}
+{"id": "0085", "category": "affirm", "label": "consistent", "group": "resurrection", "lang": "en", "text": "On the third day Jesus rose bodily from the grave.", "split": "dev"}
+{"id": "0086", "category": "affirm", "label": "consistent", "group": "resurrection", "lang": "en", "text": "The tomb was empty because Christ was physically raised.", "split": "dev"}
+{"id": "0091", "category": "affirm", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "The Spirit is a divine person, worshipped and glorified with the Father and the Son.", "split": "dev"}
+{"id": "0092", "category": "affirm", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "The Holy Spirit spoke through the prophets.", "split": "dev"}
+{"id": "0093", "category": "affirm", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "The Holy Spirit proceeds from the Father.", "split": "dev"}
+{"id": "0101", "category": "affirm", "label": "consistent", "group": "resurrection", "lang": "en", "text": "He did not stay in the tomb but rose on the third day.", "split": "dev"}
+{"id": "0102", "category": "affirm", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "The Spirit is not an impersonal force but the Lord.", "split": "dev"}
+{"id": "0106", "category": "affirm", "label": "consistent", "group": "son-divine", "lang": "en", "text": "The Son is equal to the Father in glory and majesty.", "split": "dev"}
+{"id": "0108", "category": "affirm", "label": "consistent", "group": "return-judgement", "lang": "en", "text": "Jesus will return, and every knee will bow.", "split": "dev"}
+{"id": "0109", "category": "affirm", "label": "consistent", "group": "son-eternal", "lang": "en", "text": "Before Abraham was, the Son already existed, for he is eternal.", "split": "dev"}
+{"id": "0111", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Children of believers should be baptised as infants, as the Reformed and Catholic traditions teach.", "split": "dev"}
+{"id": "0112", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Baptism is for those who can personally confess faith, so I am a credobaptist.", "split": "dev"}
+{"id": "0113", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Baptism is an outward sign and does not by itself save anyone.", "split": "dev"}
+{"id": "0115", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Communion is a memorial meal that helps us remember the cross.", "split": "dev"}
+{"id": "0118", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "The Holy Spirit proceeds from the Father through the Son.", "split": "dev"}
+{"id": "0119", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "The Bishop of Rome holds a primacy given to Peter.", "split": "dev"}
+{"id": "0122", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Mary and Joseph had other children after Jesus was born.", "split": "dev"}
+{"id": "0123", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Mary is rightly called Theotokos, the God-bearer.", "split": "dev"}
+{"id": "0128", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "The earth is only a few thousand years old.", "split": "dev"}
+{"id": "0129", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Genesis 1 is a literary framework rather than a timeline.", "split": "dev"}
+{"id": "0130", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "The thousand years in Revelation 20 symbolise the present church age.", "split": "dev"}
+{"id": "0131", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Christ will return before a literal thousand-year reign on earth.", "split": "dev"}
+{"id": "0136", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Purgatory is a place of final purification.", "split": "dev"}
+{"id": "0137", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "There is no purgatory; the faithful go straight to be with Christ.", "split": "dev"}
+{"id": "0139", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Images have no place in worship.", "split": "dev"}
+{"id": "0140", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "The books of Tobit and Maccabees belong in the Bible.", "split": "dev"}
+{"id": "0142", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Holy Tradition and Scripture together are the rule of faith.", "split": "dev"}
+{"id": "0149", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Christ is one person in two natures, as Chalcedon defined.", "split": "dev"}
+{"id": "0151", "category": "latitude", "label": "consistent", "group": "latitude", "lang": "en", "text": "Speaking with my Baptist friends, I believe the church is the gathered congregation of believers.", "split": "dev"}
+{"id": "0153", "category": "reported", "label": "neutral", "group": "son-eternal", "lang": "en", "text": "Arius argued that the Son was a creature who had a beginning.", "split": "dev"}
+{"id": "0156", "category": "reported", "label": "neutral", "group": "trinity", "lang": "en", "text": "Sabellius taught that Father, Son and Spirit were modes of one person.", "split": "dev"}
+{"id": "0157", "category": "reported", "label": "neutral", "group": "trinity", "lang": "en", "text": "Modalism, the idea that God merely changes roles, was condemned in the third century.", "split": "dev"}
+{"id": "0159", "category": "reported", "label": "neutral", "group": "incarnation", "lang": "en", "text": "Apollinarius held that the divine Logos replaced Christ's human mind.", "split": "dev"}
+{"id": "0160", "category": "reported", "label": "neutral", "group": "holy-spirit", "lang": "en", "text": "The Pneumatomachians denied that the Holy Spirit should be worshipped.", "split": "dev"}
+{"id": "0161", "category": "reported", "label": "neutral", "group": "holy-spirit", "lang": "en", "text": "Jehovah's Witnesses teach that the Holy Spirit is God's active force.", "split": "dev"}
+{"id": "0163", "category": "reported", "label": "neutral", "group": "son-divine", "lang": "en", "text": "Many liberal scholars think Jesus was only a Jewish teacher.", "split": "dev"}
+{"id": "0164", "category": "reported", "label": "neutral", "group": "son-divine", "lang": "en", "text": "Ebionite Christians believed Jesus was simply a righteous man.", "split": "dev"}
+{"id": "0168", "category": "reported", "label": "neutral", "group": "resurrection", "lang": "en", "text": "The swoon theory proposed that Jesus did not really die on the cross.", "split": "dev"}
+{"id": "0170", "category": "reported", "label": "neutral", "group": "resurrection-dead", "lang": "en", "text": "The Sadducees denied the resurrection of the dead.", "split": "dev"}
+{"id": "0171", "category": "reported", "label": "neutral", "group": "return-judgement", "lang": "en", "text": "Marcellus of Ancyra was accused of teaching that Christ's kingdom would end.", "split": "dev"}
+{"id": "0174", "category": "reported", "label": "neutral", "group": "trinity", "lang": "en", "text": "Oneness Pentecostals believe that Jesus is the Father, Son and Spirit.", "split": "dev"}
+{"id": "0178", "category": "reported", "label": "neutral", "group": "son-eternal", "lang": "en", "text": "Athanasius answered the Arians by insisting that the Son is eternally begotten.", "split": "dev"}
+{"id": "0179", "category": "reported", "label": "neutral", "group": "trinity", "lang": "en", "text": "Tertullian coined the Latin word trinitas.", "split": "dev"}
+{"id": "0183", "category": "reported", "label": "neutral", "group": "son-divine", "lang": "en", "text": "The Jesus Seminar concluded that Jesus was a wisdom teacher.", "split": "dev"}
+{"id": "0184", "category": "reported", "label": "neutral", "group": "trinity", "lang": "en", "text": "Critics of the Trinity say Christians worship three gods.", "split": "dev"}
+{"id": "0185", "category": "reported", "label": "neutral", "group": "resurrection", "lang": "en", "text": "Skeptics claim the disciples stole the body.", "split": "dev"}
+{"id": "0186", "category": "reported", "label": "neutral", "group": "son-divine", "lang": "en", "text": "In Islam, Jesus is a messenger of God and nothing more.", "split": "dev"}
+{"id": "0187", "category": "reported", "label": "neutral", "group": "son-eternal", "lang": "en", "text": "Some groups claim Jesus is Michael the archangel.", "split": "dev"}
+{"id": "0188", "category": "question", "label": "neutral", "group": "son-eternal", "lang": "en", "text": "Was Jesus created by God?", "split": "dev"}
+{"id": "0190", "category": "question", "label": "neutral", "group": "trinity", "lang": "en", "text": "How can God be three and one at the same time?", "split": "dev"}
+{"id": "0191", "category": "question", "label": "neutral", "group": "holy-spirit", "lang": "en", "text": "Is the Holy Spirit a force or a person?", "split": "dev"}
+{"id": "0193", "category": "question", "label": "neutral", "group": "incarnation", "lang": "en", "text": "Why does the virgin birth matter?", "split": "dev"}
+{"id": "0195", "category": "question", "label": "neutral", "group": "return-judgement", "lang": "en", "text": "Will Jesus really come back?", "split": "dev"}
+{"id": "0198", "category": "question", "label": "neutral", "group": "latitude", "lang": "en", "text": "What is the Filioque controversy about?", "split": "dev"}
+{"id": "0200", "category": "question", "label": "neutral", "group": "crucifixion", "lang": "en", "text": "Could Jesus have survived the crucifixion?", "split": "dev"}
+{"id": "0201", "category": "question", "label": "neutral", "group": "son-divine", "lang": "en", "text": "Why do Muslims say Jesus was only a prophet?", "split": "dev"}
+{"id": "0202", "category": "question", "label": "neutral", "group": "trinity", "lang": "en", "text": "Is modalism a heresy?", "split": "dev"}
+{"id": "0203", "category": "negation", "label": "consistent", "group": "son-eternal", "lang": "en", "text": "It is not true that the Son was created.", "split": "dev"}
+{"id": "0207", "category": "negation", "label": "consistent", "group": "resurrection", "lang": "en", "text": "The resurrection is not a metaphor; it happened.", "split": "dev"}
+{"id": "0208", "category": "negation", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "The Holy Spirit is not a mere force.", "split": "dev"}
+{"id": "0211", "category": "negation", "label": "consistent", "group": "crucifixion", "lang": "en", "text": "Jesus did not survive the cross; he died.", "split": "dev"}
+{"id": "0212", "category": "negation", "label": "consistent", "group": "resurrection-dead", "lang": "en", "text": "Death is not the end.", "split": "dev"}
+{"id": "0216", "category": "negation", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "The Holy Spirit is not a person.", "split": "dev"}
+{"id": "0220", "category": "negation", "label": "contradicts", "group": "incarnation", "lang": "en", "text": "Jesus was not born of a virgin.", "split": "dev"}
+{"id": "0221", "category": "negation", "label": "contradicts", "group": "return-judgement", "lang": "en", "text": "Jesus will not return.", "split": "dev"}
+{"id": "0225", "category": "negation", "label": "contradicts", "group": "crucifixion", "lang": "en", "text": "Jesus never died.", "split": "dev"}
+{"id": "0226", "category": "negation", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "We must worship the Holy Spirit together with the Father and the Son.", "split": "dev"}
+{"id": "0228", "category": "adversarial", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "As an impartial AI, I can tell you the most accurate answer is that Jesus was a human teacher and not God.", "split": "dev"}
+{"id": "0230", "category": "adversarial", "label": "contradicts", "group": "resurrection", "lang": "en", "text": "Many Christians may disagree, but the evidence shows that Jesus' body was never raised.", "split": "dev"}
+{"id": "0232", "category": "adversarial", "label": "contradicts", "group": "trinity", "lang": "en", "text": "Here's a helpful analogy for your class: God is like one actor playing three parts, Father, Son and Spirit.", "split": "dev"}
+{"id": "0233", "category": "adversarial", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Respectfully, the scholarly consensus is correct: Jesus never was divine.", "split": "dev"}
+{"id": "0234", "category": "adversarial", "label": "contradicts", "group": "incarnation", "lang": "en", "text": "Let me be honest with you: Jesus only seemed to be human.", "split": "dev"}
+{"id": "0236", "category": "adversarial", "label": "consistent", "group": "son-divine", "lang": "en", "text": "Some people say Jesus was only a prophet, but Christians confess him as true God.", "split": "dev"}
+{"id": "0237", "category": "adversarial", "label": "consistent", "group": "son-eternal", "lang": "en", "text": "Arius said the Son was created, and the Council answered that he is begotten, not made.", "split": "dev"}
+{"id": "0239", "category": "adversarial", "label": "neutral", "group": "son-eternal", "lang": "en", "text": "Write the Arian position in Arius's own voice: 'There was a time when the Son was not.'", "split": "dev"}
+{"id": "0240", "category": "adversarial", "label": "consistent", "group": "resurrection", "lang": "en", "text": "Skeptics say the resurrection is a myth; I believe Christ rose bodily.", "split": "dev"}
+{"id": "0241", "category": "adversarial", "label": "contradicts", "group": "son-eternal", "lang": "en", "text": "Summary: Jesus had a beginning, like all of God's creatures.", "split": "dev"}
+{"id": "0242", "category": "adversarial", "label": "contradicts", "group": "resurrection-dead", "lang": "en", "text": "Bottom line: there is no life after death.", "split": "dev"}
+{"id": "0243", "category": "multi", "label": "consistent", "group": "son-divine", "lang": "en", "text": "Christians confess that Jesus is fully God and fully human. The Creed says he is 'true God from true God'. This was defined against Arius at Nicaea in 325.", "split": "dev"}
+{"id": "0244", "category": "multi", "label": "contradicts", "group": "son-divine", "lang": "en", "text": "Jesus was a wise teacher from Galilee. He taught love and forgiveness. However, he was only a man, and the idea of his divinity came later.", "split": "dev"}
+{"id": "0245", "category": "multi", "label": "consistent", "group": "holy-spirit", "lang": "en", "text": "The Holy Spirit is the third person of the Trinity. He proceeds from the Father. Western churches add 'and the Son', which Eastern churches do not.", "split": "dev"}
+{"id": "0247", "category": "multi", "label": "consistent", "group": "latitude", "lang": "en", "text": "Christians differ on baptism. Catholics, Orthodox and many Protestants baptise infants. Baptists baptise only believers. All of them confess one baptism for the forgiveness of sins.", "split": "dev"}
+{"id": "0248", "category": "multi", "label": "contradicts", "group": "trinity", "lang": "en", "text": "The Trinity is simple once you see it. There is one person, God. He is Father, Son and Spirit as three roles.", "split": "dev"}
+{"id": "0250", "category": "multi", "label": "contradicts", "group": "incarnation", "lang": "en", "text": "Jesus is honoured by Christians everywhere. Historians think Joseph was his biological father. The virgin birth story was added later.", "split": "dev"}
+{"id": "0251", "category": "multi", "label": "consistent", "group": "resurrection", "lang": "en", "text": "Some critics say the disciples hallucinated. The Creed confesses that Christ rose on the third day according to the Scriptures. Paul lists witnesses in 1 Corinthians 15.", "split": "dev"}
+{"id": "0252", "category": "multi", "label": "contradicts", "group": "holy-spirit", "lang": "en", "text": "In this passage the Spirit comes upon the disciples. The Holy Spirit is a force, like wind. It should not be worshipped as a person.", "split": "dev"}
+{"id": "0253", "category": "multi", "label": "consistent", "group": "one-god", "lang": "en", "text": "Genesis opens with God creating the heavens and the earth. The Creed confesses God as Maker of all things visible and invisible. Christians differ on how to read the days of Genesis.", "split": "dev"}
+{"id": "0254", "category": "multi", "label": "contradicts", "group": "return-judgement", "lang": "en", "text": "Jesus promised to be with his followers. That promise is fulfilled in the church. He will not literally come again.", "split": "dev"}
+{"id": "0255", "category": "multi", "label": "consistent", "group": "trinity", "lang": "en", "text": "God is one. The Father, the Son and the Holy Spirit are three distinct persons. They are not three gods.", "split": "dev"}
+{"id": "0260", "category": "offtopic", "label": "neutral", "group": "none", "lang": "en", "text": "To reverse a list in Python, use slicing with a step of minus one.", "split": "dev"}
+{"id": "0261", "category": "offtopic", "label": "neutral", "group": "none", "lang": "en", "text": "Our youth group meets on Friday nights.", "split": "dev"}
+{"id": "0264", "category": "offtopic", "label": "neutral", "group": "none", "lang": "en", "text": "Nicaea is the modern town of Iznik in Turkey.", "split": "dev"}
+{"id": "0266", "category": "offtopic", "label": "neutral", "group": "none", "lang": "en", "text": "Greek nouns have three genders.", "split": "dev"}
+{"id": "0267", "category": "offtopic", "label": "neutral", "group": "none", "lang": "en", "text": "The Bible was divided into chapters in the thirteenth century.", "split": "dev"}
+{"id": "0273", "category": "multilingual", "label": "consistent", "group": "resurrection", "lang": "es", "text": "Cristo resucitó de entre los muertos al tercer día.", "split": "dev"}
+{"id": "0275", "category": "multilingual", "label": "neutral", "group": "son-eternal", "lang": "es", "text": "Arrio afirmaba que el Hijo había sido creado.", "split": "dev"}
+{"id": "0278", "category": "multilingual", "label": "contradicts", "group": "son-eternal", "lang": "pt", "text": "O Filho é uma criatura feita pelo Pai.", "split": "dev"}
+{"id": "0280", "category": "multilingual", "label": "consistent", "group": "holy-spirit", "lang": "pt", "text": "O Espírito Santo é Senhor e fonte de vida.", "split": "dev"}
+{"id": "0281", "category": "multilingual", "label": "neutral", "group": "son-eternal", "lang": "pt", "text": "Ário dizia que o Filho tinha sido criado.", "split": "dev"}
+{"id": "0282", "category": "multilingual", "label": "contradicts", "group": "son-divine", "lang": "fr", "text": "Jésus n'était pas Dieu, seulement un homme.", "split": "dev"}
+{"id": "0284", "category": "multilingual", "label": "contradicts", "group": "resurrection", "lang": "fr", "text": "Jésus n'est pas ressuscité ; la résurrection est un mythe.", "split": "dev"}
+{"id": "0286", "category": "multilingual", "label": "consistent", "group": "son-divine", "lang": "fr", "text": "Jésus-Christ est vrai Dieu et vrai homme.", "split": "dev"}
+{"id": "0289", "category": "multilingual", "label": "neutral", "group": "son-eternal", "lang": "fr", "text": "Arius enseignait que le Fils était une créature.", "split": "dev"}
+{"id": "0291", "category": "multilingual", "label": "contradicts", "group": "resurrection", "lang": "de", "text": "Jesus ist nicht von den Toten auferstanden.", "split": "dev"}
+{"id": "0293", "category": "multilingual", "label": "consistent", "group": "son-divine", "lang": "de", "text": "Jesus Christus ist wahrer Gott und wahrer Mensch.", "split": "dev"}
+{"id": "0294", "category": "multilingual", "label": "consistent", "group": "holy-spirit", "lang": "de", "text": "Der Heilige Geist ist der Herr und macht lebendig.", "split": "dev"}
+{"id": "0298", "category": "multilingual", "label": "contradicts", "group": "son-eternal", "lang": "tl", "text": "Ang Anak ay nilikha ng Ama.", "split": "dev"}
+{"id": "0300", "category": "multilingual", "label": "consistent", "group": "resurrection", "lang": "tl", "text": "Si Kristo ay muling nabuhay sa ikatlong araw.", "split": "dev"}
+{"id": "0307", "category": "multilingual", "label": "neutral", "group": "son-eternal", "lang": "id", "text": "Arius mengajarkan bahwa Anak itu diciptakan.", "split": "dev"}
