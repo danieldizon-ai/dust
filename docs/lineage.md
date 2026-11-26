@@ -1,4 +1,4 @@
-# Lineage: Rejoice, Always Foundation and Dust
+# Where Dust came from
 
 **Dust is a personal research project led by Daniel Dizon and incubated by Rejoice**, a
 Christian technology company that invests in, operates and builds for the faith and

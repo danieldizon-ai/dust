@@ -207,3 +207,21 @@ def test_run3_false_positives():
         assert lay.check(s).decision == "pass", s
     for s in ["We consider Jesus to be an archangel.", "I don't think that Jesus is God."]:
         assert lay.check(s).decision == "block", s
+
+
+def test_behaviour_modes():
+    from dust.backends import Scripted
+    lay = Layer(mode="symbolic")
+    bad = "Jesus was created by God."
+    r = lay.wrap(Scripted([bad]), behaviour="annotate").chat([{"role": "user", "content": "?"}])
+    assert r.content == bad and r.verdict.decision == "block" and not r.refused and r.attempts == 1
+    r = lay.wrap(Scripted([bad]), behaviour="explain").chat([{"role": "user", "content": "?"}])
+    assert r.content.startswith(bad) and "Note from Dust" in r.content and "conflicts" in r.content
+    r = lay.wrap(Scripted(["The Son is begotten of the Father before all worlds."]), behaviour="explain").chat(
+        [{"role": "user", "content": "?"}])
+    assert "Note from Dust" not in r.content
+    r = lay.wrap(Scripted(["The Nicene Creed affirms infant baptism."]), behaviour="explain").chat(
+        [{"role": "user", "content": "?"}])
+    assert "leaves this question open" in r.content
+    with pytest.raises(ValueError):
+        lay.wrap(Scripted([bad]), behaviour="silent")

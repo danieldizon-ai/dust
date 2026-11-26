@@ -120,8 +120,7 @@ maintain) with compute estimates is in [release-plan.md](release-plan.md).
    Catechism, an Orthodox catechism, a church's statement of faith) is an extension file,
    with automatic test generation?
 5. What is the right behaviour for questions where a tradition's own teaching goes beyond
-   the Creed? Defer to the user's church library (Always's proposal), present the range, or
-   ask?
+   the Creed? Defer to the user's church library, present the range, or ask?
 6. How should a layer like this be governed, so that the boundary stays the Creed and does
    not quietly grow?
 
@@ -133,6 +132,4 @@ compute. Estimates by phase are in [economics.md](economics.md).
 ## Suggested ownership
 
 Dust is incubated by Rejoice. A sensible split: Rejoice funds and steers; an engineer or
-research student takes phase 2; volunteers from several traditions take 1.2 and 1.3;
-Always Foundation remains the steward of the research it published and can review
-anything that builds on it.
+research student takes phase 2; volunteers from several traditions take 1.2 and 1.3.

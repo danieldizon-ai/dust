@@ -8,7 +8,8 @@
     POST /v1/evaluate                  structured findings for integrations (docs/evaluate-api.md):
                                        {"text": ...} or {"items": [{"id", "role", "text"}]},
                                        optional "extensions": ["chalcedon-451"]
-    POST /v1/chat/completions          OpenAI-compatible; proxies to the configured
+    POST /v1/chat/completions          OpenAI-compatible (optional "dust": {"behaviour":
+                                       "enforce" | "annotate" | "explain"}); proxies to the configured
                                        backend through the layer; adds a "dust" field
 
 If started with a token (``dust serve --token-env DUST_API_TOKEN``), every route except
@@ -37,7 +38,8 @@ _ORDER = {"pass": 0, "flag": 1, "block": 2}
 
 
 def make_handler(layer: Layer, backend=None, model_name: str = "dust", token: str | None = None):
-    aligned = layer.wrap(backend) if backend is not None else None
+    from .layer import BEHAVIOURS
+    aligned = {b: layer.wrap(backend, behaviour=b) for b in BEHAVIOURS} if backend is not None else None
     layers: dict[tuple[str, ...], Layer] = {tuple(sorted(layer.kb.extensions)): layer}
 
     def layer_for(extensions) -> Layer:
@@ -131,8 +133,11 @@ def make_handler(layer: Layer, backend=None, model_name: str = "dust", token: st
                 msgs = body.get("messages")
                 if not isinstance(msgs, list):
                     return self._send(400, {"error": "messages (list) is required"})
+                behaviour = (body.get("dust") or {}).get("behaviour", "enforce") if isinstance(body.get("dust"), dict) else "enforce"
+                if behaviour not in aligned:
+                    return self._send(400, {"error": f"dust.behaviour must be one of {sorted(aligned)}"})
                 try:
-                    r = aligned.chat(msgs)
+                    r = aligned[behaviour].chat(msgs)
                 except Exception as e:  # backend failure
                     return self._send(502, {"error": f"backend error: {e}"})
                 return self._send(200, {
@@ -140,7 +145,7 @@ def make_handler(layer: Layer, backend=None, model_name: str = "dust", token: st
                     "created": int(time.time()), "model": model_name,
                     "choices": [{"index": 0, "finish_reason": "stop",
                                  "message": {"role": "assistant", "content": r.content}}],
-                    "dust": {"decision": r.verdict.decision, "attempts": r.attempts, "repaired": r.repaired,
+                    "dust": {"behaviour": behaviour, "decision": r.verdict.decision, "attempts": r.attempts, "repaired": r.repaired,
                              "refused": r.refused,
                              "violations": [asdict(v) for v in r.verdict.violations],
                              "flags": [asdict(v) for v in r.verdict.flags]}})

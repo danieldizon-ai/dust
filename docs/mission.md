@@ -47,6 +47,6 @@ replace a community. It checks statements against propositions and says so plain
 
 ## Who is behind it
 
-A personal research project led by Daniel Dizon and incubated by Rejoice, building on
-research published by Always Foundation ([lineage.md](lineage.md)). It stands on a lot of
-other people's work too: [prior-work.md](prior-work.md).
+Dust is led by Daniel Dizon and incubated by Rejoice. Dust 381 (the boundary, library and
+benchmark) is open; Rejoice Dust is the hosted product built on it. It stands on a lot of
+other people's work, credited in [prior-work.md](prior-work.md).

@@ -28,7 +28,7 @@ sandbox could not do. Everything here is the checker and the scaffolding around 
 
 | Component | State |
 |---|---|
-| The Creed as data: 24 propositions (Greek anchors, Scripture), 16 excluded errors, 11 latitude topics, 16 rules | Done; adapted from Always Foundation and extended |
+| The Creed as data: 24 propositions (Greek anchors, Scripture), 16 excluded errors, 11 latitude topics, 16 rules | Done; adapted from earlier CC BY research (see NOTICE) and extended |
 | Symbolic checker with stance detection and proofs | Done; English |
 | Neural guard (hashed n-grams, int8, 197 KB) | Done; trained on synthetic data |
 | Dual-track fusion with stance gate and language restriction | Done |

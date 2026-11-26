@@ -50,9 +50,8 @@ sales or subscriptions. The user's cost is electricity and a device most already
 * **Trust is earned by inspection.** Churches can read the boundary, run the benchmark and
   see every error. That is worth more than any claim in a brochure, and it is free to
   verify.
-* **It outlives its sponsors.** Always Foundation's decision to stop pursuing a product
-  while keeping its research published is exactly why Dust could start: open work
-  survives organisational change.
+* **It outlives its sponsors.** Open work survives organisational change: if any company
+  behind it stops, the boundary, the library and the benchmark stay usable by everyone.
 
 ## Why private
 

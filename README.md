@@ -1,17 +1,19 @@
-# Dust
+# Dust 381
 
-**A Nicene Creed (381) alignment layer for open language models: free, open, private AI for the global Church.**
+**An open alignment layer that keeps any open language model inside the Nicene Creed of 381: free, open, private AI for the global Church.**
 
-Dust is a personal research project led by Daniel Dizon and **incubated by Rejoice**, a
+Dust 381 is the open part of Dust: the encoded boundary, the Python library, the HTTP API
+and the benchmark. **Rejoice Dust** is the hosted product built on it, for churches and
+apps that want it run for them. Dust is led by Daniel Dizon and incubated by Rejoice, a
 Christian technology company that invests in, operates and builds for the faith and
-flourishing ecosystem. It builds on research by **Always Foundation** (see
-[docs/lineage.md](docs/lineage.md)).
+flourishing ecosystem.
 
 Every open model already ships aligned to its maker's specification. Dust adds one more
 layer on top, and only one: the Niceno-Constantinopolitan Creed of AD 381, the oldest
-confession shared by Catholic, Orthodox and Protestant Christians. It is infrastructure,
-not an app: a Python package and an OpenAI-compatible HTTP API that any study tool, Bible
-app or ministry product can put in front of any open model, on the user's own device.
+confession shared by Catholic, Orthodox and Protestant Christians. It is infrastructure:
+a Python package and an OpenAI-compatible HTTP API that any study tool, Bible app or
+ministry product can put in front of any open model, on the user's own device. What it
+does when an answer crosses the boundary, in plain words: [docs/behaviour.md](docs/behaviour.md).
 
 Use it two ways: as **infrastructure** (put it in front of any open model in your app) or
 directly, as **Dust Study**, a minimal local study page that `dust serve` opens in your
@@ -155,7 +157,7 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 | [docs/economics.md](docs/economics.md) | Cost per user hosted versus on-device, and why free, open, private and sovereign matter |
 | [docs/release-plan.md](docs/release-plan.md) | Catching up with open models: measure, adapt, distil, quantise, release the family |
 | [docs/hardening.md](docs/hardening.md) | Hardening the encoding, the checker and the governance of the boundary |
-| [docs/prior-work.md](docs/prior-work.md) | Credit: Always Foundation, Magisterium AI, church statements on AI, open data and open models |
+| [docs/prior-work.md](docs/prior-work.md) | Credit: Magisterium AI, church statements on AI, open data, open models and earlier research |
 | [docs/theology.md](docs/theology.md) | The boundary: what is inside and outside, why 381 (not smaller, not Chalcedon), the Filioque, what Dust does not decide, and why a minimum does not compromise the gospel |
 | [docs/methods.md](docs/methods.md) | Prompts, retrieval, guard models, LoRA/DPO, constrained decoding and the neurosymbolic dual track, with trade-offs and where neurosymbolic stops being practical |
 | [docs/evaluation.md](docs/evaluation.md) | Benchmark method, iteration history and limits |
@@ -167,7 +169,7 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 | [docs/hardware.md](docs/hardware.md) | What runs where |
 | [docs/privacy.md](docs/privacy.md) | On-device by default, Obsidian-style end-to-end encrypted sync, access in censored and adversarial environments |
 | [docs/uses.md](docs/uses.md) | Scripture study, multilingual use, and what Dust is not for |
-| [docs/lineage.md](docs/lineage.md) | Rejoice, Always Foundation and what Dust adds |
+| [docs/lineage.md](docs/lineage.md) | Where Dust came from and what it adds |
 
 ## Repository
 

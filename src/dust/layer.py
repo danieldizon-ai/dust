@@ -253,8 +253,8 @@ class Layer:
 
     # ------------------------------------------------------------------ generation
     def wrap(self, backend: Backend | Callable[[list[Message]], str], max_repairs: int = 2,
-             refuse_requires_proof: bool = True) -> "AlignedModel":
-        return AlignedModel(self, backend, max_repairs, refuse_requires_proof)
+             refuse_requires_proof: bool = True, behaviour: str = "enforce") -> "AlignedModel":
+        return AlignedModel(self, backend, max_repairs, refuse_requires_proof, behaviour)
 
 
 @dataclass
@@ -268,10 +268,25 @@ class AlignedResponse:
     draft_verdicts: list[Verdict] = field(default_factory=list)
 
 
-class AlignedModel:
-    """generate -> check -> (repair with a citation of the article) -> fallback."""
+BEHAVIOURS = ("enforce", "annotate", "explain")
 
-    def __init__(self, layer: Layer, backend, max_repairs: int = 2, refuse_requires_proof: bool = True):
+
+class AlignedModel:
+    """generate -> check -> act, by behaviour:
+
+    enforce   repair with a citation of the article; refuse (with what the Creed confesses)
+              only when a proof survives every repair. The default.
+    annotate  return the model's first answer unchanged, with its verdict. For review tools
+              and for apps that decide for themselves what to show.
+    explain   return the model's first answer, and when it crosses or touches the boundary,
+              append a short note naming the article and what the Creed confesses.
+    """
+
+    def __init__(self, layer: Layer, backend, max_repairs: int = 2, refuse_requires_proof: bool = True,
+                 behaviour: str = "enforce"):
+        if behaviour not in BEHAVIOURS:
+            raise ValueError(f"behaviour must be one of {BEHAVIOURS}")
+        self.behaviour = behaviour
         self.refuse_requires_proof = refuse_requires_proof
         self.layer = layer
         self.backend = backend
@@ -290,6 +305,11 @@ class AlignedModel:
         verdicts: list[Verdict] = []
         verdict = None
         guard_repairs_used = False
+        if self.behaviour != "enforce":
+            draft = self._gen(convo)
+            verdict = self.layer.check(draft)
+            content = draft if self.behaviour == "annotate" else draft + self._explain_note(verdict)
+            return AlignedResponse(content, verdict, 1, False, False, [draft], [verdict])
         for attempt in range(self.max_repairs + 1):
             draft = self._gen(convo)
             drafts.append(draft)
@@ -329,6 +349,24 @@ class AlignedModel:
         lines.append("You may describe other views as reported views (\"Arius taught that ...\"), "
                      "but do not assert them. Keep everything else that was correct.")
         return "\n".join(lines)
+
+    def _explain_note(self, verdict: Verdict) -> str:
+        """A short note appended in `explain` mode; empty when nothing touches the boundary."""
+        kb = self.layer.kb
+        crossed = sorted({v.proposition for v in verdict.violations if v.proposition.startswith("P")})
+        doubtful = sorted({v.proposition for v in verdict.flags if v.proposition.startswith("P")} - set(crossed))
+        open_q = sorted({v.proposition for v in verdict.violations + verdict.flags if v.proposition.startswith("L")})
+        if not (crossed or doubtful or open_q):
+            return ""
+        out = ["", "", "---", "Note from Dust (Nicene Creed, 381):"]
+        for pid in crossed:
+            out.append(f"- Part of this answer conflicts with what the Creed confesses: {kb.proposition(pid).text}")
+        for pid in doubtful:
+            out.append(f"- Part of this answer may not fit what the Creed confesses: {kb.proposition(pid).text}")
+        for lid in open_q:
+            topic = next((t["topic"] for t in kb.latitude if t["id"] == lid), lid)
+            out.append(f"- The Creed of 381 leaves this question open between traditions: {topic}.")
+        return "\n".join(out)
 
     def _fallback(self, verdict: Verdict) -> str:
         kb = self.layer.kb

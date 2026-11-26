@@ -45,3 +45,13 @@ def test_bad_request(server):
     with pytest.raises(urllib.error.HTTPError) as e:
         _post(server + "/v1/check", {"nope": 1})
     assert e.value.code == 400
+
+
+def test_chat_behaviour_field(server):
+    r = _post(server + "/v1/chat/completions", {"model": "x", "dust": {"behaviour": "annotate"},
+                                                "messages": [{"role": "user", "content": "Did he rise?"}]})
+    assert r["dust"]["behaviour"] == "annotate" and r["dust"]["decision"] == "pass"
+    with pytest.raises(urllib.error.HTTPError) as e:
+        _post(server + "/v1/chat/completions", {"model": "x", "dust": {"behaviour": "silent"},
+                                               "messages": [{"role": "user", "content": "?"}]})
+    assert e.value.code == 400
