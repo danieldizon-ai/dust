@@ -53,10 +53,13 @@ so anyone can see which profile is in use.
 
 ## Current limits
 
-* **Languages.** The rules read English. In other languages only the learned check runs,
-  and it may flag but not block, so errors in other languages can get through. In three
-  runs on small open models, raw answers crossed the boundary in 25 of 150 cases; through
-  Dust, 6 did, and all 6 were in German or Spanish.
+* **Languages.** The rules read English, and Spanish, Portuguese and German through a
+  small phrase pivot that turns the key words into English first. The pivot is new and
+  only checked on sentences it was written from, so treat those three as early. In other
+  languages only the learned check runs, and it may flag but not block. In three runs on
+  small open models, raw answers crossed the boundary in 25 of 150 cases; through Dust,
+  6 did, all in German or Spanish. The pivot catches the key sentences from several of
+  those leaks when checked on their own; it has not yet been re-run end to end.
 * **Evidence.** Those runs used 25 questions, read by one person, and Dust was tuned on the
   same questions. A fresh question set is being written for the next measurement.
 * **Review.** The encoding of the Creed has not yet been reviewed by theologians from

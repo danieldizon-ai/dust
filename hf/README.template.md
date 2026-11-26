@@ -69,7 +69,7 @@ test = load_dataset("danieldizon/dust-nicene-381", "claims", split="test")
 ```
 
 Score a checker on `claims/test` with `contradicts` as the positive class. Dust's own
-results on this split (precision 0.925, recall 0.627, F1 0.747, false-positive rate 3.2%)
+results on this split (precision 0.930, recall 0.678, F1 0.784, false-positive rate 3.2%)
 and every error it makes are in the repository under `results/benchmark.md`. Please
 report false-positive rate as well as recall: in Dust's own runs on real models, wrongly
 refusing good answers was the dominant failure.

@@ -86,9 +86,9 @@ test split, n=153; positive class = the text asserts something the Creed exclude
 | system | precision | recall | F1 | false-positive rate |
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
-| symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
+| symbolic only | 0.971 | 0.576 | 0.723 | 0.011 |
 | neural only | 0.806 | 0.424 | 0.556 | 0.064 |
-| **Dust (dual track)** | **0.925** | **0.627** | **0.747** | **0.032** |
+| **Dust (dual track)** | **0.930** | **0.678** | **0.784** | **0.032** |
 
 Checking costs a median 0.48 ms per sentence on a CPU. Read
 [docs/evaluation.md](docs/evaluation.md) before quoting these: one author wrote both

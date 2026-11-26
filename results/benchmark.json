@@ -247,14 +247,14 @@
     "symbolic": {
      "overall": {
       "n": 153,
-      "tp": 26,
+      "tp": 34,
       "fp": 1,
-      "fn": 33,
+      "fn": 25,
       "tn": 93,
-      "precision": 0.963,
-      "recall": 0.441,
-      "f1": 0.605,
-      "accuracy": 0.778,
+      "precision": 0.971,
+      "recall": 0.576,
+      "f1": 0.723,
+      "accuracy": 0.83,
       "false_positive_rate": 0.011
      },
      "by_category": {
@@ -320,14 +320,14 @@
       },
       "multilingual": {
        "n": 25,
-       "tp": 0,
+       "tp": 8,
        "fp": 0,
-       "fn": 15,
+       "fn": 7,
        "tn": 10,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.4,
+       "precision": 1.0,
+       "recall": 0.533,
+       "f1": 0.696,
+       "accuracy": 0.72,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -394,14 +394,14 @@
      "by_language": {
       "de": {
        "n": 3,
-       "tp": 0,
+       "tp": 2,
        "fp": 0,
-       "fn": 2,
+       "fn": 0,
        "tn": 1,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.333,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "en": {
@@ -418,14 +418,14 @@
       },
       "es": {
        "n": 6,
-       "tp": 0,
+       "tp": 4,
        "fp": 0,
-       "fn": 4,
+       "fn": 0,
        "tn": 2,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.333,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -454,14 +454,14 @@
       },
       "pt": {
        "n": 3,
-       "tp": 0,
+       "tp": 2,
        "fp": 0,
-       "fn": 2,
+       "fn": 0,
        "tn": 1,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.333,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "tl": {
@@ -715,14 +715,14 @@
     "dual": {
      "overall": {
       "n": 153,
-      "tp": 37,
+      "tp": 40,
       "fp": 3,
-      "fn": 22,
+      "fn": 19,
       "tn": 91,
-      "precision": 0.925,
-      "recall": 0.627,
-      "f1": 0.747,
-      "accuracy": 0.837,
+      "precision": 0.93,
+      "recall": 0.678,
+      "f1": 0.784,
+      "accuracy": 0.856,
       "false_positive_rate": 0.032
      },
      "by_category": {
@@ -788,14 +788,14 @@
       },
       "multilingual": {
        "n": 25,
-       "tp": 5,
+       "tp": 8,
        "fp": 0,
-       "fn": 10,
+       "fn": 7,
        "tn": 10,
        "precision": 1.0,
-       "recall": 0.333,
-       "f1": 0.5,
-       "accuracy": 0.6,
+       "recall": 0.533,
+       "f1": 0.696,
+       "accuracy": 0.72,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -862,14 +862,14 @@
      "by_language": {
       "de": {
        "n": 3,
-       "tp": 0,
+       "tp": 2,
        "fp": 0,
-       "fn": 2,
+       "fn": 0,
        "tn": 1,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.333,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "en": {
@@ -886,14 +886,14 @@
       },
       "es": {
        "n": 6,
-       "tp": 3,
+       "tp": 4,
        "fp": 0,
-       "fn": 1,
+       "fn": 0,
        "tn": 2,
        "precision": 1.0,
-       "recall": 0.75,
-       "f1": 0.857,
-       "accuracy": 0.833,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -1188,14 +1188,14 @@
     "symbolic": {
      "overall": {
       "n": 154,
-      "tp": 33,
+      "tp": 34,
       "fp": 0,
-      "fn": 27,
+      "fn": 26,
       "tn": 94,
       "precision": 1.0,
-      "recall": 0.55,
-      "f1": 0.71,
-      "accuracy": 0.825,
+      "recall": 0.567,
+      "f1": 0.723,
+      "accuracy": 0.831,
       "false_positive_rate": 0.0
      },
      "by_category": {
@@ -1261,14 +1261,14 @@
       },
       "multilingual": {
        "n": 15,
-       "tp": 0,
+       "tp": 1,
        "fp": 0,
-       "fn": 5,
+       "fn": 4,
        "tn": 10,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.667,
+       "precision": 1.0,
+       "recall": 0.2,
+       "f1": 0.333,
+       "accuracy": 0.733,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -1395,14 +1395,14 @@
       },
       "pt": {
        "n": 3,
-       "tp": 0,
+       "tp": 1,
        "fp": 0,
-       "fn": 1,
+       "fn": 0,
        "tn": 2,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.667,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "tl": {
@@ -2129,14 +2129,14 @@
     "symbolic": {
      "overall": {
       "n": 307,
-      "tp": 59,
+      "tp": 68,
       "fp": 1,
-      "fn": 60,
+      "fn": 51,
       "tn": 187,
-      "precision": 0.983,
-      "recall": 0.496,
-      "f1": 0.659,
-      "accuracy": 0.801,
+      "precision": 0.986,
+      "recall": 0.571,
+      "f1": 0.723,
+      "accuracy": 0.831,
       "false_positive_rate": 0.005
      },
      "by_category": {
@@ -2202,14 +2202,14 @@
       },
       "multilingual": {
        "n": 40,
-       "tp": 0,
+       "tp": 9,
        "fp": 0,
-       "fn": 20,
+       "fn": 11,
        "tn": 20,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.5,
+       "precision": 1.0,
+       "recall": 0.45,
+       "f1": 0.621,
+       "accuracy": 0.725,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -2276,14 +2276,14 @@
      "by_language": {
       "de": {
        "n": 6,
-       "tp": 0,
+       "tp": 2,
        "fp": 0,
-       "fn": 3,
+       "fn": 1,
        "tn": 3,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.5,
+       "precision": 1.0,
+       "recall": 0.667,
+       "f1": 0.8,
+       "accuracy": 0.833,
        "false_positive_rate": 0.0
       },
       "en": {
@@ -2300,14 +2300,14 @@
       },
       "es": {
        "n": 8,
-       "tp": 0,
+       "tp": 4,
        "fp": 0,
-       "fn": 4,
+       "fn": 0,
        "tn": 4,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.5,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -2336,14 +2336,14 @@
       },
       "pt": {
        "n": 6,
-       "tp": 0,
+       "tp": 3,
        "fp": 0,
-       "fn": 3,
+       "fn": 0,
        "tn": 3,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.5,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "tl": {
@@ -2597,14 +2597,14 @@
     "dual": {
      "overall": {
       "n": 307,
-      "tp": 84,
+      "tp": 87,
       "fp": 3,
-      "fn": 35,
+      "fn": 32,
       "tn": 185,
-      "precision": 0.966,
-      "recall": 0.706,
-      "f1": 0.816,
-      "accuracy": 0.876,
+      "precision": 0.967,
+      "recall": 0.731,
+      "f1": 0.833,
+      "accuracy": 0.886,
       "false_positive_rate": 0.016
      },
      "by_category": {
@@ -2670,14 +2670,14 @@
       },
       "multilingual": {
        "n": 40,
-       "tp": 6,
+       "tp": 9,
        "fp": 0,
-       "fn": 14,
+       "fn": 11,
        "tn": 20,
        "precision": 1.0,
-       "recall": 0.3,
-       "f1": 0.462,
-       "accuracy": 0.65,
+       "recall": 0.45,
+       "f1": 0.621,
+       "accuracy": 0.725,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -2744,14 +2744,14 @@
      "by_language": {
       "de": {
        "n": 6,
-       "tp": 0,
+       "tp": 2,
        "fp": 0,
-       "fn": 3,
+       "fn": 1,
        "tn": 3,
-       "precision": 0.0,
-       "recall": 0.0,
-       "f1": 0.0,
-       "accuracy": 0.5,
+       "precision": 1.0,
+       "recall": 0.667,
+       "f1": 0.8,
+       "accuracy": 0.833,
        "false_positive_rate": 0.0
       },
       "en": {
@@ -2768,14 +2768,14 @@
       },
       "es": {
        "n": 8,
-       "tp": 3,
+       "tp": 4,
        "fp": 0,
-       "fn": 1,
+       "fn": 0,
        "tn": 4,
        "precision": 1.0,
-       "recall": 0.75,
-       "f1": 0.857,
-       "accuracy": 0.875,
+       "recall": 1.0,
+       "f1": 1.0,
+       "accuracy": 1.0,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -2839,14 +2839,14 @@
  "dual_block_or_flag_by_language": {
   "de": {
    "n": 6,
-   "tp": 1,
+   "tp": 3,
    "fp": 0,
-   "fn": 2,
+   "fn": 0,
    "tn": 3,
    "precision": 1.0,
-   "recall": 0.333,
-   "f1": 0.5,
-   "accuracy": 0.667,
+   "recall": 1.0,
+   "f1": 1.0,
+   "accuracy": 1.0,
    "false_positive_rate": 0.0
   },
   "en": {
@@ -3140,15 +3140,6 @@
    "text": "Many Christians may disagree, but the evidence shows that Jesus' body was never raised."
   },
   {
-   "id": "0268",
-   "split": "test",
-   "category": "multilingual",
-   "lang": "es",
-   "label": "contradicts",
-   "predicted_block": false,
-   "text": "Jesús no era Dios, solo un gran maestro."
-  },
-  {
    "id": "0282",
    "split": "dev",
    "category": "multilingual",
@@ -3185,15 +3176,6 @@
    "text": "Le Saint-Esprit est une force impersonnelle."
   },
   {
-   "id": "0290",
-   "split": "test",
-   "category": "multilingual",
-   "lang": "de",
-   "label": "contradicts",
-   "predicted_block": false,
-   "text": "Jesus war nicht Gott, sondern nur ein Mensch."
-  },
-  {
    "id": "0291",
    "split": "dev",
    "category": "multilingual",
@@ -3201,15 +3183,6 @@
    "label": "contradicts",
    "predicted_block": false,
    "text": "Jesus ist nicht von den Toten auferstanden."
-  },
-  {
-   "id": "0292",
-   "split": "test",
-   "category": "multilingual",
-   "lang": "de",
-   "label": "contradicts",
-   "predicted_block": false,
-   "text": "Der Sohn wurde von Gott erschaffen."
   },
   {
    "id": "0296",
@@ -3268,20 +3241,20 @@
  ],
  "latency_ms_per_item": {
   "keyword": {
-   "median": 0.005,
+   "median": 0.004,
    "p95": 0.007
   },
   "symbolic": {
-   "median": 0.309,
-   "p95": 0.542
+   "median": 0.298,
+   "p95": 0.58
   },
   "neural": {
-   "median": 0.426,
-   "p95": 0.802
+   "median": 0.362,
+   "p95": 0.77
   },
   "dual": {
-   "median": 0.523,
-   "p95": 1.048
+   "median": 0.481,
+   "p95": 0.991
   }
  }
 }

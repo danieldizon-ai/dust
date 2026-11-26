@@ -162,7 +162,7 @@ def stance(sentence: str, raw: str = "") -> str:
 _NEG = re.compile(r"\b(?:not|never|no|neither|nor|nothing|in no way|by no means|hardly|nobody)\b")
 _CONTRAST = re.compile(r"\b(?:but|rather|instead|yet|although|though|whereas|while)\b")
 _COP = r"(?:is|was|are|were|be|been|being|remains|remained)"
-_ADV = r"(?:\W+(?:not|never|truly|fully|really|actually|completely|wholly|very|true|a|an|the|always|indeed|also|both|just|only|merely|simply|eternally|in fact)){0,4}"
+_ADV = r"(?:\W+(?:not|never|truly|fully|really|actually|completely|wholly|very|true|a|an|the|always|indeed|also|both|just|only|merely|simply|eternally|in fact|considered|regarded as|seen as|believed to be|understood to be|thought to be)){0,4}"
 
 
 @dataclass(frozen=True)
@@ -287,6 +287,7 @@ PATTERNS: list[Pattern] = [
     _fixed(r"\b(?:(?:the )?FATHER,? (?:the )?SON,? and (?:the )?SPIRIT|the three(?: persons)?|they) are (?:not|never|in no way) (?:just |only |merely |simply )?(?:three )?(?:names|modes|masks|roles|manifestations|titles|forms|faces|aspects)(?: or (?:modes|names|masks|roles|manifestations|forms|aspects))? (?:of|for) (?:one|the same|a single)(?: \w+)?\b", "distinct(TRINITY)"),
     _fixed(r"\bGOD (?:is|was) (?:one person|a single person|one individual|unipersonal)(?: who| that)? (?:appears|manifests|reveals|acts|plays|shows|works)\b|\b(?:one person|the same person) (?:in|with|appearing in|wearing) three (?:modes|roles|masks|forms|manifestations|ways)\b", "same_person(TRINITY)"),
     _fixed(r"\bone (?:actor|person|man|individual) (?:playing|with|wearing) three (?:parts|roles|masks|hats)\b", "same_person(TRINITY)"),
+    _fixed(r"\b(?:TRINITY|GOD) (?:is|was) (?P<neg>not )?(?:one|a single|only one|just one|a unique) person\b", "same_person(TRINITY)"),
     _cop(S, r"(?:just |simply |merely |really |actually )?(?:FATHER|the same person as FATHER|identical (?:to|with) FATHER)(?! of)", "same_person(TRINITY)"),
     _fixed(r"\bFATHER (?:became|turned into|is) SON\b|\bFATHER (?:died|suffered) on the cross\b", "same_person(TRINITY)"),
     _fixed(r"\b(?:FATHER,? SON,? and SPIRIT|the three persons) are (?:three )?(?:distinct|eternally distinct)(?: persons)?\b|\bthree (?:distinct )?persons\b", "distinct(TRINITY)"),

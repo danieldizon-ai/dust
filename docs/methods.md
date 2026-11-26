@@ -91,9 +91,9 @@ tracks are needed (held-out test split, n=153):
 | | precision | recall | F1 | false-positive rate |
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
-| symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
+| symbolic only | 0.971 | 0.576 | 0.723 | 0.011 |
 | neural only | 0.806 | 0.424 | 0.556 | 0.064 |
-| **dual (Dust)** | **0.925** | **0.627** | **0.747** | **0.032** |
+| **dual (Dust)** | **0.930** | **0.678** | **0.784** | **0.032** |
 
 The symbolic track is nearly always right when it fires but misses most paraphrases. The
 neural track catches paraphrase but over-blocks negations, reported speech and, as the

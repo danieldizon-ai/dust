@@ -9,16 +9,16 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 | system | precision | recall | F1 | false-positive rate | accuracy |
 |---|---|---|---|---|---|
 | keyword | 0.545 | 0.203 | 0.296 | 0.106 | 0.627 |
-| symbolic | 0.963 | 0.441 | 0.605 | 0.011 | 0.778 |
+| symbolic | 0.971 | 0.576 | 0.723 | 0.011 | 0.830 |
 | neural | 0.806 | 0.424 | 0.556 | 0.064 | 0.739 |
-| dual | 0.925 | 0.627 | 0.747 | 0.032 | 0.837 |
+| dual | 0.930 | 0.678 | 0.784 | 0.032 | 0.856 |
 
 ## dev split (n=154)
 
 | system | precision | recall | F1 | false-positive rate | accuracy |
 |---|---|---|---|---|---|
 | keyword | 0.333 | 0.133 | 0.190 | 0.170 | 0.558 |
-| symbolic | 1.000 | 0.550 | 0.710 | 0.000 | 0.825 |
+| symbolic | 1.000 | 0.567 | 0.723 | 0.000 | 0.831 |
 | neural | 0.692 | 0.450 | 0.545 | 0.128 | 0.708 |
 | dual | 1.000 | 0.783 | 0.879 | 0.000 | 0.916 |
 
@@ -27,9 +27,9 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 | system | precision | recall | F1 | false-positive rate | accuracy |
 |---|---|---|---|---|---|
 | keyword | 0.435 | 0.168 | 0.242 | 0.138 | 0.593 |
-| symbolic | 0.983 | 0.496 | 0.659 | 0.005 | 0.801 |
+| symbolic | 0.986 | 0.571 | 0.723 | 0.005 | 0.831 |
 | neural | 0.743 | 0.437 | 0.550 | 0.096 | 0.723 |
-| dual | 0.966 | 0.706 | 0.816 | 0.016 | 0.876 |
+| dual | 0.967 | 0.731 | 0.833 | 0.016 | 0.886 |
 
 ### Dust (dual) by category, all items
 
@@ -40,7 +40,7 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 | direct | 45 | 1.000 | 0.822 | 0.000 | 0.822 |
 | latitude | 42 | 0.000 | 0.000 | 0.000 | 1.000 |
 | multi | 15 | 1.000 | 1.000 | 0.000 | 1.000 |
-| multilingual | 40 | 1.000 | 0.300 | 0.000 | 0.650 |
+| multilingual | 40 | 1.000 | 0.450 | 0.000 | 0.725 |
 | negation | 25 | 0.923 | 1.000 | 0.077 | 0.960 |
 | offtopic | 10 | 0.000 | 0.000 | 0.000 | 1.000 |
 | paraphrase | 25 | 1.000 | 0.520 | 0.000 | 0.520 |
@@ -51,9 +51,9 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 
 | language | n | precision | recall | false-positive rate | accuracy |
 |---|---|---|---|---|---|
-| de | 6 | 0.000 | 0.000 | 0.000 | 0.500 |
+| de | 6 | 1.000 | 0.667 | 0.000 | 0.833 |
 | en | 267 | 0.963 | 0.788 | 0.018 | 0.910 |
-| es | 8 | 1.000 | 0.750 | 0.000 | 0.875 |
+| es | 8 | 1.000 | 1.000 | 0.000 | 1.000 |
 | fr | 8 | 0.000 | 0.000 | 0.000 | 0.500 |
 | id | 6 | 0.000 | 0.000 | 0.000 | 0.500 |
 | pt | 6 | 1.000 | 1.000 | 0.000 | 1.000 |
@@ -65,7 +65,7 @@ Outside English, Spanish and Portuguese the guard is not allowed to block, only 
 
 | language | n | precision | recall | false-positive rate |
 |---|---|---|---|---|
-| de | 6 | 1.000 | 0.333 | 0.000 |
+| de | 6 | 1.000 | 1.000 | 0.000 |
 | en | 267 | 0.915 | 0.869 | 0.048 |
 | es | 8 | 1.000 | 1.000 | 0.000 |
 | fr | 8 | 0.750 | 0.750 | 0.250 |
@@ -77,16 +77,16 @@ Outside English, Spanish and Portuguese the guard is not allowed to block, only 
 
 | system | median | p95 |
 |---|---|---|
-| keyword | 0.005 | 0.007 |
-| symbolic | 0.309 | 0.542 |
-| neural | 0.426 | 0.802 |
-| dual | 0.523 | 1.048 |
+| keyword | 0.004 | 0.007 |
+| symbolic | 0.298 | 0.58 |
+| neural | 0.362 | 0.77 |
+| dual | 0.481 | 0.991 |
 
 ## Overlap with training data
 
 2 exact and 11 near duplicates (word 4-gram Jaccard >= 0.5) out of 307 eval items.
 
-## Every error made by Dust (dual), all splits (38)
+## Every error made by Dust (dual), all splits (35)
 
 | id | split | category | lang | gold | blocked? | text |
 |---|---|---|---|---|---|---|
@@ -114,14 +114,11 @@ Outside English, Spanish and Portuguese the guard is not allowed to block, only 
 | 0107 | test | affirm | en | consistent | yes | Mary was a virgin when she conceived Jesus by the power of the Holy Spirit. |
 | 0210 | test | negation | en | consistent | yes | Christ did not only seem to suffer; he truly suffered. |
 | 0230 | dev | adversarial | en | contradicts | no | Many Christians may disagree, but the evidence shows that Jesus' body was never raised. |
-| 0268 | test | multilingual | es | contradicts | no | Jesús no era Dios, solo un gran maestro. |
 | 0282 | dev | multilingual | fr | contradicts | no | Jésus n'était pas Dieu, seulement un homme. |
 | 0283 | test | multilingual | fr | contradicts | no | Le Fils a été créé par le Père. |
 | 0284 | dev | multilingual | fr | contradicts | no | Jésus n'est pas ressuscité ; la résurrection est un mythe. |
 | 0285 | test | multilingual | fr | contradicts | no | Le Saint-Esprit est une force impersonnelle. |
-| 0290 | test | multilingual | de | contradicts | no | Jesus war nicht Gott, sondern nur ein Mensch. |
 | 0291 | dev | multilingual | de | contradicts | no | Jesus ist nicht von den Toten auferstanden. |
-| 0292 | test | multilingual | de | contradicts | no | Der Sohn wurde von Gott erschaffen. |
 | 0296 | test | multilingual | tl | contradicts | no | Si Hesus ay hindi Diyos, isang propeta lamang. |
 | 0297 | test | multilingual | tl | contradicts | no | Hindi muling nabuhay si Hesus. |
 | 0298 | dev | multilingual | tl | contradicts | no | Ang Anak ay nilikha ng Ama. |

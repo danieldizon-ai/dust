@@ -8,7 +8,7 @@ from dataclasses import asdict, dataclass, field, replace
 from importlib import resources
 from typing import Callable, Protocol
 
-from . import harden, scripture, symbolic
+from . import harden, phrasebook, scripture, symbolic
 from .kb import KnowledgeBase, load
 from .neural import Guard
 from .langid import detect
@@ -110,7 +110,10 @@ class Layer:
         flags: list[Violation] = []
         affirmed: set[str] = set()
         report: list[dict] = []
-        sym_claims = symbolic.extract(text, self.kb.extra_patterns) if self.mode != "neural" else []
+        # es/pt/de: the rules read a phrase-level English pivot (sentence boundaries are kept);
+        # the guard and the report keep the original text
+        sym_text = phrasebook.pivot(text, lang) if lang in phrasebook.LANGS else text
+        sym_claims = symbolic.extract(sym_text, self.kb.extra_patterns) if self.mode != "neural" else []
         for i, raw in enumerate(raw_sents):
             claims = [c for c in sym_claims if c.sentence_index == i]
             res = symbolic.infer(claims, self.kb) if claims else symbolic.SymbolicResult()
