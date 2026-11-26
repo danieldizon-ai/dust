@@ -52,7 +52,7 @@ question ──► constitution + Creed + the relevant articles and verses ─�
 * **A stack, not a ceiling.** A church can add its own confession as an extension file on top
   of the Creed without changing the default; Ephesus and Chalcedon ship as the worked example.
 * **Hardened.** Look-alike letters, invisible characters and spaced-out words are undone
-  before checking (all 85 test contradictions still blocked; up to 100% evaded without it),
+  before checking (all 78 base contradictions still blocked; up to 100% evaded without it),
   and `dust audit` proves the encoded boundary is consistent and fingerprints it.
 * **Repair, not just refusal.** A blocked draft goes back to the model with the article it
   contradicted; only if it fails twice does Dust return a cited fallback.
@@ -78,19 +78,27 @@ test split, n=153; positive class = the text asserts something the Creed exclude
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
 | symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
-| neural only | 0.733 | 0.559 | 0.635 | 0.128 |
-| **Dust (dual track)** | **0.872** | **0.695** | **0.774** | **0.064** |
+| neural only | 0.800 | 0.407 | 0.539 | 0.064 |
+| **Dust (dual track)** | **0.923** | **0.610** | **0.735** | **0.032** |
 
-Checking costs a median 0.45 ms per sentence on a CPU. Read
-[docs/evaluation.md](docs/evaluation.md) before quoting these: they measure the checker,
-not a model (no base model could be run in the sandbox that built v0.1); one author wrote
-both training and evaluation data; the first-run numbers (F1 0.807, false positives 12.8%)
-are kept for comparison. Every error is listed in [results/benchmark.md](results/benchmark.md).
-Paraphrase recall (0.64) and non-English coverage are the weak points.
+Checking costs a median 0.48 ms per sentence on a CPU. Read
+[docs/evaluation.md](docs/evaluation.md) before quoting these: one author wrote both
+training and evaluation data, and earlier iterations (first run F1 0.807 with 12.8% false
+positives; v0.2 F1 0.774 with 6.4%) are kept for comparison. Every error is listed in
+[results/benchmark.md](results/benchmark.md). Paraphrase recall (0.52) and non-English
+coverage are the weak points.
+
+**On real models.** The full loop was run on qwen2.5 1.5B and 3B on an ordinary desktop
+(4 GB GPU, 8 GB RAM). Raw, the models stated something the Creed excludes in 3 and 4 of 25
+answers; through Dust, 0 and 1 (in German). But the first version refused 4 and 8 answers,
+mostly good ones, because the learned guard misread real assistant prose. v0.3 fixes what
+that run exposed (refusal now needs a proof, the guard was retrained, models' invented
+claims about what the Creed says are flagged). Human review of every answer:
+[results/e2e/run1-review.md](results/e2e/run1-review.md).
 
 The ablation study ([results/ablations.md](results/ablations.md)) shows what matters: removing
 the stance gate (which separates *saying* a heresy from *describing* one) more than doubles
-false positives; removing the 16 inference rules cuts recall from 0.70 to 0.49.
+false positives; removing the 16 inference rules cuts recall from 0.61 to 0.41.
 
 ## Quickstart
 
@@ -170,7 +178,7 @@ Everything is reproducible on a laptop CPU in under a minute:
 
 ```bash
 pip install -e '.[dev]'
-pytest -q                                   # 110 tests
+pytest -q                                   # 114 tests
 python training/generate.py && python training/train_guard.py
 python bench/run.py --check                 # fails if any benchmark count changes
 python bench/ablations.py                   # retrains 5 guard variants, ~1 minute
@@ -181,10 +189,11 @@ dust audit                                  # the boundary is consistent and unc
 ## Status and next steps
 
 v0.3 is a research prototype. It has not been reviewed by theologians from several
-traditions, no base model has been run through it, and no adapter has been trained. The
+traditions, it has been run end to end on only two small models, and no adapter has been
+trained. The
 full plan, with acceptance criteria, is in [docs/roadmap.md](docs/roadmap.md). In short:
 
-1. Run `bench/e2e.py` on the family's base models and publish transcripts.
+1. Run `bench/e2e.py` on more and larger base models, with a new question set, and publish transcripts.
 2. Theological review of `creed.json` by Catholic, Orthodox and Protestant readers, and an
    evaluation set written by people other than the author.
 3. A small-LM semantic parser feeding the rule engine (the AlphaGeometry-style split), a

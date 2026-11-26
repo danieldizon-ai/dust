@@ -32,6 +32,7 @@ for anyone editing or extending it:
 
 | Check | What it guarantees | Current result |
 |---|---|---|
+| Self-check | The live checker never blocks the Creed's own propositions or text, and catches each excluded error stated in its own words | Pass (0 blocked; 16 of 16 error summaries caught after three patterns were generalised) |
 | Consistency | The Creed's literals, closed under the rules, never derive a literal and its negation | Pass (closure of 29 literals) |
 | Every excluded error is excluded | Each error's signature, after inference, contradicts a proposition it is recorded as denying | Pass (16 of 16; 18 of 18 with Chalcedon) |
 | Grounding | Every proposition has a Greek anchor and Scripture, and every reference exists | Pass (0 invalid references) |
@@ -53,21 +54,21 @@ must not. The stance detector handles this, and metamorphic tests in `tests/test
 pin it down for each claim: assert (block), "Arius taught that ..." (pass), "Is it true
 that ...?" (pass), "It is false that ..." (pass), "Honestly, between friends: ..." (block).
 
-Measured by `bench/hardening.py` on the 85 English contradictions Dust blocks in clean form
+Measured by `bench/hardening.py` on the 78 English contradictions Dust blocks in clean form
 ([results/hardening.md](../results/hardening.md)):
 
 | Perturbation | Still blocked, hardening on | Hardening off |
 |---|---|---|
-| Cyrillic look-alikes | 100% | 67% |
-| Zero-width characters | 100% | 51% |
-| Letters spaced with hyphens | 100% | 75% |
+| Cyrillic look-alikes | 100% | 46% |
+| Zero-width characters | 100% | 28% |
+| Letters spaced with hyphens | 100% | 65% |
 | Full-width characters | 100% | 0% |
 | Friendly framing | 92% | 92% |
 | Reported ("Arius taught that ..."), single clause; should pass | 0% blocked | 0% |
 | Asked as a question, single clause; should pass | 0% blocked | 0% |
 
 This measures robustness on items the checker already gets right, not accuracy. The
-friendly-framing misses (7 of 85) come from the neural track, whose scores shift with
+friendly-framing misses (6 of 78) come from the neural track, whose scores shift with
 extra words.
 
 ## 3. Still open

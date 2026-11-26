@@ -92,13 +92,15 @@ tracks are needed (held-out test split, n=153):
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
 | symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
-| neural only | 0.733 | 0.559 | 0.635 | 0.128 |
-| **dual (Dust)** | **0.872** | **0.695** | **0.774** | **0.064** |
+| neural only | 0.800 | 0.407 | 0.539 | 0.064 |
+| **dual (Dust)** | **0.923** | **0.610** | **0.735** | **0.032** |
 
 The symbolic track is nearly always right when it fires but misses most paraphrases. The
-neural track catches paraphrase but over-blocks negations and reported speech. Gating the
-neural track by the parser's stance and claims keeps most of the recall and removes about
-half of the false positives. Full results, per category and language, and every error
+neural track catches paraphrase but over-blocks negations, reported speech and, as the
+first real-model run showed, ordinary assistant prose. Gating the neural track by the
+parser's stance and claims keeps most of the recall and removes most of the false
+positives. Since v0.3 the generation loop only **refuses** on a symbolic proof; a draft
+that only the guard objects to is returned with a flag. Full results, per category and language, and every error
 are in `results/benchmark.md`; the method and its limits are in `docs/evaluation.md`.
 
 ## 4. The neurosymbolic route, and where it stops being practical
