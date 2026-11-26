@@ -1,0 +1,9 @@
+.git
+bench
+results
+training
+hf
+data
+tests
+**/__pycache__
+*.egg-info
