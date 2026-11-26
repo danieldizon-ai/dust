@@ -60,13 +60,13 @@ def test_extension_from_path(tmp_path):
                                             "literals": ["sabbath(CHURCH)"]}],
            "patterns": [{"literal": "-sabbath(CHURCH)", "regex": "\\bthere is no sabbath\\b"}]}
     p = tmp_path / "local.json"
-    p.write_text(json.dumps(ext))
+    p.write_text(json.dumps(ext), encoding="utf-8")
     assert Layer(extensions=[str(p)]).check("There is no sabbath.").decision == "block"
 
 
 def test_extension_cannot_redefine_nicene_propositions(tmp_path):
     p = tmp_path / "bad.json"
-    p.write_text(json.dumps({"id": "bad", "propositions": [{"id": "P05", "group": "x", "severity": "core", "text": "x", "literals": ["x(SON)"]}]}))
+    p.write_text(json.dumps({"id": "bad", "propositions": [{"id": "P05", "group": "x", "severity": "core", "text": "x", "literals": ["x(SON)"]}]}), encoding="utf-8")
     with pytest.raises(ValueError):
         load((str(p),))
 
@@ -86,6 +86,6 @@ def test_ablation_switches_change_behaviour():
 
 
 def test_ablation_results_committed():
-    rows = json.loads((Path(__file__).resolve().parents[1] / "results/ablations.json").read_text())
+    rows = json.loads((Path(__file__).resolve().parents[1] / "results/ablations.json").read_text(encoding="utf-8"))
     names = [r["variant"] for r in rows]
     assert names[0] == "shipped: dual track" and "no stance gate" in names

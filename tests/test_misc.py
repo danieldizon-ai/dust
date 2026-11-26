@@ -34,12 +34,12 @@ def test_training_generator_is_deterministic():
     sys.path.insert(0, str(ROOT / "training"))
     import generate
     assert generate.build() == generate.build()
-    on_disk = [json.loads(line) for line in (ROOT / "data" / "train.jsonl").read_text().splitlines()]
+    on_disk = [json.loads(line) for line in (ROOT / "data" / "train.jsonl").read_text(encoding="utf-8").splitlines()]
     assert on_disk == generate.build()
 
 
 def test_eval_set_is_well_formed():
-    rows = [json.loads(line) for line in (ROOT / "data" / "eval" / "nicene-eval-v0.jsonl").read_text().splitlines()]
+    rows = [json.loads(line) for line in (ROOT / "data" / "eval" / "nicene-eval-v0.jsonl").read_text(encoding="utf-8").splitlines()]
     assert len(rows) == 307
     assert {r["label"] for r in rows} == {"contradicts", "consistent", "neutral"}
     assert len({r["id"] for r in rows}) == len(rows)
