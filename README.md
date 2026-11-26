@@ -68,6 +68,13 @@ BLOCK
   BLOCK P06 via symbolic (1.00): ...   (R02: created -> not true God)
 ```
 
+## Use it from another system
+
+`dust serve --token-env DUST_API_TOKEN` runs Dust as a private checking service, and
+`POST /v1/evaluate` returns structured findings (rule id, evidence, confidence, and
+whether a person should review) for a single draft or a whole conversation. A Dockerfile
+is included. See [docs/evaluate-api.md](docs/evaluate-api.md).
+
 ## Results
 
 Doctrinal-consistency benchmark: 307 hand-labelled items in 7 languages, including traps

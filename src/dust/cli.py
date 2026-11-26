@@ -31,6 +31,10 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--port", type=int, default=8381)
     s.add_argument("--backend", help="OpenAI-compatible base URL, e.g. http://localhost:11434/v1")
     s.add_argument("--model", default="", help="model name at the backend")
+    s.add_argument("--token-env", metavar="VAR",
+                   help="require 'Authorization: Bearer <token>' on every route but /healthz; "
+                        "the token is read from this environment variable (never from the command line)")
+    s.add_argument("--extension", action="append", default=[], help="default confession extension(s)")
     args = ap.parse_args(argv)
 
     from .layer import Layer
@@ -102,7 +106,18 @@ def main(argv: list[str] | None = None) -> int:
         if args.backend:
             from .backends import OpenAICompatible
             backend = OpenAICompatible(args.backend, args.model)
-        httpd = serve(Layer(), args.host, args.port, backend, args.model or "dust")
+        token = None
+        if args.token_env:
+            import os
+            token = os.environ.get(args.token_env)
+            if not token or len(token) < 24:
+                print(f"{args.token_env} must hold a token of at least 24 characters", file=sys.stderr)
+                return 2
+        if args.host not in ("127.0.0.1", "localhost", "::1") and not token:
+            print("warning: listening beyond localhost without --token-env; anyone who can reach "
+                  "this port can use it", file=sys.stderr)
+        httpd = serve(Layer(extensions=args.extension), args.host, args.port, backend,
+                      args.model or "dust", token)
         print(f"dust listening on http://{args.host}:{args.port}  (open it in a browser for Dust Study)", file=sys.stderr)
         try:
             httpd.serve_forever()
