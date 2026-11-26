@@ -67,6 +67,9 @@ parallel.
 
 ## Phase 3: training (when phase 1 shows the need)
 
+The full catch-up and release pipeline (measure, adapt, distil, quantise, release,
+maintain) with compute estimates is in [release-plan.md](release-plan.md).
+
 ### 3.1 LoRA adapters per tier
 * **Do:** run `training/lora_dpo.py` after replacing the seed pairs with a reviewed
   preference set of at least 1,000 pairs (from phase 1 transcripts: raw answers that
@@ -83,6 +86,15 @@ parallel.
 
 ## Phase 4: infrastructure and access
 
+* **Dust Study:** grow the local study page (`dust serve`, then open the browser) into a
+  proper reference app with history kept on the device, Scripture lookup and
+  profile selection, or hand that to an app partner and keep Dust as infrastructure.
+* **Hardening:** multi-turn and role-play policy, per-language thresholds, signed releases
+  with pinned hashes, and test items for the four articles the audit shows are protected by
+  patterns only ([hardening.md](hardening.md)).
+* **Profiles:** publish two or three real confession profiles with reviewers from those
+  traditions (for example a Catechism profile and a Westminster profile), each with its own
+  tests and fingerprint.
 * **Packaging:** a signed release with model hashes; a Docker image for church servers; a
   browser build of the layer (it is pure Python and numpy today; a port of the checker to
   JavaScript or WebAssembly would let Bible apps run it client-side).
@@ -109,6 +121,11 @@ parallel.
    ask?
 6. How should a layer like this be governed, so that the boundary stays the Creed and does
    not quietly grow?
+
+## Funding
+
+The expensive part is people (review, independent evaluation, multilingual review), not
+compute. Estimates by phase are in [economics.md](economics.md).
 
 ## Suggested ownership
 

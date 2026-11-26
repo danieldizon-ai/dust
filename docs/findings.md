@@ -1,6 +1,6 @@
 # Findings and conclusion
 
-This is the summary of what Dust v0.1-v0.2 set out to test, what was built, what the
+This is the summary of what Dust v0.1-v0.3 set out to test, what was built, what the
 measurements show, what we learned, and where the approach falls short. The roadmap that
 follows from it is in [roadmap.md](roadmap.md).
 
@@ -35,6 +35,9 @@ sandbox could not do. Everything here is the checker and the scaffolding around 
 | Constitution, retrieval of relevant articles and verses, generate-check-repair loop | Done; repair loop tested with scripted models only |
 | Scripture reference checker (invented references, misquotes) | Done (v0.2) |
 | Confession extensions (stack Chalcedon or a church's statement on top) | Done (v0.2) |
+| Input hardening against look-alike letters, invisible characters, spaced letters | Done (v0.3) |
+| Boundary audit (consistency, every error excluded, grounding) and fingerprint | Done (v0.3) |
+| Dust Study: a minimal local study page; Ollama Modelfile generator | Done (v0.3) |
 | OpenAI-compatible HTTP API, CLI, Python package | Done |
 | Benchmark (307 items, 7 languages, held-out test split), ablation study | Done |
 | End-to-end evaluation on real models | Script ready; not run |
@@ -101,7 +104,21 @@ Indonesian contradictions are largely missed. The places where access to faithfu
 private tools is hardest are often the languages where small models and open Bibles are
 weakest. Pivot translation through English is implemented as a hook but untested.
 
-**8. Measuring honestly changes the story.** The first run looked better on recall than the
+**8. Cheap evasions work on unhardened checkers, and cheap fixes stop them.** Without
+input hardening, writing a contradiction in full-width characters got every one of 85
+past the checker; zero-width characters got half past. Canonicalising the text first (NFKC,
+invisible characters removed, look-alikes mapped back only inside mixed-script words)
+restores 100% on all four evasions without touching Greek or Russian text or changing a
+single benchmark count. Any doctrinal or safety filter that matches text should do this.
+
+**9. The encoding can be checked, not just the checker.** Closing the Creed's own literals
+under the rules shows the boundary is consistent, and every one of the 16 excluded errors
+is in fact excluded by the propositions it is recorded as denying. The audit also showed
+four articles (the incarnation "for our salvation", the ascension, the procession of the
+Spirit, and "spoke through the prophets") that no recorded error touches; they rely on
+claim patterns alone and need more test items.
+
+**10. Measuring honestly changes the story.** The first run looked better on recall than the
 final one. Keeping first-run numbers, a dev/test split, overlap reports and a CI check
 that fails if any count changes makes the results believable, including the bad ones.
 

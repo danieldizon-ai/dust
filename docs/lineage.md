@@ -35,3 +35,6 @@ design.
 
 No Always code is copied: Always's code is TypeScript for a different runtime, and Dust is
 written from scratch in Python. No proprietary material is used.
+
+Other work Dust is indebted to, from Magisterium AI to the open-model makers, is credited
+in [prior-work.md](prior-work.md).

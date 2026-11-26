@@ -1,6 +1,8 @@
 """HTTP API (standard library only), the foundation for an SDK in any language.
 
+    GET  /                             Dust Study: a minimal local study page (no external resources)
     GET  /healthz
+    GET  /v1/audit                     knowledge-base audit and boundary fingerprint
     GET  /v1/creed?lang=en|grc|la      the Creed, propositions, excluded errors, latitude
     POST /v1/check {"text": ...}       verdict with proofs
     POST /v1/chat/completions          OpenAI-compatible; proxies to the configured
@@ -13,6 +15,7 @@ import time
 import uuid
 from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from importlib import resources
 from urllib.parse import parse_qs, urlparse
 
 from .layer import Layer
@@ -24,7 +27,7 @@ def make_handler(layer: Layer, backend=None, model_name: str = "dust"):
     aligned = layer.wrap(backend) if backend is not None else None
 
     class Handler(BaseHTTPRequestHandler):
-        server_version = "dust/0.1"
+        server_version = "dust"
 
         def log_message(self, *a):  # quiet by default; no request logging = no content logging
             pass
@@ -43,8 +46,24 @@ def make_handler(layer: Layer, backend=None, model_name: str = "dust"):
                 raise ValueError("body too large")
             return json.loads(self.rfile.read(n) or b"{}")
 
+        def _html(self, data: bytes) -> None:
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(data)))
+            # the page loads nothing from anywhere else and talks only to this server
+            self.send_header("Content-Security-Policy", "default-src 'none'; script-src 'unsafe-inline'; "
+                             "style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; form-action 'none'")
+            self.send_header("Referrer-Policy", "no-referrer")
+            self.end_headers()
+            self.wfile.write(data)
+
         def do_GET(self):
             u = urlparse(self.path)
+            if u.path in ("/", "/study"):
+                return self._html(resources.files("dust.data").joinpath("study.html").read_bytes())
+            if u.path == "/v1/audit":
+                from .audit import audit
+                return self._send(200, audit(layer.kb).to_dict())
             if u.path == "/healthz":
                 return self._send(200, {"ok": True, "backend": backend is not None})
             if u.path == "/v1/creed":

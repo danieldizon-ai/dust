@@ -1,6 +1,6 @@
 # Dust
 
-**A Nicene Creed (381) alignment layer for open language models.**
+**A Nicene Creed (381) alignment layer for open language models: free, open, private AI for the global Church.**
 
 Dust is a personal research project led by Daniel Dizon and **incubated by Rejoice**, a
 Christian technology company that invests in, operates and builds for the faith and
@@ -12,6 +12,12 @@ layer on top, and only one: the Niceno-Constantinopolitan Creed of AD 381, the o
 confession shared by Catholic, Orthodox and Protestant Christians. It is infrastructure,
 not an app: a Python package and an OpenAI-compatible HTTP API that any study tool, Bible
 app or ministry product can put in front of any open model, on the user's own device.
+
+Use it two ways: as **infrastructure** (put it in front of any open model in your app) or
+directly, as **Dust Study**, a minimal local study page that `dust serve` opens in your
+browser. Churches and denominations can stack their own confession on top as a profile, or
+fork it; the boundary fingerprint shows which boundary a deployment enforces. Why this
+matters, and what it costs: [docs/mission.md](docs/mission.md), [docs/economics.md](docs/economics.md).
 
 > "Dust" because the layer is small enough to go anywhere, and because of Genesis 2:7.
 
@@ -45,6 +51,9 @@ question ──► constitution + Creed + the relevant articles and verses ─�
   Bible text loaded, misquotations are too.
 * **A stack, not a ceiling.** A church can add its own confession as an extension file on top
   of the Creed without changing the default; Ephesus and Chalcedon ship as the worked example.
+* **Hardened.** Look-alike letters, invisible characters and spaced-out words are undone
+  before checking (all 85 test contradictions still blocked; up to 100% evaded without it),
+  and `dust audit` proves the encoded boundary is consistent and fingerprints it.
 * **Repair, not just refusal.** A blocked draft goes back to the model with the article it
   contradicted; only if it fails twice does Dust return a cited fallback.
 
@@ -92,6 +101,8 @@ dust creed --lang grc
 dust prompt "Is the Holy Spirit a person?"     # grounded system prompt
 dust refs "See John 3:16 and John 22:1"         # which references exist
 dust check --extension chalcedon-451 "Christ was two persons."
+dust audit                                      # consistency, coverage, boundary fingerprint
+dust modelfile --base qwen2.5:3b-instruct > Modelfile   # prompt layer as an Ollama model
 ```
 
 ```python
@@ -114,7 +125,8 @@ curl -s localhost:8381/v1/check -d '{"text":"Jesus was only a prophet."}'
 curl -s localhost:8381/v1/chat/completions -d '{"messages":[{"role":"user","content":"Who is Jesus?"}]}'
 ```
 
-`/v1/chat/completions` is OpenAI-compatible, so existing clients work unchanged; the
+Open `http://127.0.0.1:8381` for Dust Study. `GET /v1/audit` returns the boundary
+fingerprint. `/v1/chat/completions` is OpenAI-compatible, so existing clients work unchanged; the
 response carries an extra `dust` field with the decision, repairs and proofs.
 
 ## Documentation
@@ -123,10 +135,16 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 |---|---|
 | [docs/findings.md](docs/findings.md) | **Start here.** What we built, what the numbers show, what we learned, where it falls short, conclusion |
 | [docs/roadmap.md](docs/roadmap.md) | Next steps for whoever takes it forward, with acceptance criteria |
+| [docs/mission.md](docs/mission.md) | Free, open, private AI for the global Church; one boundary, many profiles; infrastructure and a direct app |
+| [docs/economics.md](docs/economics.md) | Cost per user hosted versus on-device, and why free, open, private and sovereign matter |
+| [docs/release-plan.md](docs/release-plan.md) | Catching up with open models: measure, adapt, distil, quantise, release the family |
+| [docs/hardening.md](docs/hardening.md) | Hardening the encoding, the checker and the governance of the boundary |
+| [docs/prior-work.md](docs/prior-work.md) | Credit: Always Foundation, Magisterium AI, church statements on AI, open data and open models |
 | [docs/theology.md](docs/theology.md) | The boundary: what is inside and outside, why 381 (not smaller, not Chalcedon), the Filioque, what Dust does not decide, and why a minimum does not compromise the gospel |
 | [docs/methods.md](docs/methods.md) | Prompts, retrieval, guard models, LoRA/DPO, constrained decoding and the neurosymbolic dual track, with trade-offs and where neurosymbolic stops being practical |
 | [docs/evaluation.md](docs/evaluation.md) | Benchmark method, iteration history and limits |
 | [results/ablations.md](results/ablations.md) | 16 variants: which parts of the system matter |
+| [results/hardening.md](results/hardening.md) | Evasion and framing robustness |
 | [docs/extensions.md](docs/extensions.md) | Stacking a church's confession on top of the Creed |
 | [docs/model-family.md](docs/model-family.md) | One layer across pocket to max tiers; candidate base models and licences |
 | [docs/open-models.md](docs/open-models.md) | Open models catching up through distillation and quantisation |
@@ -138,29 +156,31 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 ## Repository
 
 ```
-src/dust/          the package: kb, symbolic, neural, layer, scripture, rag, langid, backends, server, cli
+src/dust/          the package: kb, symbolic, neural, layer, harden, audit, scripture, rag, langid, backends, server, cli
 src/dust/data/     creed.json, rules.json, constitution.md, scripture.json, versification.json,
-                   guard-v0.npz, extensions/chalcedon-451.json
+                   guard-v0.npz, study.html, extensions/chalcedon-451.json
 data/train.jsonl   synthetic training data (training/generate.py, seeded)
 data/eval/         hand-labelled benchmark and end-to-end questions
-bench/             run.py (checker benchmark), ablations.py, e2e.py (full loop against a real model)
+bench/             run.py (checker benchmark), ablations.py, hardening.py, e2e.py (full loop against a real model)
 training/          generate, train_guard, dpo_pairs, lora_dpo (recipe, not yet run)
-results/           benchmark, first-run and ablation results
+results/           benchmark, first-run, ablation and hardening results
 ```
 
 Everything is reproducible on a laptop CPU in under a minute:
 
 ```bash
 pip install -e '.[dev]'
-pytest -q                                   # 91 tests
+pytest -q                                   # 110 tests
 python training/generate.py && python training/train_guard.py
 python bench/run.py --check                 # fails if any benchmark count changes
 python bench/ablations.py                   # retrains 5 guard variants, ~1 minute
+python bench/hardening.py --check           # evasion and framing robustness
+dust audit                                  # the boundary is consistent and unchanged
 ```
 
 ## Status and next steps
 
-v0.2 is a research prototype. It has not been reviewed by theologians from several
+v0.3 is a research prototype. It has not been reviewed by theologians from several
 traditions, no base model has been run through it, and no adapter has been trained. The
 full plan, with acceptance criteria, is in [docs/roadmap.md](docs/roadmap.md). In short:
 
@@ -169,7 +189,8 @@ full plan, with acceptance criteria, is in [docs/roadmap.md](docs/roadmap.md). I
    evaluation set written by people other than the author.
 3. A small-LM semantic parser feeding the rule engine (the AlphaGeometry-style split), a
    multilingual transformer guard, and validated multilingual checking.
-4. LoRA/DPO adapters per tier where the end-to-end results show the need.
+4. LoRA/DPO adapters per tier where the end-to-end results show the need, then distil,
+   quantise and release the family ([docs/release-plan.md](docs/release-plan.md)).
 
 ## Licence
 

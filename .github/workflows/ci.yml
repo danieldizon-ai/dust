@@ -21,7 +21,24 @@ jobs:
         run: pytest -q
       - name: Benchmark reproduces committed results
         run: python bench/run.py --check
+      - name: Hardening results reproduce
+        run: python bench/hardening.py --check
+      - name: Boundary audit (consistency, coverage, fingerprint)
+        run: dust audit
       - name: Training data is reproducible
         run: |
           python training/generate.py
           git diff --exit-code data/train.jsonl
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e '.[dev]'
+      - name: Tests
+        run: pytest -q
+      - name: Benchmark reproduces committed results
+        run: python bench/run.py --check

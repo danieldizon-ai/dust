@@ -1,4 +1,4 @@
-"""Command line: dust check | creed | prompt | serve | bench"""
+"""Command line: dust check | refs | audit | creed | prompt | modelfile | serve"""
 from __future__ import annotations
 
 import argparse
@@ -21,6 +21,11 @@ def main(argv: list[str] | None = None) -> int:
     cr.add_argument("--lang", default="en", choices=["en", "grc", "la"])
     p = sub.add_parser("prompt", help="print the system prompt, optionally grounded on a question")
     p.add_argument("query", nargs="?")
+    au = sub.add_parser("audit", help="audit the encoded boundary: consistency, coverage, fingerprint")
+    au.add_argument("--extension", action="append", default=[])
+    au.add_argument("--json", action="store_true")
+    mf = sub.add_parser("modelfile", help="print an Ollama Modelfile carrying the constitution and Creed (prompt layer only)")
+    mf.add_argument("--base", default="qwen2.5:3b-instruct", help="Ollama base model")
     s = sub.add_parser("serve", help="run the HTTP API")
     s.add_argument("--host", default="127.0.0.1")
     s.add_argument("--port", type=int, default=8381)
@@ -36,6 +41,33 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "prompt":
         print(Layer(mode="symbolic").system_prompt(args.query))
         return 0
+    if args.cmd == "modelfile":
+        from .audit import fingerprint
+        lay = Layer(mode="symbolic")
+        prompt = lay.system_prompt().replace('"""', "'''")
+        print(f"# Dust prompt-layer model on {args.base}. Boundary fingerprint {fingerprint(lay.kb)[:16]}.")
+        print("# This carries the constitution and the Creed only. It does NOT run the checker or the")
+        print("# repair loop: for those, put `dust serve --backend http://localhost:11434/v1` in front of it.")
+        print("# Build:  ollama create dust-<tier> -f Modelfile")
+        print(f"FROM {args.base}")
+        print("PARAMETER temperature 0.3")
+        print('SYSTEM """' + prompt + '"""')
+        return 0
+    if args.cmd == "audit":
+        from .audit import audit
+        from .kb import load
+        rep = audit(load(tuple(args.extension)))
+        if args.json:
+            print(json.dumps(rep.to_dict(), indent=1, ensure_ascii=False))
+        else:
+            print(("OK" if rep.ok else "PROBLEMS") + f"  boundary fingerprint {rep.fingerprint[:16]}")
+            for k, v in rep.stats.items():
+                print(f"  {k}: {v}")
+            for p_ in rep.problems:
+                print(f"  PROBLEM {p_}")
+            for w in rep.warnings:
+                print(f"  note    {w}")
+        return 0 if rep.ok else 1
     if args.cmd == "refs":
         from .scripture import find
         text = args.text if args.text is not None else sys.stdin.read()
@@ -71,7 +103,7 @@ def main(argv: list[str] | None = None) -> int:
             from .backends import OpenAICompatible
             backend = OpenAICompatible(args.backend, args.model)
         httpd = serve(Layer(), args.host, args.port, backend, args.model or "dust")
-        print(f"dust listening on http://{args.host}:{args.port}", file=sys.stderr)
+        print(f"dust listening on http://{args.host}:{args.port}  (open it in a browser for Dust Study)", file=sys.stderr)
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

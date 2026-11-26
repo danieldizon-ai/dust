@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dust Study</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1b18;--muted:#6b665e;--line:#e3dfd6;--card:#fff;--pass:#2f6b3a;--flag:#8a6100;--block:#9b2c2c;--accent:#3b4f7a}
+@media (prefers-color-scheme:dark){:root{--bg:#141311;--fg:#ece8e1;--muted:#a19b91;--line:#2c2a26;--card:#1c1b18;--pass:#7fc28b;--flag:#e0b552;--block:#ef8a8a;--accent:#9db0dc}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:24px 16px 64px}h1{font-size:22px;margin:0 0 4px}p.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+textarea{width:100%;min-height:90px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);font:inherit;resize:vertical}
+.row{display:flex;gap:8px;align-items:center;margin:10px 0 18px;flex-wrap:wrap}
+button{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+button.ghost{background:transparent;color:var(--accent)}button:disabled{opacity:.5;cursor:wait}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0}
+.badge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid currentColor}
+.pass{color:var(--pass)}.flag{color:var(--flag)}.block{color:var(--block)}
+.answer{white-space:pre-wrap}.muted{color:var(--muted);font-size:13px}pre{white-space:pre-wrap;font-size:12.5px;margin:6px 0 0;color:var(--muted)}
+details summary{cursor:pointer;color:var(--muted);font-size:14px}footer{margin-top:28px;color:var(--muted);font-size:12.5px}
+</style>
+</head>
+<body>
+<main>
+<h1>Dust Study</h1>
+<p class="sub">Ask a question about Scripture or the faith. Answers come from the model on this computer and are checked against the Nicene Creed (381). Nothing leaves this machine unless your model runs elsewhere.</p>
+<textarea id="q" placeholder="Was Jesus created? / Who is the Holy Spirit? / Paste any text to check it"></textarea>
+<div class="row">
+  <button id="ask">Ask</button>
+  <button id="check" class="ghost">Only check this text</button>
+  <span id="status" class="muted"></span>
+</div>
+<div id="out"></div>
+<footer>Dust is a research prototype, not a spiritual authority. It checks statements against the Creed's propositions; it cannot judge pastoral fit. Talk to your church about what matters most.</footer>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function verdictHtml(v){
+  const items=[...(v.violations||[]).map(x=>["block",x]),...(v.flags||[]).map(x=>["flag",x])];
+  let h="";
+  for(const [k,x] of items){h+=`<details><summary><span class="${k}">${k}</span> ${esc(x.proposition)} via ${esc(x.source)}: ${esc(x.sentence)}</summary>${x.proof&&x.proof.length?`<pre>${esc(x.proof.join("\n"))}</pre>`:""}</details>`}
+  for(const r of (v.references||[])){h+=`<div class="muted">${r.exists?"✓":"✗"} ${esc(r.canonical)}${r.exists?"":" does not exist"}</div>`}
+  return h;
+}
+async function post(path,body){const r=await fetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);return j}
+async function run(kind){
+  const q=$("#q").value.trim(); if(!q)return;
+  $("#ask").disabled=$("#check").disabled=true; $("#status").textContent=kind==="ask"?"Thinking…":"Checking…";
+  try{
+    if(kind==="ask"){
+      const j=await post("/v1/chat/completions",{messages:[{role:"user",content:q}]});
+      const d=j.dust, a=j.choices[0].message.content;
+      $("#out").insertAdjacentHTML("afterbegin",`<div class="card"><div class="muted">${esc(q)}</div><p class="answer">${esc(a)}</p><span class="badge ${d.decision}">${d.decision}</span> <span class="muted">${d.attempts} attempt${d.attempts>1?"s":""}${d.repaired?", repaired":""}${d.refused?", fallback answer":""}</span>${verdictHtml(d)}</div>`);
+    }else{
+      const v=await post("/v1/check",{text:q});
+      $("#out").insertAdjacentHTML("afterbegin",`<div class="card"><p class="answer">${esc(q)}</p><span class="badge ${v.decision}">${v.decision}</span>${verdictHtml(v)}</div>`);
+    }
+    $("#status").textContent="";
+  }catch(e){$("#status").textContent=String(e.message).includes("no backend")?"No model connected: start with dust serve --backend … --model …, or use “Only check this text”.":"Error: "+e.message}
+  $("#ask").disabled=$("#check").disabled=false;
+}
+$("#ask").onclick=()=>run("ask");$("#check").onclick=()=>run("check");
+$("#q").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.metaKey||e.ctrlKey))run("ask")});
+</script>
+</body>
+</html>

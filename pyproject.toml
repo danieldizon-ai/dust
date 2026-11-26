@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dust-nicene"
-version = "0.2.0"
+version = "0.3.0"
 description = "Dust: a Nicene Creed (381) alignment layer for open language models"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,7 +22,7 @@ dust = "dust.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-dust = ["data/*.json", "data/*.md", "data/*.npz", "data/extensions/*.json"]
+dust = ["data/*.json", "data/*.md", "data/*.npz", "data/*.html", "data/extensions/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
