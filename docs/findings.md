@@ -40,7 +40,7 @@ sandbox could not do. Everything here is the checker and the scaffolding around 
 | Dust Study: a minimal local study page; Ollama Modelfile generator | Done (v0.3) |
 | OpenAI-compatible HTTP API, CLI, Python package | Done |
 | Benchmark (307 items, 7 languages, held-out test split), ablation study | Done |
-| End-to-end evaluation on real models | Script ready; not run |
+| End-to-end evaluation on real models | Two runs on qwen2.5 1.5B and 3B on a desktop PC, every answer read by hand; a third pending |
 | LoRA / DPO adapters | Seed data and recipe; not run |
 
 ## Methods compared
@@ -55,9 +55,37 @@ What could be measured without a model is the checking stage. Held-out test spli
 | Neural guard only | 0.733 | 0.559 | 0.635 | 0.128 | Catches paraphrase; reads "not", "never" and reported speech as heresy |
 | **Dual track (Dust)** | **0.872** | **0.695** | **0.774** | **0.064** | Symbolic proof first; neural only where the parser says the sentence is the speaker's own assertion and could not parse it |
 
-Methods that change the model (system prompt, retrieval, LoRA, DPO) could not be compared
-here because no model could be run. `bench/e2e.py` is the harness for that comparison:
-same 25 questions, raw model versus Dust-wrapped, with every transcript saved.
+Methods that change the model (LoRA, DPO) have not been compared yet. The full loop
+(system prompt, retrieval, check, repair) has been run on real models; see below.
+
+## End-to-end: real models on an ordinary PC
+
+`bench/e2e.py` asks 25 questions twice, once to the raw model and once through Dust, and
+saves every draft. It was run on qwen2.5 1.5B and 3B (4-bit, Ollama) on a desktop with a
+4 GB GPU and 8 GB of RAM. Every answer was read by hand. Details:
+[run 1](../results/e2e/run1-review.md), [run 2](../results/e2e/run2-review.md).
+
+| | Run 1 (v0.3 before fixes) | Run 2 (v0.3) |
+|---|---|---|
+| Raw answers stating an excluded position (1.5B + 3B) | 3 + 4 | 4 + 4 |
+| Dust final answers stating an excluded position | 0 + 1 | 1 + 1 |
+| Refusals | 4 + 8 | 0 + 2 |
+| Refusals of answers that were fine | at least 7 | 2 |
+| Raw blocks that were wrong | 16 of 18 | 3 of 5 |
+
+What this says, plainly:
+
+* **Dust cuts excluded assertions by roughly three quarters** (15 raw to 3 final across
+  both runs), on 25 questions, read by one person. That is a small sample.
+* **Run 1 refused far too much.** The guard, trained on short synthetic sentences, misread
+  real assistant prose. Requiring a symbolic proof before any refusal fixed most of it.
+* **Every leak is non-English** (German twice, Spanish once). The rules read English only
+  and the guard is not trusted to block elsewhere. Run 2's Spanish leak happened *because*
+  of the over-refusal fix; the guard may now ask for one rewrite, but never refuse.
+* **Models misstate the Creed in both directions**: claiming it settles open questions, and
+  claiming it is silent on settled ones. Both are now flagged.
+* The fixes after each run were made by reading that run, on the same 25 questions. The
+  next step is a new, larger question set that nobody tuning the checker has seen.
 
 ## What we learned
 
@@ -124,8 +152,8 @@ that fails if any count changes makes the results believable, including the bad 
 
 ## Where the approach falls short
 
-* **No end-to-end evidence.** The checker is measured; the effect on a real model's answers
-  is not.
+* **Thin end-to-end evidence.** Two small models, 25 questions, one reader, and fixes tuned
+  on the same questions. Non-English answers are where it still fails.
 * **One author.** The same person wrote the propositions, the training generator and the
   test set. No theologians from Catholic, Orthodox and Protestant traditions have reviewed
   the encoding; no inter-annotator agreement exists.

@@ -92,8 +92,8 @@ tracks are needed (held-out test split, n=153):
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
 | symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
-| neural only | 0.800 | 0.407 | 0.539 | 0.064 |
-| **dual (Dust)** | **0.923** | **0.610** | **0.735** | **0.032** |
+| neural only | 0.806 | 0.424 | 0.556 | 0.064 |
+| **dual (Dust)** | **0.925** | **0.627** | **0.747** | **0.032** |
 
 The symbolic track is nearly always right when it fires but misses most paraphrases. The
 neural track catches paraphrase but over-blocks negations, reported speech and, as the

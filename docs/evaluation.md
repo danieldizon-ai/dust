@@ -52,6 +52,12 @@ by word 4-gram Jaccard >= 0.5, out of 307.
    Result on the test split: precision 0.923, recall 0.610, F1 0.735, false-positive rate
    0.032.
 
+4. **Iteration 3.1**, after run 2: Spanish and Portuguese words for the Trinity, Father,
+   Son, Spirit and person were added to the list that lets the guard judge a sentence (a
+   real Spanish answer, "La Trinidad es una única persona ...", was found by the guard
+   only because of its accented letters). The test split moved from F1 0.735 to 0.747
+   (two more Spanish items caught, no new false positives). Test items were not inspected.
+
 So iteration 2 halved false positives on unseen data and lost recall, much of it on
 purpose (unvalidated languages now flag instead of block). Iteration 3 halved them again
 and lost more recall: a deliberate trade, because on real model answers false positives
@@ -65,8 +71,8 @@ iteration 2 (F1 0.883) are optimistic because the fixes were made by looking at 
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
 | symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
-| neural only | 0.800 | 0.407 | 0.539 | 0.064 |
-| **Dust (dual)** | **0.923** | **0.610** | **0.735** | **0.032** |
+| neural only | 0.806 | 0.424 | 0.556 | 0.064 |
+| **Dust (dual)** | **0.925** | **0.627** | **0.747** | **0.032** |
 
 All items, by category, for the dual track: direct recall 0.82; paraphrase recall 0.52;
 adversarial recall 0.90; multi-sentence recall 1.00; false positives 5% on affirmations,

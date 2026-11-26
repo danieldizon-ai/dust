@@ -55,7 +55,10 @@ class Backend(Protocol):
 
 
 _SPLIT = re.compile(r"(?<=[.!?;])\s+|\n+")
-_ANCHOR = re.compile(r"\b(?:SON|FATHER|SPIRIT|GOD|TRINITY|gods?|divine|divinity|deity|resurrection|resurrected|risen|tomb|virgin|creed|heaven|hell|death|dead|die|died|cross|crucif\w*|incarnat\w*|creat\w*|creature|prophet|messiah|kingdom|judge\w*|baptis\w*|church|eucharist|salvation|sin|sins|soul|angel|world|universe|matter|myth|metaphor|persons?|modes?)\b|[^\x00-\x7f]", re.I)
+_ANCHOR = re.compile(r"\b(?:SON|FATHER|SPIRIT|GOD|TRINITY|gods?|divine|divinity|deity|resurrection|resurrected|risen|tomb|virgin|creed|heaven|hell|death|dead|die|died|cross|crucif\w*|incarnat\w*|creat\w*|creature|prophet|messiah|kingdom|judge\w*|baptis\w*|church|eucharist|salvation|sin|sins|soul|angel|world|universe|matter|myth|metaphor|persons?|modes?|trinidad|trindade|dios|deus|padre|pai|hijo|filho|personas?|pessoas?|santo)\b|[^\x00-\x7f]", re.I)
+
+
+_HEADING = re.compile(r"^\s*(?:#{1,6}\s|\*\*[^*]{1,60}\*\*:?\s*$|[-*]\s+\*\*[^*]{1,40}\*\*:?\s*$)")
 
 
 class Layer:
@@ -126,6 +129,9 @@ class Layer:
                 # Neural checking needs doctrinal content in the sentence itself: a
                 # fragment like "it happened." carries none and the guard is unreliable on it.
                 anchored = bool(_ANCHOR.search(" ".join(norm)))
+                # Markdown headings ("### The Holy Spirit") and bare fragments carry no claim.
+                if _HEADING.match(raw) or len(raw.split()) < 3:
+                    anchored = False
                 if self.mode == "neural":
                     gate_open = anchored
                 elif self.stance_gate:
@@ -146,6 +152,10 @@ class Layer:
                 flags.append(Violation(lid, "creed-claim", 1.0, raw, [], [
                     f"says the Creed settles a question it leaves open ({lid}: {topic}); "
                     "the Creed of 381 does not decide this"]))
+            sil = self._creed_silence(raw)
+            if sil:
+                flags.append(Violation(sil, "creed-claim", 1.0, raw, [], [
+                    f"says the Creed leaves open a point it decides ({sil}: {self.kb.proposition(sil).text[:80]})"]))
         refs = scripture.find(text)
         if self.bible is not None:
             scripture.check_quotes(text, self.bible, refs)
@@ -156,7 +166,7 @@ class Layer:
 
     # Words that identify a latitude topic when a sentence claims the Creed decides it.
     _LATITUDE_CUES = {
-        "L01": r"filioque|and the son|from the father and the son",
+        "L01": r"filioque|proceeds? from the father and the son|proceeds? from (?:both )?the father and (?:from )?the son|double procession",
         "L02": r"chalcedon|two natures|miaphysit\w*",
         "L03": r"baptis\w*|infants?|babies|immersion|sprinkl\w*",
         "L04": r"eucharist|communion|lord's supper|mass|transubstantiation|real presence",
@@ -169,7 +179,7 @@ class Layer:
         "L11": r"tongues|speaking in tongues|cessation\w*|charismatic|healing",
     }
     _CREED_SAYS = re.compile(r"\b(?:nicene )?creed\b[^.;]{0,40}\b(?:affirms|affirm|states|says|teaches|requires|supports|endorses|mandates|confirms|holds|declares|establishes)\b", re.I)
-    _NEGATED = re.compile(r"\b(?:not|n't|no|neither|nor|never|silent|leaves? open|does not address)\b", re.I)
+    _NEGATED = re.compile(r"\b(?:not|n't|no|neither|nor|never|nothing|silent|leaves? open|does not address)\b", re.I)
 
     def _creed_claim(self, sentence: str) -> str | None:
         """A sentence that says the Creed decides a latitude question (for example "the Nicene
@@ -183,6 +193,29 @@ class Layer:
         for lid, cue in self._LATITUDE_CUES.items():
             if re.search(r"\b(?:" + cue + r")\b", tail):
                 return lid
+        return None
+
+    _CREED_SILENT = re.compile(
+        r"\b(?:nicene )?creed\b[^.;]{0,40}?\b(?:does not|doesn't|did not|didn't|never|is silent|says nothing|makes no claims?)"
+        r"(?: (?:directly |explicitly |specifically )?(?:make (?:any )?claims?|say(?: anything)?|address|mention|speak|comment|decide|settle|state(?: anything)?|teach(?: anything)?))?"
+        r"[^.;]*?\b(?:about|on|whether|regarding|concerning)\b\s*", re.I)
+
+    def _creed_silence(self, sentence: str) -> str | None:
+        """The mirror of `_creed_claim`: a sentence that says the Creed does not address a point
+        it does decide ("the Creed does not address whether Jesus was created"). A flag only."""
+        m = self._CREED_SILENT.search(sentence)
+        if not m:
+            return None
+        rest = sentence[m.end():]
+        rest = re.sub(r"^(?:the (?:question|issue|idea|concept|identity) of\s+)?(?:[^,]*,\s*including\s+)?(?:whether\s+)?", "", rest, flags=re.I)
+        claims = [replace(c, stance="assert") for c in symbolic.extract(rest, self.kb.extra_patterns)]
+        if not claims:
+            return None
+        res = symbolic.infer(claims, self.kb)
+        if res.contradictions:
+            return res.contradictions[0].proposition
+        if res.affirmed:
+            return sorted(res.affirmed)[0]
         return None
 
     def _group_to_prop(self, group: str) -> str:
@@ -251,6 +284,7 @@ class AlignedModel:
         drafts: list[str] = []
         verdicts: list[Verdict] = []
         verdict = None
+        guard_repairs_used = False
         for attempt in range(self.max_repairs + 1):
             draft = self._gen(convo)
             drafts.append(draft)
@@ -258,20 +292,29 @@ class AlignedModel:
             verdicts.append(verdict)
             if verdict.ok:
                 return AlignedResponse(draft, verdict, attempt + 1, attempt > 0, False, drafts, verdicts)
-            if self.refuse_requires_proof and all(v.source != "symbolic" for v in verdict.violations):
+            guard_only = all(v.source != "symbolic" for v in verdict.violations)
+            if self.refuse_requires_proof and guard_only:
                 # Only the learned guard objects. On real model prose it is often wrong (see
-                # docs/findings.md, end-to-end results), so answer with a flag rather than
-                # rewriting or refusing on its word alone.
-                flagged = replace(verdict, decision="flag", violations=[], flags=verdict.violations + verdict.flags)
-                return AlignedResponse(draft, flagged, attempt + 1, attempt > 0, False, drafts, verdicts)
+                # docs/findings.md, end-to-end results), so it never causes a refusal. It may
+                # ask for one rewrite (run 2 showed a real Spanish modalist answer that only
+                # the guard saw); if that does not satisfy it, the answer goes out flagged.
+                if guard_repairs_used or attempt == self.max_repairs:
+                    flagged = replace(verdict, decision="flag", violations=[], flags=verdict.violations + verdict.flags)
+                    return AlignedResponse(draft, flagged, attempt + 1, attempt > 0, False, drafts, verdicts)
+                guard_repairs_used = True
             convo = convo + [{"role": "assistant", "content": draft},
-                             {"role": "system", "content": self._repair_note(verdict)}]
+                             {"role": "system", "content": self._repair_note(verdict, tentative=guard_only)}]
         fallback = self._fallback(verdict)
         # the verdict reported is the one for the text actually returned
         return AlignedResponse(fallback, self.layer.check(fallback), len(drafts), False, True, drafts, verdicts)
 
-    def _repair_note(self, verdict: Verdict) -> str:
-        lines = ["Your previous draft states, as your own view, something the Creed of 381 excludes. Rewrite it."]
+    def _repair_note(self, verdict: Verdict, tentative: bool = False) -> str:
+        if tentative:
+            lines = ["A check suggests your previous draft may state, as your own view, something the Creed "
+                     "of 381 excludes. If it does, rewrite those sentences. If it does not, give the same answer, "
+                     "stated plainly. Answer in the language of the question."]
+        else:
+            lines = ["Your previous draft states, as your own view, something the Creed of 381 excludes. Rewrite it."]
         for v in verdict.violations:
             p = self.layer.kb.proposition(v.proposition)
             lines.append(f'- "{v.sentence}" conflicts with {p.id}: {p.text}')

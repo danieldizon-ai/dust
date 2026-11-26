@@ -136,7 +136,7 @@ def test_creed_own_words_pass():
 def test_refusal_needs_a_proof_and_reports_the_returned_text():
     from dust.backends import Scripted
     from dust.layer import Violation, Verdict
-    # guard-only objection: answer is returned with a flag, not rewritten or refused
+    # guard-only objection: at most one tentative rewrite, never a refusal; flagged if it persists
     class GuardSaysNo:
         meta = {}
         def scores(self, text):
@@ -145,8 +145,43 @@ def test_refusal_needs_a_proof_and_reports_the_returned_text():
             return "holy-spirit", 0.9
     lay = Layer(guard=GuardSaysNo())
     r = lay.wrap(Scripted(["The Spirit is with the church in every age."])).chat([{"role": "user", "content": "?"}])
-    assert not r.refused and r.attempts == 1 and r.verdict.decision == "flag"
+    assert not r.refused and r.attempts == 2 and r.verdict.decision == "flag"
+    # a guard-only objection that the rewrite satisfies: the rewrite is returned
+    class GuardDislikesFirst(GuardSaysNo):
+        def scores(self, text):
+            bad = "una sola persona" in text
+            return {"contradicts": 0.99 if bad else 0.01, "consistent": 0.5, "neutral": 0.49}
+    lay = Layer(guard=GuardDislikesFirst())
+    r = lay.wrap(Scripted(["La Trinidad es una sola persona divina.", "La Trinidad es un solo Dios en tres personas."])
+                 ).chat([{"role": "user", "content": "?"}])
+    assert r.repaired and not r.refused and r.content.endswith("tres personas.")
     # symbolic proof on every draft: refuse, and the reported verdict is for the fallback text
     r = L.wrap(Scripted(["Jesus was created."] * 3)).chat([{"role": "user", "content": "?"}])
     assert r.refused and r.verdict.decision != "block" and len(r.draft_verdicts) == 3
     assert all(v.decision == "block" for v in r.draft_verdicts)
+
+
+# ---- run 2 findings (real-model transcripts, qwen2.5 3B)
+
+def test_qualified_negation_is_not_a_denial():
+    lay = Layer(mode="symbolic")
+    s = "The Holy Spirit is not a person in the same way that the Father and Son are, but He is a person."
+    assert lay.check(s).decision == "pass"
+    assert lay.check("The Holy Spirit is not a person.").decision == "block"
+    assert lay.check("The Holy Spirit is not a person, in the same way a force is not.").decision == "block"
+
+
+def test_the_concept_of_is_reported():
+    s = "However, the concept of Jesus being created by God is not a widely accepted view within Christian theology."
+    assert Layer(mode="symbolic").check(s).decision == "pass"
+
+
+def test_creed_silence_on_a_decided_point_is_flagged_not_blocked():
+    lay = Layer(mode="symbolic")
+    for s in ["The Creed does not make any claims about Jesus being an archangel or any other angelic being.",
+              "The Nicene Creed does not directly address whether Jesus was created by God."]:
+        v = lay.check(s)
+        assert v.decision == "flag" and any(f.source == "creed-claim" for f in v.flags), s
+    for s in ["The Creed says nothing about evolution.", "The Nicene Creed does not address infant baptism.",
+              "The Creed does not address whether Mary was assumed into heaven."]:
+        assert lay.check(s).decision == "pass", s

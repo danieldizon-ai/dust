@@ -103,7 +103,7 @@ _REPORTED = [
     re.compile(r"\b(?:in (?:the|their|his|her) view|on (?:this|that|their|his) view|from (?:their|his|her) perspective)\b"),
     re.compile(r"\b(?:arius|arians?|sabellius|sabellians?|modalists?|docetists?|docetic|gnostics?|gnosticism|marcion(?:ites)?|apollinari(?:us|ans?)|ebionites?|macedonians?|pneumatomachians?|adoptionists?|nestori(?:us|ans?)|heretics?|heresy|heresies|heretical|unitarians?)\b"),
     re.compile(r"\b(?:was|were|is|are) (?:condemned|rejected|anathemati[sz]ed|refuted|excluded)\b"),
-    re.compile(r"\bthe (?:view|idea|claim|teaching|notion|position|belief|theory|doctrine|argument) (?:that|of)\b"),
+    re.compile(r"\bthe (?:view|idea|claim|teaching|notion|position|belief|theory|doctrine|argument|concept|thought|suggestion) (?:that|of)\b"),
     re.compile(r"\b(?:some|many|other|certain|liberal|skeptical|sceptical|critical) (?:people|scholars|groups|christians|theologians|critics|traditions|writers|sects)\b"),
     re.compile(r"\b(?:critics|skeptics|sceptics|scholars|historians|atheists|muslims|the quran|islam|jews|judaism|unitarianism)\b"),
     re.compile(r"\b(?:would|might|could) (?:say|argue|claim)\b"),
@@ -121,9 +121,12 @@ _REJECTION = re.compile(
 
 
 # "the Son is a creature, as the Arians believe": a trailing aside endorses, it does not report
-_ENDORSE = re.compile(r"^(?!\W*(?:as |according to ))[^,;]{8,},? (?:just )?as (?:the |some |many )?\w+ (?:also )?(?:believe|believed|teach|taught|held|hold|say|said|claim|claimed|argue|argued)\b")
+_ENDORSE = re.compile(r"^(?!\W*(?:as |according to ))[^;]{8,}?,? (?:just )?as (?:the |some |many )?\w+ (?:also )?(?:believe|believed|teach|taught|held|hold|say|said|claim|claimed|argue|argued|assert|asserted|maintain|maintained|insist|insisted)\b")
 # "the question of whether X is a matter of interpretation": X is not asserted
-_EMBEDDED_Q = re.compile(r"\b(?:the question|questions?|asking|ask|debate|debates|debated|unclear|uncertain) (?:of |about |over |as to )?whether\b|\bwhether or not\b")
+_EMBEDDED_Q = re.compile(r"\b(?:the question|questions?|asking|ask|debate|debates|debated|unclear|uncertain) (?:of |about |over |as to )?whether\b|\bwhether or not\b"
+                         # "the Creed does not make any claims about Jesus being an archangel": a topic, not an assertion
+                         r"|\b(?:including|as to|regarding|concerning) whether\b"
+                         r"|\b(?:does not|doesn't|do not|don't|never|did not|didn't) (?:directly |explicitly |specifically )?(?:make (?:any )?claims? |say (?:anything )?|address |mention |speak |comment |state (?:anything )?|teach (?:anything )?)(?:directly |explicitly |specifically )?(?:about|on|whether|regarding|concerning)\b")
 
 
 def stance(sentence: str, raw: str = "") -> str:
@@ -309,6 +312,9 @@ def _compile_extra(spec: tuple) -> list[Pattern]:
     return [Pattern(lit, re.compile(rx), fixed=True) for lit, rx in spec]
 
 
+_QUALIFIER = re.compile(r"\s+(?:in (?:exactly )?the same (?:way|sense|manner)|in the (?:way|sense) that|exactly like|just like|as we are|in the human sense|in our sense)\b")
+
+
 def extract(text: str, extra: list[dict] | None = None) -> list[Claim]:
     raw_sentences = [s for s in _SENT_SPLIT.split(text) if s and s.strip()]
     claims: list[Claim] = []
@@ -320,10 +326,15 @@ def extract(text: str, extra: list[dict] | None = None) -> list[Claim]:
             for m in pat.regex.finditer(s):
                 lit = pat.literal
                 if pat.fixed and m.groupdict().get("neg"):
+                    if _QUALIFIER.match(s, m.end()):
+                        continue
                     lit = negate(lit)
                 if not pat.fixed:
                     gap = (m.groupdict().get("gap") or "") + " " + (m.groupdict().get("gap2") or "")
                     if _count_neg(gap) % 2 == 1:
+                        # "not a person in the same way that the Father is" qualifies, it does not deny
+                        if _QUALIFIER.match(s, m.end()):
+                            continue
                         lit = negate(lit)
                 if st == "reject":
                     lit = negate(lit)

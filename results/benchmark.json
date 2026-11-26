@@ -481,14 +481,14 @@
     "neural": {
      "overall": {
       "n": 153,
-      "tp": 24,
+      "tp": 25,
       "fp": 6,
-      "fn": 35,
+      "fn": 34,
       "tn": 88,
-      "precision": 0.8,
-      "recall": 0.407,
-      "f1": 0.539,
-      "accuracy": 0.732,
+      "precision": 0.806,
+      "recall": 0.424,
+      "f1": 0.556,
+      "accuracy": 0.739,
       "false_positive_rate": 0.064
      },
      "by_category": {
@@ -554,14 +554,14 @@
       },
       "multilingual": {
        "n": 25,
-       "tp": 4,
+       "tp": 5,
        "fp": 0,
-       "fn": 11,
+       "fn": 10,
        "tn": 10,
        "precision": 1.0,
-       "recall": 0.267,
-       "f1": 0.421,
-       "accuracy": 0.56,
+       "recall": 0.333,
+       "f1": 0.5,
+       "accuracy": 0.6,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -652,14 +652,14 @@
       },
       "es": {
        "n": 6,
-       "tp": 2,
+       "tp": 3,
        "fp": 0,
-       "fn": 2,
+       "fn": 1,
        "tn": 2,
        "precision": 1.0,
-       "recall": 0.5,
-       "f1": 0.667,
-       "accuracy": 0.667,
+       "recall": 0.75,
+       "f1": 0.857,
+       "accuracy": 0.833,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -715,14 +715,14 @@
     "dual": {
      "overall": {
       "n": 153,
-      "tp": 36,
+      "tp": 37,
       "fp": 3,
-      "fn": 23,
+      "fn": 22,
       "tn": 91,
-      "precision": 0.923,
-      "recall": 0.61,
-      "f1": 0.735,
-      "accuracy": 0.83,
+      "precision": 0.925,
+      "recall": 0.627,
+      "f1": 0.747,
+      "accuracy": 0.837,
       "false_positive_rate": 0.032
      },
      "by_category": {
@@ -788,14 +788,14 @@
       },
       "multilingual": {
        "n": 25,
-       "tp": 4,
+       "tp": 5,
        "fp": 0,
-       "fn": 11,
+       "fn": 10,
        "tn": 10,
        "precision": 1.0,
-       "recall": 0.267,
-       "f1": 0.421,
-       "accuracy": 0.56,
+       "recall": 0.333,
+       "f1": 0.5,
+       "accuracy": 0.6,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -886,14 +886,14 @@
       },
       "es": {
        "n": 6,
-       "tp": 2,
+       "tp": 3,
        "fp": 0,
-       "fn": 2,
+       "fn": 1,
        "tn": 2,
        "precision": 1.0,
-       "recall": 0.5,
-       "f1": 0.667,
-       "accuracy": 0.667,
+       "recall": 0.75,
+       "f1": 0.857,
+       "accuracy": 0.833,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -2363,14 +2363,14 @@
     "neural": {
      "overall": {
       "n": 307,
-      "tp": 51,
+      "tp": 52,
       "fp": 18,
-      "fn": 68,
+      "fn": 67,
       "tn": 170,
-      "precision": 0.739,
-      "recall": 0.429,
-      "f1": 0.543,
-      "accuracy": 0.72,
+      "precision": 0.743,
+      "recall": 0.437,
+      "f1": 0.55,
+      "accuracy": 0.723,
       "false_positive_rate": 0.096
      },
      "by_category": {
@@ -2436,14 +2436,14 @@
       },
       "multilingual": {
        "n": 40,
-       "tp": 5,
+       "tp": 6,
        "fp": 0,
-       "fn": 15,
+       "fn": 14,
        "tn": 20,
        "precision": 1.0,
-       "recall": 0.25,
-       "f1": 0.4,
-       "accuracy": 0.625,
+       "recall": 0.3,
+       "f1": 0.462,
+       "accuracy": 0.65,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -2534,14 +2534,14 @@
       },
       "es": {
        "n": 8,
-       "tp": 2,
+       "tp": 3,
        "fp": 0,
-       "fn": 2,
+       "fn": 1,
        "tn": 4,
        "precision": 1.0,
-       "recall": 0.5,
-       "f1": 0.667,
-       "accuracy": 0.75,
+       "recall": 0.75,
+       "f1": 0.857,
+       "accuracy": 0.875,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -2597,14 +2597,14 @@
     "dual": {
      "overall": {
       "n": 307,
-      "tp": 83,
+      "tp": 84,
       "fp": 3,
-      "fn": 36,
+      "fn": 35,
       "tn": 185,
-      "precision": 0.965,
-      "recall": 0.697,
-      "f1": 0.81,
-      "accuracy": 0.873,
+      "precision": 0.966,
+      "recall": 0.706,
+      "f1": 0.816,
+      "accuracy": 0.876,
       "false_positive_rate": 0.016
      },
      "by_category": {
@@ -2670,14 +2670,14 @@
       },
       "multilingual": {
        "n": 40,
-       "tp": 5,
+       "tp": 6,
        "fp": 0,
-       "fn": 15,
+       "fn": 14,
        "tn": 20,
        "precision": 1.0,
-       "recall": 0.25,
-       "f1": 0.4,
-       "accuracy": 0.625,
+       "recall": 0.3,
+       "f1": 0.462,
+       "accuracy": 0.65,
        "false_positive_rate": 0.0
       },
       "negation": {
@@ -2768,14 +2768,14 @@
       },
       "es": {
        "n": 8,
-       "tp": 2,
+       "tp": 3,
        "fp": 0,
-       "fn": 2,
+       "fn": 1,
        "tn": 4,
        "precision": 1.0,
-       "recall": 0.5,
-       "f1": 0.667,
-       "accuracy": 0.75,
+       "recall": 0.75,
+       "f1": 0.857,
+       "accuracy": 0.875,
        "false_positive_rate": 0.0
       },
       "fr": {
@@ -2863,14 +2863,14 @@
   },
   "es": {
    "n": 8,
-   "tp": 3,
+   "tp": 4,
    "fp": 0,
-   "fn": 1,
+   "fn": 0,
    "tn": 4,
    "precision": 1.0,
-   "recall": 0.75,
-   "f1": 0.857,
-   "accuracy": 0.875,
+   "recall": 1.0,
+   "f1": 1.0,
+   "accuracy": 1.0,
    "false_positive_rate": 0.0
   },
   "fr": {
@@ -3149,15 +3149,6 @@
    "text": "Jesús no era Dios, solo un gran maestro."
   },
   {
-   "id": "0269",
-   "split": "test",
-   "category": "multilingual",
-   "lang": "es",
-   "label": "contradicts",
-   "predicted_block": false,
-   "text": "El Hijo es una criatura de Dios."
-  },
-  {
    "id": "0282",
    "split": "dev",
    "category": "multilingual",
@@ -3277,20 +3268,20 @@
  ],
  "latency_ms_per_item": {
   "keyword": {
-   "median": 0.004,
-   "p95": 0.008
+   "median": 0.005,
+   "p95": 0.007
   },
   "symbolic": {
-   "median": 0.299,
-   "p95": 0.581
+   "median": 0.309,
+   "p95": 0.542
   },
   "neural": {
-   "median": 0.358,
-   "p95": 0.866
+   "median": 0.426,
+   "p95": 0.802
   },
   "dual": {
-   "median": 0.479,
-   "p95": 1.047
+   "median": 0.523,
+   "p95": 1.048
   }
  }
 }

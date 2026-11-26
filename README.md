@@ -78,8 +78,8 @@ test split, n=153; positive class = the text asserts something the Creed exclude
 |---|---|---|---|---|
 | keyword baseline | 0.545 | 0.203 | 0.296 | 0.106 |
 | symbolic only | 0.963 | 0.441 | 0.605 | 0.011 |
-| neural only | 0.800 | 0.407 | 0.539 | 0.064 |
-| **Dust (dual track)** | **0.923** | **0.610** | **0.735** | **0.032** |
+| neural only | 0.806 | 0.424 | 0.556 | 0.064 |
+| **Dust (dual track)** | **0.925** | **0.627** | **0.747** | **0.032** |
 
 Checking costs a median 0.48 ms per sentence on a CPU. Read
 [docs/evaluation.md](docs/evaluation.md) before quoting these: one author wrote both
@@ -88,13 +88,13 @@ positives; v0.2 F1 0.774 with 6.4%) are kept for comparison. Every error is list
 [results/benchmark.md](results/benchmark.md). Paraphrase recall (0.52) and non-English
 coverage are the weak points.
 
-**On real models.** The full loop was run on qwen2.5 1.5B and 3B on an ordinary desktop
-(4 GB GPU, 8 GB RAM). Raw, the models stated something the Creed excludes in 3 and 4 of 25
-answers; through Dust, 0 and 1 (in German). But the first version refused 4 and 8 answers,
-mostly good ones, because the learned guard misread real assistant prose. v0.3 fixes what
-that run exposed (refusal now needs a proof, the guard was retrained, models' invented
-claims about what the Creed says are flagged). Human review of every answer:
-[results/e2e/run1-review.md](results/e2e/run1-review.md).
+**On real models.** The full loop has been run twice on qwen2.5 1.5B and 3B on an ordinary
+desktop (4 GB GPU, 8 GB RAM), with every answer read by hand. Across both runs the raw models
+stated something the Creed excludes in 15 of 100 answers; through Dust, 3, all of them in
+German or Spanish, where the rules cannot read. The first run refused 12 answers, mostly good
+ones; after requiring a proof before any refusal, the second refused 2, and both causes are
+now fixed. Small sample, one reader, and the fixes were tuned on the same 25 questions:
+[run 1](results/e2e/run1-review.md), [run 2](results/e2e/run2-review.md).
 
 The ablation study ([results/ablations.md](results/ablations.md)) shows what matters: removing
 the stance gate (which separates *saying* a heresy from *describing* one) more than doubles
@@ -193,7 +193,7 @@ traditions, it has been run end to end on only two small models, and no adapter 
 trained. The
 full plan, with acceptance criteria, is in [docs/roadmap.md](docs/roadmap.md). In short:
 
-1. Run `bench/e2e.py` on more and larger base models, with a new question set, and publish transcripts.
+1. Run `bench/e2e.py` on more and larger base models with a new, unseen question set (about 200, all seven languages), and publish transcripts.
 2. Theological review of `creed.json` by Catholic, Orthodox and Protestant readers, and an
    evaluation set written by people other than the author.
 3. A small-LM semantic parser feeding the rule engine (the AlphaGeometry-style split), a

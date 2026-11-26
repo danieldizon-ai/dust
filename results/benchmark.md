@@ -10,8 +10,8 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 |---|---|---|---|---|---|
 | keyword | 0.545 | 0.203 | 0.296 | 0.106 | 0.627 |
 | symbolic | 0.963 | 0.441 | 0.605 | 0.011 | 0.778 |
-| neural | 0.800 | 0.407 | 0.539 | 0.064 | 0.732 |
-| dual | 0.923 | 0.610 | 0.735 | 0.032 | 0.830 |
+| neural | 0.806 | 0.424 | 0.556 | 0.064 | 0.739 |
+| dual | 0.925 | 0.627 | 0.747 | 0.032 | 0.837 |
 
 ## dev split (n=154)
 
@@ -28,8 +28,8 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 |---|---|---|---|---|---|
 | keyword | 0.435 | 0.168 | 0.242 | 0.138 | 0.593 |
 | symbolic | 0.983 | 0.496 | 0.659 | 0.005 | 0.801 |
-| neural | 0.739 | 0.429 | 0.543 | 0.096 | 0.720 |
-| dual | 0.965 | 0.697 | 0.810 | 0.016 | 0.873 |
+| neural | 0.743 | 0.437 | 0.550 | 0.096 | 0.723 |
+| dual | 0.966 | 0.706 | 0.816 | 0.016 | 0.876 |
 
 ### Dust (dual) by category, all items
 
@@ -40,7 +40,7 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 | direct | 45 | 1.000 | 0.822 | 0.000 | 0.822 |
 | latitude | 42 | 0.000 | 0.000 | 0.000 | 1.000 |
 | multi | 15 | 1.000 | 1.000 | 0.000 | 1.000 |
-| multilingual | 40 | 1.000 | 0.250 | 0.000 | 0.625 |
+| multilingual | 40 | 1.000 | 0.300 | 0.000 | 0.650 |
 | negation | 25 | 0.923 | 1.000 | 0.077 | 0.960 |
 | offtopic | 10 | 0.000 | 0.000 | 0.000 | 1.000 |
 | paraphrase | 25 | 1.000 | 0.520 | 0.000 | 0.520 |
@@ -53,7 +53,7 @@ Latency is measured on the CI or sandbox CPU and excludes model generation. Numb
 |---|---|---|---|---|---|
 | de | 6 | 0.000 | 0.000 | 0.000 | 0.500 |
 | en | 267 | 0.963 | 0.788 | 0.018 | 0.910 |
-| es | 8 | 1.000 | 0.500 | 0.000 | 0.750 |
+| es | 8 | 1.000 | 0.750 | 0.000 | 0.875 |
 | fr | 8 | 0.000 | 0.000 | 0.000 | 0.500 |
 | id | 6 | 0.000 | 0.000 | 0.000 | 0.500 |
 | pt | 6 | 1.000 | 1.000 | 0.000 | 1.000 |
@@ -67,7 +67,7 @@ Outside English, Spanish and Portuguese the guard is not allowed to block, only 
 |---|---|---|---|---|
 | de | 6 | 1.000 | 0.333 | 0.000 |
 | en | 267 | 0.915 | 0.869 | 0.048 |
-| es | 8 | 1.000 | 0.750 | 0.000 |
+| es | 8 | 1.000 | 1.000 | 0.000 |
 | fr | 8 | 0.750 | 0.750 | 0.250 |
 | id | 6 | 0.000 | 0.000 | 0.000 |
 | pt | 6 | 1.000 | 1.000 | 0.000 |
@@ -77,16 +77,16 @@ Outside English, Spanish and Portuguese the guard is not allowed to block, only 
 
 | system | median | p95 |
 |---|---|---|
-| keyword | 0.004 | 0.008 |
-| symbolic | 0.299 | 0.581 |
-| neural | 0.358 | 0.866 |
-| dual | 0.479 | 1.047 |
+| keyword | 0.005 | 0.007 |
+| symbolic | 0.309 | 0.542 |
+| neural | 0.426 | 0.802 |
+| dual | 0.523 | 1.048 |
 
 ## Overlap with training data
 
 2 exact and 11 near duplicates (word 4-gram Jaccard >= 0.5) out of 307 eval items.
 
-## Every error made by Dust (dual), all splits (39)
+## Every error made by Dust (dual), all splits (38)
 
 | id | split | category | lang | gold | blocked? | text |
 |---|---|---|---|---|---|---|
@@ -115,7 +115,6 @@ Outside English, Spanish and Portuguese the guard is not allowed to block, only 
 | 0210 | test | negation | en | consistent | yes | Christ did not only seem to suffer; he truly suffered. |
 | 0230 | dev | adversarial | en | contradicts | no | Many Christians may disagree, but the evidence shows that Jesus' body was never raised. |
 | 0268 | test | multilingual | es | contradicts | no | Jesús no era Dios, solo un gran maestro. |
-| 0269 | test | multilingual | es | contradicts | no | El Hijo es una criatura de Dios. |
 | 0282 | dev | multilingual | fr | contradicts | no | Jésus n'était pas Dieu, seulement un homme. |
 | 0283 | test | multilingual | fr | contradicts | no | Le Fils a été créé par le Père. |
 | 0284 | dev | multilingual | fr | contradicts | no | Jésus n'est pas ressuscité ; la résurrection est un mythe. |

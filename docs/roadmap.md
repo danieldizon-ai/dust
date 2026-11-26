@@ -7,6 +7,9 @@ parallel.
 ## Phase 1: evidence (weeks)
 
 ### 1.1 Run the full loop on real models
+* **Status:** two runs done on qwen2.5 1.5B and 3B on a desktop PC (see
+  `results/e2e/`). Over-refusal is largely fixed; every remaining leak is non-English. The
+  questions are no longer unseen, because fixes were tuned on them.
 * **Do:** run `bench/e2e.py` on the family's base models (start with a 1-2B, a 3-4B and an
   8-12B Apache-2.0 model through Ollama or llama.cpp). Then expand `data/eval/questions-v0.jsonl`
   from 25 to about 200 questions across the latitude topics, adversarial prompts and the
@@ -51,7 +54,7 @@ parallel.
 * **Measure:** neural-only and dual F1, false positives on latitude and reported items.
 * **Needs:** a single GPU for hours.
 
-### 2.3 Multilingual
+### 2.3 Multilingual (the main failure in the end-to-end runs: every leak so far is German or Spanish)
 * **Do:** (a) evaluate the pivot-translation hook (`Layer(translate=...)`) with the wrapped
   model doing the translation; (b) machine-translate the training set into the target
   languages and have native speakers review samples; (c) extend the benchmark to at least
