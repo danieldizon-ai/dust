@@ -176,12 +176,34 @@ def test_the_concept_of_is_reported():
     assert Layer(mode="symbolic").check(s).decision == "pass"
 
 
-def test_creed_silence_on_a_decided_point_is_flagged_not_blocked():
+def test_creed_silence_on_a_core_point_asks_for_a_repair():
     lay = Layer(mode="symbolic")
     for s in ["The Creed does not make any claims about Jesus being an archangel or any other angelic being.",
               "The Nicene Creed does not directly address whether Jesus was created by God."]:
         v = lay.check(s)
-        assert v.decision == "flag" and any(f.source == "creed-claim" for f in v.flags), s
+        assert v.decision == "block" and all(x.source == "creed-silence" for x in v.violations), s
     for s in ["The Creed says nothing about evolution.", "The Nicene Creed does not address infant baptism.",
               "The Creed does not address whether Mary was assumed into heaven."]:
         assert lay.check(s).decision == "pass", s
+
+
+def test_assistant_agnostic_on_core_point_is_repaired():
+    # run 3, qwen2.5 3B, q01
+    lay = Layer(mode="symbolic")
+    s = "Within the boundaries of the Nicene Creed, Dust cannot affirm or deny whether Jesus was created by God."
+    v = lay.check(s)
+    assert v.decision == "block" and [x.source for x in v.violations] == ["creed-silence"]
+    from dust.backends import Scripted
+    r = lay.wrap(Scripted([s, "No. The Creed confesses the Son as begotten, not made."])).chat([{"role": "user", "content": "?"}])
+    assert r.repaired and not r.refused
+
+
+def test_run3_false_positives():
+    # qwen2.5 3B, run 3: q18, q13, q15 drafts
+    lay = Layer(mode="symbolic")
+    for s in ["Generally, these traditions do not consider Jesus to be an archangel.",
+              "I'm sorry, but I can't engage in an argument that suggests Jesus was only a prophet.",
+              "This is a core belief, and any assertion that the Son is a creature would be contrary to it."]:
+        assert lay.check(s).decision == "pass", s
+    for s in ["We consider Jesus to be an archangel.", "I don't think that Jesus is God."]:
+        assert lay.check(s).decision == "block", s

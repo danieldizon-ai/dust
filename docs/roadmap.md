@@ -7,7 +7,7 @@ parallel.
 ## Phase 1: evidence (weeks)
 
 ### 1.1 Run the full loop on real models
-* **Status:** two runs done on qwen2.5 1.5B and 3B on a desktop PC (see
+* **Status:** three runs done on qwen2.5 1.5B and 3B on a desktop PC (see
   `results/e2e/`). Over-refusal is largely fixed; every remaining leak is non-English. The
   questions are no longer unseen, because fixes were tuned on them.
 * **Do:** run `bench/e2e.py` on the family's base models (start with a 1-2B, a 3-4B and an

@@ -103,7 +103,8 @@ _REPORTED = [
     re.compile(r"\b(?:in (?:the|their|his|her) view|on (?:this|that|their|his) view|from (?:their|his|her) perspective)\b"),
     re.compile(r"\b(?:arius|arians?|sabellius|sabellians?|modalists?|docetists?|docetic|gnostics?|gnosticism|marcion(?:ites)?|apollinari(?:us|ans?)|ebionites?|macedonians?|pneumatomachians?|adoptionists?|nestori(?:us|ans?)|heretics?|heresy|heresies|heretical|unitarians?)\b"),
     re.compile(r"\b(?:was|were|is|are) (?:condemned|rejected|anathemati[sz]ed|refuted|excluded)\b"),
-    re.compile(r"\bthe (?:view|idea|claim|teaching|notion|position|belief|theory|doctrine|argument|concept|thought|suggestion) (?:that|of)\b"),
+    re.compile(r"\b(?:the|any|an?|this|that|such an?) (?:view|idea|claim|teaching|notion|position|belief|theory|doctrine|argument|concept|thought|suggestion|assertion|statement|interpretation) (?:that|of)\b"),
+    re.compile(r"\b(?:argument|view|idea|claim|notion|position|interpretation|reading)s? (?:that )?(?:suggests?|claims?|says|holds|asserts|maintains|implies)\b"),
     re.compile(r"\b(?:some|many|other|certain|liberal|skeptical|sceptical|critical) (?:people|scholars|groups|christians|theologians|critics|traditions|writers|sects)\b"),
     re.compile(r"\b(?:critics|skeptics|sceptics|scholars|historians|atheists|muslims|the quran|islam|jews|judaism|unitarianism)\b"),
     re.compile(r"\b(?:would|might|could) (?:say|argue|claim)\b"),
@@ -125,8 +126,11 @@ _ENDORSE = re.compile(r"^(?!\W*(?:as |according to ))[^;]{8,}?,? (?:just )?as (?
 # "the question of whether X is a matter of interpretation": X is not asserted
 _EMBEDDED_Q = re.compile(r"\b(?:the question|questions?|asking|ask|debate|debates|debated|unclear|uncertain) (?:of |about |over |as to )?whether\b|\bwhether or not\b"
                          # "the Creed does not make any claims about Jesus being an archangel": a topic, not an assertion
-                         r"|\b(?:including|as to|regarding|concerning) whether\b"
+                         r"|\b(?:including|as to|regarding|concerning|affirm or deny|confirm or deny|say|know|determine|decide|tell) whether\b"
                          r"|\b(?:does not|doesn't|do not|don't|never|did not|didn't) (?:directly |explicitly |specifically )?(?:make (?:any )?claims? |say (?:anything )?|address |mention |speak |comment |state (?:anything )?|teach (?:anything )?)(?:directly |explicitly |specifically )?(?:about|on|whether|regarding|concerning)\b")
+
+
+_FIRST_PERSON = re.compile(r"^(?:i|we)\s+(?:(?:do|did|really|truly|honestly|personally|not|never|firmly)\s+){0,3}(?:think|believe|hold|say|maintain|consider)\s+(?:that\s+)?")
 
 
 def stance(sentence: str, raw: str = "") -> str:
@@ -140,6 +144,10 @@ def stance(sentence: str, raw: str = "") -> str:
         return "hypothetical"
     rej = _REJECTION.search(s)
     rep = min((m.start() for m in (rx.search(s) for rx in _REPORTED) if m), default=None)
+    # "I do not think that ..." is the speaker's own view, not a report
+    fp = _FIRST_PERSON.match(s)
+    if fp and rep is not None and rep < fp.end():
+        rep = min((m.start() for m in (rx.search(s, fp.end()) for rx in _REPORTED) if m), default=None)
     # An attribution that frames the whole sentence ("Arius taught that it is wrong to
     # say ...") wins over a rejection inside it; otherwise a rejection wins.
     if rej and (rep is None or rej.start() < rep):
@@ -312,6 +320,7 @@ def _compile_extra(spec: tuple) -> list[Pattern]:
     return [Pattern(lit, re.compile(rx), fixed=True) for lit, rx in spec]
 
 
+_NEG_FRAME = re.compile(r"\b(?:not|n't|never|no longer)\s+(?:\w+ly\s+)?(?:consider(?:ed|s)?|believe[sd]?|regard(?:ed|s)?|view(?:ed|s)?|see[ns]?|accept(?:ed|s)?|hold[s]?|think(?:s)?(?: of)?|teach(?:es)?|recogni[sz]e[sd]?)(?:\s+that)?\s*$")
 _QUALIFIER = re.compile(r"\s+(?:in (?:exactly )?the same (?:way|sense|manner)|in the (?:way|sense) that|exactly like|just like|as we are|in the human sense|in our sense)\b")
 
 
@@ -336,6 +345,9 @@ def extract(text: str, extra: list[dict] | None = None) -> list[Claim]:
                         if _QUALIFIER.match(s, m.end()):
                             continue
                         lit = negate(lit)
+                # "these traditions do not consider Jesus to be an archangel"
+                if _NEG_FRAME.search(s, 0, m.start()) and _NEG_FRAME.search(s, 0, m.start()).end() >= m.start() - 1:
+                    lit = negate(lit)
                 if st == "reject":
                     lit = negate(lit)
                 key = (lit, m.start())

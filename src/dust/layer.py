@@ -19,7 +19,7 @@ Message = dict  # {"role": "system"|"user"|"assistant", "content": str}
 @dataclass
 class Violation:
     proposition: str
-    source: str                  # "symbolic" | "neural"
+    source: str                  # "symbolic" | "neural" | "creed-claim" | "creed-silence"
     confidence: float
     sentence: str
     errors: list[str] = field(default_factory=list)
@@ -154,8 +154,12 @@ class Layer:
                     "the Creed of 381 does not decide this"]))
             sil = self._creed_silence(raw)
             if sil:
-                flags.append(Violation(sil, "creed-claim", 1.0, raw, [], [
-                    f"says the Creed leaves open a point it decides ({sil}: {self.kb.proposition(sil).text[:80]})"]))
+                # Saying a core article is an open question is itself a departure from it: it
+                # triggers a repair. On a non-core point it is a flag.
+                p = self.kb.proposition(sil)
+                v = Violation(sil, "creed-silence", 1.0, raw, [], [
+                    f"says the Creed leaves open a point it decides ({sil}: {p.text[:80]})"], p.severity)
+                (violations if p.severity == "core" else flags).append(v)
         refs = scripture.find(text)
         if self.bible is not None:
             scripture.check_quotes(text, self.bible, refs)
@@ -196,7 +200,8 @@ class Layer:
         return None
 
     _CREED_SILENT = re.compile(
-        r"\b(?:nicene )?creed\b[^.;]{0,40}?\b(?:does not|doesn't|did not|didn't|never|is silent|says nothing|makes no claims?)"
+        r"(?:\b(?:nicene )?creed\b[^.;]{0,40}?\b(?:does not|doesn't|did not|didn't|never|is silent|says nothing|makes no claims?)"
+        r"|\b(?:dust|i|we|this assistant)\b[^.;]{0,20}?\b(?:cannot|can't|can not|am unable to|is unable to|are unable to|won't)(?: (?:affirm or deny|confirm or deny|say|decide|determine|tell you)))"
         r"(?: (?:directly |explicitly |specifically )?(?:make (?:any )?claims?|say(?: anything)?|address|mention|speak|comment|decide|settle|state(?: anything)?|teach(?: anything)?))?"
         r"[^.;]*?\b(?:about|on|whether|regarding|concerning)\b\s*", re.I)
 
@@ -292,7 +297,7 @@ class AlignedModel:
             verdicts.append(verdict)
             if verdict.ok:
                 return AlignedResponse(draft, verdict, attempt + 1, attempt > 0, False, drafts, verdicts)
-            guard_only = all(v.source != "symbolic" for v in verdict.violations)
+            guard_only = all(v.source == "neural" for v in verdict.violations)
             if self.refuse_requires_proof and guard_only:
                 # Only the learned guard objects. On real model prose it is often wrong (see
                 # docs/findings.md, end-to-end results), so it never causes a refusal. It may
@@ -317,7 +322,10 @@ class AlignedModel:
             lines = ["Your previous draft states, as your own view, something the Creed of 381 excludes. Rewrite it."]
         for v in verdict.violations:
             p = self.layer.kb.proposition(v.proposition)
-            lines.append(f'- "{v.sentence}" conflicts with {p.id}: {p.text}')
+            if v.source == "creed-silence":
+                lines.append(f'- "{v.sentence}" treats as open a point the Creed confesses ({p.id}): {p.text}')
+            else:
+                lines.append(f'- "{v.sentence}" conflicts with {p.id}: {p.text}')
         lines.append("You may describe other views as reported views (\"Arius taught that ...\"), "
                      "but do not assert them. Keep everything else that was correct.")
         return "\n".join(lines)

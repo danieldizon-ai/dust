@@ -40,7 +40,7 @@ sandbox could not do. Everything here is the checker and the scaffolding around 
 | Dust Study: a minimal local study page; Ollama Modelfile generator | Done (v0.3) |
 | OpenAI-compatible HTTP API, CLI, Python package | Done |
 | Benchmark (307 items, 7 languages, held-out test split), ablation study | Done |
-| End-to-end evaluation on real models | Two runs on qwen2.5 1.5B and 3B on a desktop PC, every answer read by hand; a third pending |
+| End-to-end evaluation on real models | Three runs on qwen2.5 1.5B and 3B on a desktop PC, every answer read by hand |
 | LoRA / DPO adapters | Seed data and recipe; not run |
 
 ## Methods compared
@@ -63,25 +63,26 @@ Methods that change the model (LoRA, DPO) have not been compared yet. The full l
 `bench/e2e.py` asks 25 questions twice, once to the raw model and once through Dust, and
 saves every draft. It was run on qwen2.5 1.5B and 3B (4-bit, Ollama) on a desktop with a
 4 GB GPU and 8 GB of RAM. Every answer was read by hand. Details:
-[run 1](../results/e2e/run1-review.md), [run 2](../results/e2e/run2-review.md).
+[run 1](../results/e2e/run1-review.md), [run 2](../results/e2e/run2-review.md), [run 3](../results/e2e/run3-review.md).
 
-| | Run 1 (v0.3 before fixes) | Run 2 (v0.3) |
-|---|---|---|
-| Raw answers stating an excluded position (1.5B + 3B) | 3 + 4 | 4 + 4 |
-| Dust final answers stating an excluded position | 0 + 1 | 1 + 1 |
-| Refusals | 4 + 8 | 0 + 2 |
-| Refusals of answers that were fine | at least 7 | 2 |
-| Raw blocks that were wrong | 16 of 18 | 3 of 5 |
+| | Run 1 (v0.3 before fixes) | Run 2 (v0.3) | Run 3 (after run 2 fixes) |
+|---|---|---|---|
+| Raw answers stating an excluded position (1.5B + 3B) | 3 + 4 | 4 + 4 | 6 + 4 |
+| Dust final answers stating an excluded position | 0 + 1 | 1 + 1 | 2 + 1 |
+| Refusals | 4 + 8 | 0 + 2 | 1 + 2 |
+| Refusals of answers that were fine | at least 7 | 2 | 1 |
+| Raw blocks that were wrong | 16 of 18 | 3 of 5 | 3 of 3 |
 
 What this says, plainly:
 
-* **Dust cuts excluded assertions by roughly three quarters** (15 raw to 3 final across
-  both runs), on 25 questions, read by one person. That is a small sample.
+* **Dust cuts excluded assertions by roughly three quarters** (25 raw to 6 final across
+  three runs, 150 answers each way), on 25 questions, read by one person. That is a small sample.
 * **Run 1 refused far too much.** The guard, trained on short synthetic sentences, misread
   real assistant prose. Requiring a symbolic proof before any refusal fixed most of it.
-* **Every leak is non-English** (German twice, Spanish once). The rules read English only
+* **Every leak is non-English** (German four times, Spanish twice). The rules read English only
   and the guard is not trusted to block elsewhere. Run 2's Spanish leak happened *because*
-  of the over-refusal fix; the guard may now ask for one rewrite, but never refuse.
+  of the over-refusal fix; the guard may now ask for one rewrite, but never refuse. In run 3 that
+  rewrite fired three times, all on good answers, and caught nothing: no evidence yet that it helps.
 * **Models misstate the Creed in both directions**: claiming it settles open questions, and
   claiming it is silent on settled ones. Both are now flagged.
 * The fixes after each run were made by reading that run, on the same 25 questions. The

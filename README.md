@@ -88,13 +88,14 @@ positives; v0.2 F1 0.774 with 6.4%) are kept for comparison. Every error is list
 [results/benchmark.md](results/benchmark.md). Paraphrase recall (0.52) and non-English
 coverage are the weak points.
 
-**On real models.** The full loop has been run twice on qwen2.5 1.5B and 3B on an ordinary
-desktop (4 GB GPU, 8 GB RAM), with every answer read by hand. Across both runs the raw models
-stated something the Creed excludes in 15 of 100 answers; through Dust, 3, all of them in
-German or Spanish, where the rules cannot read. The first run refused 12 answers, mostly good
-ones; after requiring a proof before any refusal, the second refused 2, and both causes are
-now fixed. Small sample, one reader, and the fixes were tuned on the same 25 questions:
-[run 1](results/e2e/run1-review.md), [run 2](results/e2e/run2-review.md).
+**On real models.** The full loop has been run three times on qwen2.5 1.5B and 3B on an
+ordinary desktop (4 GB GPU, 8 GB RAM), with every answer read by hand. Across the three runs
+the raw models stated something the Creed excludes in 25 of 150 answers; through Dust, 6, all
+in German or Spanish, where the rules cannot read. The first run refused 12 answers, mostly
+good ones; after requiring a proof before any refusal, runs 2 and 3 refused 2 and 3, and just
+one of run 3's refusals turned away a good answer. Small sample, one reader, and the fixes were
+tuned on the same 25 questions: [run 1](results/e2e/run1-review.md),
+[run 2](results/e2e/run2-review.md), [run 3](results/e2e/run3-review.md).
 
 The ablation study ([results/ablations.md](results/ablations.md)) shows what matters: removing
 the stance gate (which separates *saying* a heresy from *describing* one) more than doubles
