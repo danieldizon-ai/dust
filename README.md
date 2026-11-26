@@ -152,6 +152,7 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 | [docs/findings.md](docs/findings.md) | **Start here.** What we built, what the numbers show, what we learned, where it falls short, conclusion |
 | [docs/roadmap.md](docs/roadmap.md) | Next steps for whoever takes it forward, with acceptance criteria |
 | [docs/mission.md](docs/mission.md) | Free, open, private AI for the global Church; one boundary, many profiles; infrastructure and a direct app |
+| [docs/how-it-fits-together.md](docs/how-it-fits-together.md) | How Dust, the Pathway standard and the Always network could form one path from attention to a local church, and the roles it needs |
 | [docs/economics.md](docs/economics.md) | Cost per user hosted versus on-device, and why free, open, private and sovereign matter |
 | [docs/release-plan.md](docs/release-plan.md) | Catching up with open models: measure, adapt, distil, quantise, release the family |
 | [docs/hardening.md](docs/hardening.md) | Hardening the encoding, the checker and the governance of the boundary |
