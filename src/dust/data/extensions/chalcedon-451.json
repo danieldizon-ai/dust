@@ -1,0 +1,27 @@
+{
+  "id": "chalcedon-451",
+  "title": "Example confession extension: Ephesus (431) and Chalcedon (451)",
+  "attribution": "Written for Dust as a worked example of the layer stack. Not part of the Nicene boundary.",
+  "note": "This extension is for communities that confess the Third and Fourth Ecumenical Councils (Catholic, Eastern Orthodox and most Protestant churches). It is deliberately narrow: it excludes the Nestorian 'two persons' view and the Eutychian view that Christ's humanity was absorbed into his divinity. It does NOT exclude the Miaphysite formula 'one incarnate nature of God the Word', which the Oriental Orthodox churches confess and which they too distinguish from Eutychianism; joint statements since 1990 treat the difference as largely terminological. Loading this extension changes the boundary, so it is never on by default.",
+  "propositions": [
+    {"id": "C01", "group": "chalcedon", "severity": "core", "text": "Christ is one person, not two: the same one is truly God and truly man.", "greek": "ἕνα καὶ τὸν αὐτὸν Χριστόν", "literals": ["one_person(SON)"], "scripture": ["John 1:14"]},
+    {"id": "C02", "group": "chalcedon", "severity": "core", "text": "In Christ the divine and human natures remain, without confusion or change: his humanity is not absorbed into his divinity.", "greek": "ἀσυγχύτως, ἀτρέπτως", "literals": ["humanity_remains(SON)"], "scripture": ["Hebrews 2:17"]},
+    {"id": "C03", "group": "ephesus", "severity": "core", "text": "Mary is Theotokos, the God-bearer, because the one she bore is God the Son.", "greek": "Θεοτόκος", "literals": ["theotokos(MARY)"], "scripture": ["Luke 1:35"]}
+  ],
+  "excluded_errors": [
+    {"id": "X01", "name": "Nestorianism (as condemned at Ephesus)", "summary": "The divine Son and the man Jesus are two persons joined in moral union; Mary bore only the man.", "contradicts": ["C01", "C03"], "condemned": "Ephesus (431)"},
+    {"id": "X02", "name": "Eutychianism", "summary": "Christ's humanity was absorbed or dissolved into his divinity, so that after the union he is not consubstantial with us.", "contradicts": ["C02"], "condemned": "Chalcedon (451); also rejected by the Oriental Orthodox churches"}
+  ],
+  "rules": [
+    {"id": "XR01", "if": "two_persons(SON)", "then": ["-one_person(SON)"], "why": "Two persons is not one person."},
+    {"id": "XR02", "if": "humanity_absorbed(SON)", "then": ["-humanity_remains(SON)", "-human(SON)"], "why": "An absorbed humanity does not remain, and he would not be truly human."}
+  ],
+  "error_signatures": {"X01": ["two_persons(SON)", "-one_person(SON)", "-theotokos(MARY)"], "X02": ["humanity_absorbed(SON)"]},
+  "patterns": [
+    {"literal": "two_persons(SON)", "regex": "\\bSON (?:is|was|has|had) two (?:separate |distinct |different )?(?:persons|people|subjects|beings)\\b"},
+    {"literal": "two_persons(SON)", "regex": "\\bthe (?:man )?SON and the (?:eternal )?(?:word|logos|SON of GOD) (?:are|were) two (?:separate |distinct )?persons\\b"},
+    {"literal": "humanity_absorbed(SON)", "regex": "\\bSON's (?:humanity|human nature) (?:was|is) (?:absorbed|swallowed up|dissolved|lost|consumed) (?:into|in|by)\\b"},
+    {"literal": "-theotokos(MARY)", "regex": "\\bmary (?:is|was) not (?:the )?(?:mother of GOD|theotokos|GOD-bearer)\\b|\\bmary (?:is|was) (?:only |merely |just )?the mother of (?:SON's |his |the )?human nature\\b"},
+    {"literal": "theotokos(MARY)", "regex": "\\bmary (?:is|was) (?:rightly called )?(?:the )?(?:mother of GOD|theotokos|GOD-bearer)\\b"}
+  ]
+}

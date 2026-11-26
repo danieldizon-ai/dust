@@ -20,7 +20,8 @@ Texts:
 - The Nicene Creed, English: traditional translation in the public domain (onthewing.org via
   NonlinearFruit/Creeds.json), as used by Always Foundation.
 - The Creed in Greek (381, as read at Chalcedon 451) and Latin (Roman Rite): public domain.
-- Scripture in src/dust/data/scripture.json: World English Bible, public domain.
+- Scripture in src/dust/data/scripture.json and the versification in versification.json:
+  World English Bible, public domain.
 
 Model weights: src/dust/data/guard-v0.npz is a small classifier trained only on the
 synthetic data in data/train.jsonl, released under Apache-2.0. No third-party model

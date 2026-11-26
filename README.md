@@ -41,6 +41,10 @@ question ──► constitution + Creed + the relevant articles and verses ─�
   was created" is blocked with a proof citing P05 (*begotten, not made*).
 * **Fair beyond the Creed.** Infant and believer's baptism, the Filioque either way,
   justification, purgatory, the millennium: all pass.
+* **Scripture is checked, not trusted.** Invented references ("John 22:1") are flagged; with a
+  Bible text loaded, misquotations are too.
+* **A stack, not a ceiling.** A church can add its own confession as an extension file on top
+  of the Creed without changing the default; Ephesus and Chalcedon ship as the worked example.
 * **Repair, not just refusal.** A blocked draft goes back to the model with the article it
   contradicted; only if it fails twice does Dust return a cited fallback.
 
@@ -75,6 +79,10 @@ both training and evaluation data; the first-run numbers (F1 0.807, false positi
 are kept for comparison. Every error is listed in [results/benchmark.md](results/benchmark.md).
 Paraphrase recall (0.64) and non-English coverage are the weak points.
 
+The ablation study ([results/ablations.md](results/ablations.md)) shows what matters: removing
+the stance gate (which separates *saying* a heresy from *describing* one) more than doubles
+false positives; removing the 16 inference rules cuts recall from 0.70 to 0.49.
+
 ## Quickstart
 
 ```bash
@@ -82,6 +90,8 @@ pip install git+https://github.com/DanielDizon-AI/dust
 dust check "The Holy Spirit is an impersonal force."
 dust creed --lang grc
 dust prompt "Is the Holy Spirit a person?"     # grounded system prompt
+dust refs "See John 3:16 and John 22:1"         # which references exist
+dust check --extension chalcedon-451 "Christ was two persons."
 ```
 
 ```python
@@ -111,9 +121,13 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 
 | | |
 |---|---|
+| [docs/findings.md](docs/findings.md) | **Start here.** What we built, what the numbers show, what we learned, where it falls short, conclusion |
+| [docs/roadmap.md](docs/roadmap.md) | Next steps for whoever takes it forward, with acceptance criteria |
 | [docs/theology.md](docs/theology.md) | The boundary: what is inside and outside, why 381 (not smaller, not Chalcedon), the Filioque, what Dust does not decide, and why a minimum does not compromise the gospel |
 | [docs/methods.md](docs/methods.md) | Prompts, retrieval, guard models, LoRA/DPO, constrained decoding and the neurosymbolic dual track, with trade-offs and where neurosymbolic stops being practical |
 | [docs/evaluation.md](docs/evaluation.md) | Benchmark method, iteration history and limits |
+| [results/ablations.md](results/ablations.md) | 16 variants: which parts of the system matter |
+| [docs/extensions.md](docs/extensions.md) | Stacking a church's confession on top of the Creed |
 | [docs/model-family.md](docs/model-family.md) | One layer across pocket to max tiers; candidate base models and licences |
 | [docs/open-models.md](docs/open-models.md) | Open models catching up through distillation and quantisation |
 | [docs/hardware.md](docs/hardware.md) | What runs where |
@@ -124,35 +138,37 @@ response carries an extra `dust` field with the decision, repairs and proofs.
 ## Repository
 
 ```
-src/dust/          the package: kb, symbolic, neural, layer, rag, backends, server, cli
-src/dust/data/     creed.json, rules.json, constitution.md, scripture.json, guard-v0.npz
+src/dust/          the package: kb, symbolic, neural, layer, scripture, rag, langid, backends, server, cli
+src/dust/data/     creed.json, rules.json, constitution.md, scripture.json, versification.json,
+                   guard-v0.npz, extensions/chalcedon-451.json
 data/train.jsonl   synthetic training data (training/generate.py, seeded)
 data/eval/         hand-labelled benchmark and end-to-end questions
-bench/             run.py (checker benchmark), e2e.py (full loop against a real model)
+bench/             run.py (checker benchmark), ablations.py, e2e.py (full loop against a real model)
 training/          generate, train_guard, dpo_pairs, lora_dpo (recipe, not yet run)
-results/           benchmark.md/json, first-run.md/json
+results/           benchmark, first-run and ablation results
 ```
 
 Everything is reproducible on a laptop CPU in under a minute:
 
 ```bash
 pip install -e '.[dev]'
-pytest -q                                   # 73 tests
+pytest -q                                   # 91 tests
 python training/generate.py && python training/train_guard.py
 python bench/run.py --check                 # fails if any benchmark count changes
+python bench/ablations.py                   # retrains 5 guard variants, ~1 minute
 ```
 
 ## Status and next steps
 
-v0.1 is a research prototype. It has not been reviewed by theologians from several
-traditions, no base model has been run through it, and no adapter has been trained. In
-priority order:
+v0.2 is a research prototype. It has not been reviewed by theologians from several
+traditions, no base model has been run through it, and no adapter has been trained. The
+full plan, with acceptance criteria, is in [docs/roadmap.md](docs/roadmap.md). In short:
 
 1. Run `bench/e2e.py` on the family's base models and publish transcripts.
 2. Theological review of `creed.json` by Catholic, Orthodox and Protestant readers, and an
    evaluation set written by people other than the author.
-3. A small-LM semantic parser feeding the rule engine (the AlphaGeometry-style split) and a
-   multilingual transformer guard.
+3. A small-LM semantic parser feeding the rule engine (the AlphaGeometry-style split), a
+   multilingual transformer guard, and validated multilingual checking.
 4. LoRA/DPO adapters per tier where the end-to-end results show the need.
 
 ## Licence

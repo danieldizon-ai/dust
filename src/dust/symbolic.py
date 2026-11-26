@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from functools import lru_cache
 
 from .kb import KnowledgeBase, load, negate
 
@@ -286,13 +287,19 @@ def _count_neg(gap: str) -> int:
     return len(_NEG.findall(parts[-1]))
 
 
-def extract(text: str) -> list[Claim]:
+@lru_cache(maxsize=16)
+def _compile_extra(spec: tuple) -> list[Pattern]:
+    return [Pattern(lit, re.compile(rx), fixed=True) for lit, rx in spec]
+
+
+def extract(text: str, extra: list[dict] | None = None) -> list[Claim]:
     raw_sentences = [s for s in _SENT_SPLIT.split(text) if s and s.strip()]
     claims: list[Claim] = []
     for i, s in enumerate(normalise(text)):
         st = stance(s, raw_sentences[i] if i < len(raw_sentences) else "")
         seen: set[tuple[str, int]] = set()
-        for pat in PATTERNS:
+        pats = PATTERNS + (_compile_extra(tuple((d["literal"], d["regex"]) for d in extra)) if extra else [])
+        for pat in pats:
             for m in pat.regex.finditer(s):
                 lit = pat.literal
                 if pat.fixed and m.groupdict().get("neg"):
@@ -396,4 +403,5 @@ def infer(claims: list[Claim], kb: KnowledgeBase | None = None) -> SymbolicResul
 
 
 def analyse(text: str, kb: KnowledgeBase | None = None) -> SymbolicResult:
-    return infer(extract(text), kb)
+    kb = kb or load()
+    return infer(extract(text, kb.extra_patterns), kb)

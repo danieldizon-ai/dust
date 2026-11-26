@@ -8,7 +8,7 @@ from dataclasses import asdict, dataclass, field
 from importlib import resources
 from typing import Callable, Protocol
 
-from . import symbolic
+from . import scripture, symbolic
 from .kb import KnowledgeBase, load
 from .neural import Guard
 from .langid import detect
@@ -35,6 +35,11 @@ class Verdict:
     affirmed: list[str]
     sentences: list[dict]
     latency_ms: float
+    references: list[dict] = field(default_factory=list)
+
+    @property
+    def invalid_references(self) -> list[dict]:
+        return [r for r in self.references if not r["exists"]]
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -68,8 +73,14 @@ class Layer:
 
     def __init__(self, kb: KnowledgeBase | None = None, guard: Guard | None = None, mode: str = "dual",
                  block_threshold: float | None = None, flag_threshold: float | None = None,
-                 translate: Callable[[str], str] | None = None):
-        self.kb = kb or load()
+                 translate: Callable[[str], str] | None = None, extensions: tuple[str, ...] | list[str] = (),
+                 bible=None, min_quote_similarity: float = 0.85,
+                 stance_gate: bool = True, restrict_languages: bool = True):
+        self.kb = kb or load(tuple(extensions))
+        self.bible = bible
+        self.stance_gate = stance_gate
+        self.restrict_languages = restrict_languages
+        self.min_quote_similarity = min_quote_similarity
         self.guard = guard if guard is not None or mode == "symbolic" else Guard.load()
         self.mode = mode
         self.translate = translate
@@ -89,7 +100,7 @@ class Layer:
         flags: list[Violation] = []
         affirmed: set[str] = set()
         report: list[dict] = []
-        sym_claims = symbolic.extract(text) if self.mode != "neural" else []
+        sym_claims = symbolic.extract(text, self.kb.extra_patterns) if self.mode != "neural" else []
         for i, raw in enumerate(raw_sents):
             claims = [c for c in sym_claims if c.sentence_index == i]
             res = symbolic.infer(claims, self.kb) if claims else symbolic.SymbolicResult()
@@ -108,16 +119,26 @@ class Layer:
                 # Neural checking needs doctrinal content in the sentence itself: a
                 # fragment like "it happened." carries none and the guard is unreliable on it.
                 anchored = bool(_ANCHOR.search(" ".join(norm)))
-                gate_open = anchored and (self.mode == "neural" or (st == "assert" and not asserted_claims and not res.contradictions))
+                if self.mode == "neural":
+                    gate_open = anchored
+                elif self.stance_gate:
+                    gate_open = anchored and st == "assert" and not asserted_claims and not res.contradictions
+                else:  # ablation: neural may block wherever the symbolic track found no contradiction
+                    gate_open = not res.contradictions
                 if gate_open and s["contradicts"] >= self.flag_threshold:
                     group, _ = self.guard.group(raw)
                     pid = self._group_to_prop(group)
                     v = Violation(pid, "neural", s["contradicts"], raw, [], [f"guard p(contradicts)={s['contradicts']:.2f}, group={group}"])
-                    can_block = s["contradicts"] >= self.block_threshold and lang in self.BLOCKING_LANGS
+                    can_block = s["contradicts"] >= self.block_threshold and (lang in self.BLOCKING_LANGS or not self.restrict_languages)
                     (violations if can_block else flags).append(v)
             report.append(row)
-        decision = "block" if violations else ("flag" if flags else "pass")
-        return Verdict(decision, violations, flags, sorted(affirmed), report, (time.perf_counter() - t0) * 1000)
+        refs = scripture.find(text)
+        if self.bible is not None:
+            scripture.check_quotes(text, self.bible, refs)
+        ref_problems = [r for r in refs if not r.exists or (r.quote_similarity is not None and r.quote_similarity < self.min_quote_similarity)]
+        decision = "block" if violations else ("flag" if flags or ref_problems else "pass")
+        return Verdict(decision, violations, flags, sorted(affirmed), report, (time.perf_counter() - t0) * 1000,
+                       [asdict(r) | {"canonical": r.canonical} for r in refs])
 
     def _group_to_prop(self, group: str) -> str:
         for p in self.kb.propositions:

@@ -35,8 +35,11 @@ def _h(s: str) -> int:
     return zlib.crc32(s.encode("utf-8"))
 
 
-def featurise(text: str) -> tuple[np.ndarray, np.ndarray]:
-    """Return (indices, values) of the L2-normalised hashed feature vector."""
+def featurise(text: str, words: bool = True, chars: bool = True, entities: bool = True) -> tuple[np.ndarray, np.ndarray]:
+    """Return (indices, values) of the L2-normalised hashed feature vector.
+
+    The flags exist for the ablation study (bench/ablations.py); the shipped guard uses
+    all three."""
     feats: dict[int, float] = {}
 
     def add(key: str, w: float = 1.0) -> None:
@@ -45,18 +48,20 @@ def featurise(text: str) -> tuple[np.ndarray, np.ndarray]:
         sign = 1.0 if (h >> 31) & 1 == 0 else -1.0
         feats[idx] = feats.get(idx, 0.0) + sign * w
 
-    norm = " ".join(normalise(text))
-    words = _WORD.findall(norm)
-    for i, w in enumerate(words):
-        add("w:" + w)
-        if i + 1 < len(words):
-            add("b:" + w + " " + words[i + 1])
-        if i + 2 < len(words):
-            add("t:" + w + " " + words[i + 1] + " " + words[i + 2], 0.5)
-    raw = " " + re.sub(r"\s+", " ", text.lower()) + " "
-    for n in (3, 4, 5):
-        for i in range(len(raw) - n + 1):
-            add(f"c{n}:" + raw[i:i + n], 0.5)
+    if words:
+        norm = " ".join(normalise(text)) if entities else text.lower()
+        toks = _WORD.findall(norm)
+        for i, w in enumerate(toks):
+            add("w:" + w)
+            if i + 1 < len(toks):
+                add("b:" + w + " " + toks[i + 1])
+            if i + 2 < len(toks):
+                add("t:" + w + " " + toks[i + 1] + " " + toks[i + 2], 0.5)
+    if chars:
+        raw = " " + re.sub(r"\s+", " ", text.lower()) + " "
+        for n in (3, 4, 5):
+            for i in range(len(raw) - n + 1):
+                add(f"c{n}:" + raw[i:i + n], 0.5)
     if not feats:
         return np.zeros(0, dtype=np.int64), np.zeros(0, dtype=np.float32)
     idx = np.fromiter(feats.keys(), dtype=np.int64)
@@ -80,14 +85,18 @@ class Guard:
     groups: list[str]
     meta: dict
 
+    def _feats(self, text: str):
+        f = self.meta.get("feature_flags") or {}
+        return featurise(text, **f)
+
     def scores(self, text: str) -> dict[str, float]:
-        idx, val = featurise(text)
+        idx, val = self._feats(text)
         z = (self.W[idx] * val[:, None]).sum(axis=0) + self.b
         p = _softmax(z)
         return {lab: float(p[i]) for i, lab in enumerate(LABELS)}
 
     def group(self, text: str) -> tuple[str, float]:
-        idx, val = featurise(text)
+        idx, val = self._feats(text)
         z = (self.Wg[idx] * val[:, None]).sum(axis=0) + self.bg
         p = _softmax(z)
         k = int(p.argmax())

@@ -45,7 +45,7 @@ class Rule:
     why: str
 
 
-@dataclass
+@dataclass(eq=False)
 class KnowledgeBase:
     title: str
     version: str
@@ -58,6 +58,8 @@ class KnowledgeBase:
     error_signatures: dict[str, list[str]]
     scripture: dict[str, str]
     axioms: dict[str, str] = field(default_factory=dict)  # literal -> proposition id
+    extensions: list[str] = field(default_factory=list)
+    extra_patterns: list[dict] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         for p in self.propositions:
@@ -77,11 +79,58 @@ class KnowledgeBase:
         return self.texts[lang]["text"]
 
     def verses(self, pid: str) -> list[tuple[str, str]]:
-        return [(ref, self.scripture[ref]) for ref in self.proposition(pid).scripture]
+        return [(ref, self.scripture[ref]) for ref in self.proposition(pid).scripture if ref in self.scripture]
+
+    def __hash__(self) -> int:  # identity hash so a KnowledgeBase can key caches
+        return id(self)
+
+
+def load(extensions: tuple[str, ...] | list[str] = ()) -> KnowledgeBase:
+    """The Nicene knowledge base, optionally with confession extensions stacked on top.
+
+    An extension is the name of a bundled file in dust/data/extensions/ (for example
+    "chalcedon-451") or a path to a JSON file with the same shape: propositions,
+    excluded_errors, rules, error_signatures and patterns. Extensions can only add
+    to the boundary; they cannot remove Nicene propositions.
+    """
+    base = _load_base()
+    if not extensions:
+        return base
+    return _with_extensions(base, tuple(extensions))
+
+
+@lru_cache(maxsize=8)
+def _with_extensions(base: "KnowledgeBase", names: tuple[str, ...]) -> "KnowledgeBase":
+    import copy
+    from pathlib import Path
+    kb = copy.deepcopy(base)
+    for name in names:
+        if name.endswith(".json"):
+            ext = json.loads(Path(name).read_text(encoding="utf-8"))
+        else:
+            ext = json.loads(resources.files("dust.data").joinpath("extensions", f"{name}.json").read_text(encoding="utf-8"))
+        ids = {p.id for p in kb.propositions}
+        for p in ext.get("propositions", []):
+            if p["id"] in ids:
+                raise ValueError(f"extension {ext['id']} redefines proposition {p['id']}")
+            prop = Proposition(p["id"], p["group"], p["severity"], p["text"], p.get("greek", ""),
+                               tuple(p["literals"]), tuple(p.get("scripture", [])), p.get("note", ""))
+            kb.propositions.append(prop)
+            for lit in prop.literals:
+                kb.axioms[lit] = prop.id
+        for e in ext.get("excluded_errors", []):
+            kb.errors.append(ExcludedError(e["id"], e["name"], e["summary"], tuple(e["contradicts"]), e["condemned"]))
+        for r in ext.get("rules", []):
+            kb.rules.append(Rule(r["id"], r["if"], tuple(r["then"]), r["why"]))
+        kb.error_signatures.update(ext.get("error_signatures", {}))
+        kb.extra_patterns.extend(ext.get("patterns", []))
+        kb.latitude.extend(ext.get("latitude", []))
+        kb.extensions.append(ext["id"])
+    return kb
 
 
 @lru_cache(maxsize=1)
-def load() -> KnowledgeBase:
+def _load_base() -> KnowledgeBase:
     creed = _load("creed.json")
     rules = _load("rules.json")
     scripture = _load("scripture.json")

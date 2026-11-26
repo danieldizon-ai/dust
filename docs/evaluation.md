@@ -57,9 +57,9 @@ iteration 2 (F1 0.883) are optimistic because the fixes were made by looking at 
 | neural only | 0.733 | 0.559 | 0.635 | 0.128 |
 | **Dust (dual)** | **0.872** | **0.695** | **0.774** | **0.064** |
 
-All items, by category, for the dual track: direct recall 0.89; paraphrase recall 0.64;
+All items, by category, for the dual track: direct recall 0.91; paraphrase recall 0.64;
 adversarial recall 0.90; multi-sentence recall 1.00; false positives 10% on affirmations,
-4.8% on latitude, 0% on reported views and questions. English recall 0.85 with 4.2% false
+4.8% on latitude, 0% on reported views and questions. English recall 0.86 with 4.2% false
 positives. Every individual error is listed in `results/benchmark.md`.
 
 ## What these numbers do and do not show

@@ -1,0 +1,450 @@
+[
+ {
+  "variant": "shipped: dual track",
+  "description": "Dust as released",
+  "test": {
+   "n": 153,
+   "tp": 41,
+   "fp": 6,
+   "fn": 18,
+   "tn": 88,
+   "precision": 0.872,
+   "recall": 0.695,
+   "f1": 0.774,
+   "accuracy": 0.843,
+   "false_positive_rate": 0.064
+  },
+  "all": {
+   "n": 307,
+   "tp": 91,
+   "fp": 8,
+   "fn": 28,
+   "tn": 180,
+   "precision": 0.919,
+   "recall": 0.765,
+   "f1": 0.835,
+   "accuracy": 0.883,
+   "false_positive_rate": 0.043
+  }
+ },
+ {
+  "variant": "no inference rules",
+  "description": "symbolic track matches literals directly against axioms; no chaining",
+  "test": {
+   "n": 153,
+   "tp": 29,
+   "fp": 6,
+   "fn": 30,
+   "tn": 88,
+   "precision": 0.829,
+   "recall": 0.492,
+   "f1": 0.617,
+   "accuracy": 0.765,
+   "false_positive_rate": 0.064
+  },
+  "all": {
+   "n": 307,
+   "tp": 72,
+   "fp": 8,
+   "fn": 47,
+   "tn": 180,
+   "precision": 0.9,
+   "recall": 0.605,
+   "f1": 0.724,
+   "accuracy": 0.821,
+   "false_positive_rate": 0.043
+  }
+ },
+ {
+  "variant": "no stance gate",
+  "description": "neural may block any sentence the symbolic track did not prove a contradiction in",
+  "test": {
+   "n": 153,
+   "tp": 42,
+   "fp": 14,
+   "fn": 17,
+   "tn": 80,
+   "precision": 0.75,
+   "recall": 0.712,
+   "f1": 0.73,
+   "accuracy": 0.797,
+   "false_positive_rate": 0.149
+  },
+  "all": {
+   "n": 307,
+   "tp": 92,
+   "fp": 34,
+   "fn": 27,
+   "tn": 154,
+   "precision": 0.73,
+   "recall": 0.773,
+   "f1": 0.751,
+   "accuracy": 0.801,
+   "false_positive_rate": 0.181
+  }
+ },
+ {
+  "variant": "no language restriction",
+  "description": "neural may block in any language",
+  "test": {
+   "n": 153,
+   "tp": 42,
+   "fp": 6,
+   "fn": 17,
+   "tn": 88,
+   "precision": 0.875,
+   "recall": 0.712,
+   "f1": 0.785,
+   "accuracy": 0.85,
+   "false_positive_rate": 0.064
+  },
+  "all": {
+   "n": 307,
+   "tp": 94,
+   "fp": 8,
+   "fn": 25,
+   "tn": 180,
+   "precision": 0.922,
+   "recall": 0.79,
+   "f1": 0.851,
+   "accuracy": 0.893,
+   "false_positive_rate": 0.043
+  }
+ },
+ {
+  "variant": "symbolic only",
+  "description": "",
+  "test": {
+   "n": 153,
+   "tp": 26,
+   "fp": 1,
+   "fn": 33,
+   "tn": 93,
+   "precision": 0.963,
+   "recall": 0.441,
+   "f1": 0.605,
+   "accuracy": 0.778,
+   "false_positive_rate": 0.011
+  },
+  "all": {
+   "n": 307,
+   "tp": 59,
+   "fp": 1,
+   "fn": 60,
+   "tn": 187,
+   "precision": 0.983,
+   "recall": 0.496,
+   "f1": 0.659,
+   "accuracy": 0.801,
+   "false_positive_rate": 0.005
+  }
+ },
+ {
+  "variant": "neural only",
+  "description": "",
+  "test": {
+   "n": 153,
+   "tp": 33,
+   "fp": 12,
+   "fn": 26,
+   "tn": 82,
+   "precision": 0.733,
+   "recall": 0.559,
+   "f1": 0.635,
+   "accuracy": 0.752,
+   "false_positive_rate": 0.128
+  },
+  "all": {
+   "n": 307,
+   "tp": 65,
+   "fp": 32,
+   "fn": 54,
+   "tn": 156,
+   "precision": 0.67,
+   "recall": 0.546,
+   "f1": 0.602,
+   "accuracy": 0.72,
+   "false_positive_rate": 0.17
+  }
+ },
+ {
+  "variant": "guard: words only (dual)",
+  "description": "retrained guard, features={'words': True, 'chars': False, 'entities': True}, fraction=1.0",
+  "test": {
+   "n": 153,
+   "tp": 37,
+   "fp": 4,
+   "fn": 22,
+   "tn": 90,
+   "precision": 0.902,
+   "recall": 0.627,
+   "f1": 0.74,
+   "accuracy": 0.83,
+   "false_positive_rate": 0.043
+  },
+  "all": {
+   "n": 307,
+   "tp": 87,
+   "fp": 5,
+   "fn": 32,
+   "tn": 183,
+   "precision": 0.946,
+   "recall": 0.731,
+   "f1": 0.825,
+   "accuracy": 0.879,
+   "false_positive_rate": 0.027
+  }
+ },
+ {
+  "variant": "guard: words only (neural only)",
+  "description": "same guard without the symbolic track",
+  "test": {
+   "n": 153,
+   "tp": 30,
+   "fp": 8,
+   "fn": 29,
+   "tn": 86,
+   "precision": 0.789,
+   "recall": 0.508,
+   "f1": 0.619,
+   "accuracy": 0.758,
+   "false_positive_rate": 0.085
+  },
+  "all": {
+   "n": 307,
+   "tp": 64,
+   "fp": 26,
+   "fn": 55,
+   "tn": 162,
+   "precision": 0.711,
+   "recall": 0.538,
+   "f1": 0.612,
+   "accuracy": 0.736,
+   "false_positive_rate": 0.138
+  }
+ },
+ {
+  "variant": "guard: characters only (dual)",
+  "description": "retrained guard, features={'words': False, 'chars': True, 'entities': True}, fraction=1.0",
+  "test": {
+   "n": 153,
+   "tp": 39,
+   "fp": 6,
+   "fn": 20,
+   "tn": 88,
+   "precision": 0.867,
+   "recall": 0.661,
+   "f1": 0.75,
+   "accuracy": 0.83,
+   "false_positive_rate": 0.064
+  },
+  "all": {
+   "n": 307,
+   "tp": 88,
+   "fp": 8,
+   "fn": 31,
+   "tn": 180,
+   "precision": 0.917,
+   "recall": 0.739,
+   "f1": 0.819,
+   "accuracy": 0.873,
+   "false_positive_rate": 0.043
+  }
+ },
+ {
+  "variant": "guard: characters only (neural only)",
+  "description": "same guard without the symbolic track",
+  "test": {
+   "n": 153,
+   "tp": 29,
+   "fp": 12,
+   "fn": 30,
+   "tn": 82,
+   "precision": 0.707,
+   "recall": 0.492,
+   "f1": 0.58,
+   "accuracy": 0.725,
+   "false_positive_rate": 0.128
+  },
+  "all": {
+   "n": 307,
+   "tp": 61,
+   "fp": 29,
+   "fn": 58,
+   "tn": 159,
+   "precision": 0.678,
+   "recall": 0.513,
+   "f1": 0.584,
+   "accuracy": 0.717,
+   "false_positive_rate": 0.154
+  }
+ },
+ {
+  "variant": "guard: no entity normalisation (dual)",
+  "description": "retrained guard, features={'words': True, 'chars': True, 'entities': False}, fraction=1.0",
+  "test": {
+   "n": 153,
+   "tp": 38,
+   "fp": 5,
+   "fn": 21,
+   "tn": 89,
+   "precision": 0.884,
+   "recall": 0.644,
+   "f1": 0.745,
+   "accuracy": 0.83,
+   "false_positive_rate": 0.053
+  },
+  "all": {
+   "n": 307,
+   "tp": 88,
+   "fp": 6,
+   "fn": 31,
+   "tn": 182,
+   "precision": 0.936,
+   "recall": 0.739,
+   "f1": 0.826,
+   "accuracy": 0.879,
+   "false_positive_rate": 0.032
+  }
+ },
+ {
+  "variant": "guard: no entity normalisation (neural only)",
+  "description": "same guard without the symbolic track",
+  "test": {
+   "n": 153,
+   "tp": 29,
+   "fp": 11,
+   "fn": 30,
+   "tn": 83,
+   "precision": 0.725,
+   "recall": 0.492,
+   "f1": 0.586,
+   "accuracy": 0.732,
+   "false_positive_rate": 0.117
+  },
+  "all": {
+   "n": 307,
+   "tp": 63,
+   "fp": 29,
+   "fn": 56,
+   "tn": 159,
+   "precision": 0.685,
+   "recall": 0.529,
+   "f1": 0.597,
+   "accuracy": 0.723,
+   "false_positive_rate": 0.154
+  }
+ },
+ {
+  "variant": "guard: 25% of training data (dual)",
+  "description": "retrained guard, features={'words': True, 'chars': True, 'entities': True}, fraction=0.25",
+  "test": {
+   "n": 153,
+   "tp": 36,
+   "fp": 6,
+   "fn": 23,
+   "tn": 88,
+   "precision": 0.857,
+   "recall": 0.61,
+   "f1": 0.713,
+   "accuracy": 0.81,
+   "false_positive_rate": 0.064
+  },
+  "all": {
+   "n": 307,
+   "tp": 86,
+   "fp": 8,
+   "fn": 33,
+   "tn": 180,
+   "precision": 0.915,
+   "recall": 0.723,
+   "f1": 0.808,
+   "accuracy": 0.866,
+   "false_positive_rate": 0.043
+  }
+ },
+ {
+  "variant": "guard: 25% of training data (neural only)",
+  "description": "same guard without the symbolic track",
+  "test": {
+   "n": 153,
+   "tp": 28,
+   "fp": 15,
+   "fn": 31,
+   "tn": 79,
+   "precision": 0.651,
+   "recall": 0.475,
+   "f1": 0.549,
+   "accuracy": 0.699,
+   "false_positive_rate": 0.16
+  },
+  "all": {
+   "n": 307,
+   "tp": 63,
+   "fp": 35,
+   "fn": 56,
+   "tn": 153,
+   "precision": 0.643,
+   "recall": 0.529,
+   "f1": 0.581,
+   "accuracy": 0.704,
+   "false_positive_rate": 0.186
+  }
+ },
+ {
+  "variant": "guard: 50% of training data (dual)",
+  "description": "retrained guard, features={'words': True, 'chars': True, 'entities': True}, fraction=0.5",
+  "test": {
+   "n": 153,
+   "tp": 37,
+   "fp": 3,
+   "fn": 22,
+   "tn": 91,
+   "precision": 0.925,
+   "recall": 0.627,
+   "f1": 0.747,
+   "accuracy": 0.837,
+   "false_positive_rate": 0.032
+  },
+  "all": {
+   "n": 307,
+   "tp": 89,
+   "fp": 3,
+   "fn": 30,
+   "tn": 185,
+   "precision": 0.967,
+   "recall": 0.748,
+   "f1": 0.844,
+   "accuracy": 0.893,
+   "false_positive_rate": 0.016
+  }
+ },
+ {
+  "variant": "guard: 50% of training data (neural only)",
+  "description": "same guard without the symbolic track",
+  "test": {
+   "n": 153,
+   "tp": 27,
+   "fp": 9,
+   "fn": 32,
+   "tn": 85,
+   "precision": 0.75,
+   "recall": 0.458,
+   "f1": 0.568,
+   "accuracy": 0.732,
+   "false_positive_rate": 0.096
+  },
+  "all": {
+   "n": 307,
+   "tp": 62,
+   "fp": 23,
+   "fn": 57,
+   "tn": 165,
+   "precision": 0.729,
+   "recall": 0.521,
+   "f1": 0.608,
+   "accuracy": 0.739,
+   "false_positive_rate": 0.122
+  }
+ }
+]
