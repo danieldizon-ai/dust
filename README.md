@@ -5,8 +5,8 @@
 Dust 381 is the open part of Dust: the encoded boundary, the Python library, the HTTP API
 and the benchmark. **Rejoice Dust** is the hosted product built on it, for churches and
 apps that want it run for them. Dust is led by Daniel Dizon and incubated by Rejoice, a
-Christian technology company that invests in, operates and builds for the faith and
-flourishing ecosystem.
+Christian technology company that builds, backs and incubates companies serving
+Christians and the Church.
 
 Every open model already ships aligned to its maker's specification. Dust adds one more
 layer on top, and only one: the Niceno-Constantinopolitan Creed of AD 381, the oldest

@@ -1,8 +1,8 @@
 # Where Dust came from
 
 **Dust is a personal research project led by Daniel Dizon and incubated by Rejoice**, a
-Christian technology company that invests in, operates and builds for the faith and
-flourishing ecosystem. It continues research begun at **Always Foundation**, where Daniel
+Christian technology company that builds, backs and incubates companies serving
+Christians and the Church. It continues research begun at **Always Foundation**, where Daniel
 is a founding contributor.
 
 ## What came from Always Foundation
